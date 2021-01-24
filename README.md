@@ -1,6 +1,7 @@
 # Team 12
 ### Meet Our Team
 ### Project Synopsis
+### Contact Us
 ### Our Skills Matrix
 
 Member | Skills | Personal Traits | Desired Growth | Weaknesses
