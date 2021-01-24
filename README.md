@@ -1,6 +1,6 @@
 # Door2Dorm
 ### Meet Our Team
-<img src="https://github.com/lillyzh/VirtualCareerFairApp/blob/main/Images/Screen%20Shot%202020-10-11%20at%205.16.55%20PM.png" height="500" width="250">
+<img src="https://github.com/StanfordCS194/Team12/tree/main/assets/images/profilepic.jpg" height="100" width="100">
 ### Project Synopsis
 ### Contact Us
 ### Our Skills Matrix
