@@ -1,6 +1,7 @@
 # Door2Dorm
 ### Meet Our Team
 <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">
+
 ### Project Synopsis
 ### Contact Us
 ### Our Skills Matrix
