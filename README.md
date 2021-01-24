@@ -4,7 +4,7 @@ Lilly Zhou
 <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">
 Solarized dark             |  Solarized Ocean
 :-------------------------:|:-------------------------:
-![](https://...Dark.png)  |  ![](https://...Ocean.png)
+![lilly](https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg)  |  ![](https://...Ocean.png)
 
 ### Project Synopsis
 ### Contact Us
