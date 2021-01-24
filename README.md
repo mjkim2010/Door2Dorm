@@ -1,4 +1,4 @@
-# Team 12
+# Door2Dorm
 ### Meet Our Team
 ### Project Synopsis
 ### Contact Us
