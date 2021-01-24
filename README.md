@@ -1,10 +1,11 @@
 # Door2Dorm
 ### Meet Our Team
-Lilly Zhou
-<img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">
-Lilly Zhou             |  Solarized Ocean
-:-------------------------:|:-------------------------:
-![](<img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">)  |  ![](https://...Ocean.png)
+<p float="left">
+  Lilly Zhou
+  <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">
+  <img src="/img2.png" width="100" /> 
+  <img src="/img3.png" width="100" />
+</p>
 
 ### Project Synopsis
 ### Contact Us
