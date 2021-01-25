@@ -6,6 +6,17 @@ Lilly Zhou | Jacob Wagner| Minju Kim | Peter Boennighausen | Shelly Deng
 <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/Jacob_Wagner_profile.jpg" height="100" width="100"> |  | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/pb_profile.jpg" height="100" width="100"> |
 
 ### Project Synopsis
+
+### Our Brainstorming Process
+We brainstormed for a week, generating about a dozen ideas that ranged from a cross-promotional business recommendation app to
+a college planning project. The two final contenders were a collaborative travel app and an app for 5-SURE. While we believe
+there is space to innovate in travel itinerary space and are itching to vacation again, we settled on the 5-SURE 
+app because it has a much clearer scope. Compared to generally improving the ease of travel planning, our final selection is laser-focused
+on upgrading what is currently a phone and walkie talkie-based dispatch service to a modern,
+mobile app-based security platform. Also, we feel that this project, if successful, will improve the lives of Stanford students in the
+years to come. We hope, as seniors, this can be part of our legacy.
+
+
 ### Our Skills Matrix
 
 Member | Skills | Personal Traits | Desired Growth | Weaknesses
@@ -16,3 +27,4 @@ Jacob Wagner | UI/UX Design, ML, Fullstack | Straight-forward and organized, but
 Shelly Deng | Machine Learning, Audio recording, Signal processing, Statistical analysis | Strong opinions, very abstract thinker, Big PIcture guy | Rapid prototyping, project management | Sensitive to environments
 Peter Boennighausen | Stats/ML, Algorithms/Data Structures | Organized, efficient, analytical | Ideating projects | Managing and working in teams
 ### Contact Us
+We have set up a Slack workplace in order to communicate amongst ourselves. To reach us, send us an email. Our SUNet IDs are [lillyzh, jtwagner, minjukim, pboennig, jsdeng]@stanford.edu. We'd be happy to add members of the TTeam to our Slack workspace if they want to join.
