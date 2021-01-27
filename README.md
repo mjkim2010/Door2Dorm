@@ -3,7 +3,7 @@
 
 Lilly Zhou | Jacob Wagner| Minju Kim | Peter Boennighausen | Shelly Deng
 --- | --- | --- | --- | ---
-<img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/Jacob_Wagner_profile.jpg" height="100" width="100"> |  | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/pb_profile.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/shellydeng_profile_poc.jpeg" height="100" width="100">
+<img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/Jacob_Wagner_profile.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/Minju_profile_pic.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/pb_profile.jpg" height="100" width="100"> | <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/shellydeng_profile_poc.jpeg" height="100" width="100">
 
 ### Project Synopsis
 
