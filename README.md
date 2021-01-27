@@ -1,4 +1,4 @@
-# Door2Dorm
+# Door2Dorm <img src="https://github.com/StanfordCS194/Team12/blob/main/assets/images/profilepic.jpg" height="100" width="100">
 ### Meet Our Team
 
 Lilly Zhou | Jacob Wagner| Minju Kim | Peter Boennighausen | Shelly Deng
