@@ -1,0 +1,12 @@
+<h1>
+Recently requested rides
+</h1>
+{% if latest_rides_list %}
+    <ul>
+    {% for ride in latest_rides_list %}
+        <li>{{ ride }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No recent rides..</p>
+{% endif %}
