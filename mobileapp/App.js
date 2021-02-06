@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,6 +16,8 @@ import {
   Text,
   StatusBar,
   TextInput,
+  Button,
+  Alert,
 } from 'react-native';
 
 import {
@@ -64,6 +67,10 @@ const App: () => React$Node = () => {
                <TextInput
                      style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                />
+              <Button
+                title="Submit"
+                onPress={() => Alert.alert('Request Sent')}
+              />
           </View>
         </ScrollView>
       </SafeAreaView>
