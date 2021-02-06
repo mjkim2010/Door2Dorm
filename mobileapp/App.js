@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  TextInput,
 } from 'react-native';
 
 import {
@@ -39,32 +40,30 @@ const App: () => React$Node = () => {
             </View>
           )}
           <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+             <Text style={styles.sectionTitle}>Name</Text>
+             <TextInput
+                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+             />
+             <Text style={styles.sectionTitle}>Sunet ID (Number)</Text>
+             <TextInput
+                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+             />
+             <Text style={styles.sectionTitle}>Number of Riders</Text>
+             <TextInput
+                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+             />
+             <Text style={styles.sectionTitle}>Phone Number</Text>
+             <TextInput
+                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+             />
+             <Text style={styles.sectionTitle}>Current Location</Text>
+              <TextInput
+                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+              />
+              <Text style={styles.sectionTitle}>Destination</Text>
+               <TextInput
+                     style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+               />
           </View>
         </ScrollView>
       </SafeAreaView>
