@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('ride_queue/', include('ride_queue.urls')),
+    path('', include('ride_queue.urls')),
     path('admin/', admin.site.urls),
 ]
