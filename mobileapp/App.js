@@ -8,6 +8,9 @@
 
 import React from 'react';
 
+//import necessary components
+import RequestPage from './components/requestPage'
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -28,7 +31,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -42,36 +45,7 @@ const App: () => React$Node = () => {
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
-          <View style={styles.body}>
-             <Text style={styles.sectionTitle}>Name</Text>
-             <TextInput
-                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-             />
-             <Text style={styles.sectionTitle}>Sunet ID (Number)</Text>
-             <TextInput
-                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-             />
-             <Text style={styles.sectionTitle}>Number of Riders</Text>
-             <TextInput
-                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-             />
-             <Text style={styles.sectionTitle}>Phone Number</Text>
-             <TextInput
-                   style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-             />
-             <Text style={styles.sectionTitle}>Current Location</Text>
-              <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-              />
-              <Text style={styles.sectionTitle}>Destination</Text>
-               <TextInput
-                     style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-               />
-              <Button
-                title="Submit"
-                onPress={() => Alert.alert('Request Sent')}
-              />
-          </View>
+        <RequestPage/>
         </ScrollView>
       </SafeAreaView>
     </>
