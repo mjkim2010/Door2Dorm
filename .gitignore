@@ -5,3 +5,4 @@ __pycache__
 .python-version
 *.sqlite
 door2dorm/d2d-venv/*
+.DS_Store
