@@ -4,6 +4,4 @@ __pycache__
 .env
 .python-version
 *.sqlite
-door2dorm/door2dorm/bin/*
-door2dorm/door2dorm/lib/*
-door2dorm/door2dorm/pyenv.cfg
+door2dorm/d2d-venv/*
