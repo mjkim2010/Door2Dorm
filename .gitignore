@@ -6,3 +6,4 @@ __pycache__
 *.sqlite
 door2dorm/d2d-venv/*
 .DS_Store
+__pycache__
