@@ -36,24 +36,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        isRequest: false,
+
     };
   }
 
-  render() {
-    return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-          <RequestPage/>
-          </ScrollView>
-        </SafeAreaView>
-      </>
-    );
-  }
+    render() {
+        return (
+            <>
+                <StatusBar barStyle="dark-content" />
+                <SafeAreaView>
+                <ScrollView
+                    contentInsetAdjustmentBehavior="automatic"
+                    style={styles.scrollView}>
+                <RequestPage />
+                </ScrollView>
+                </SafeAreaView>
+            </>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
