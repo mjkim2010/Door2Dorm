@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+*.sh
+.env
+.python-version
+*.sqlite
+door2dorm/d2d-venv/*
+.DS_Store
+__pycache__
+*.sqlite3
