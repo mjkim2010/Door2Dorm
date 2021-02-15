@@ -10,6 +10,7 @@ import React from 'react';
 
 //import necessary components
 import RequestPage from './components/requestPage'
+import EtaPage from './components/etaPage'
 
 import {
   SafeAreaView,
