@@ -30,18 +30,21 @@ class RequestPage extends React.Component {
 
     submitButton() {
         //Do the error handling
-        const socket = new WebSocket
-        'ws://'
-        + window.location.host
-        + 'ws/ride_queue/rider/'
 
-        let currentDate = new Date()
+        this.props.onLogin();
 
-        socket.send(JSON.stringify({
-            'sunet': this.state.sunet,
-            'time_requested': currentDate,
-            'num_passengers': this.state.numRiders,
-        }));
+//        const socket = new WebSocket
+//        'ws://'
+//        + window.location.host
+//        + 'ws/ride_queue/rider/'
+//
+//        let currentDate = new Date()
+//
+//        socket.send(JSON.stringify({
+//            'sunet': this.state.sunet,
+//            'time_requested': currentDate,
+//            'num_passengers': this.state.numRiders,
+//        }));
     }
 
   render() {

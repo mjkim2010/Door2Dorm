@@ -36,9 +36,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+        userIsLoggedIn: false,
     };
   }
+
+  hitSubmit = () => {
+      this.setState({
+        userIsLoggedIn : true,
+      });
+    }
 
     render() {
         return (
@@ -48,7 +54,13 @@ class App extends React.Component {
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
-                <RequestPage />
+
+                {
+                    this.state.userIsLoggedIn ?
+                        <EtaPage />
+                    :
+                        <RequestPage onLogin={this.hitSubmit} />
+                }
                 </ScrollView>
                 </SafeAreaView>
             </>
