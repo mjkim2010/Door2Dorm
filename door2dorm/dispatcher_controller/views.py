@@ -4,10 +4,10 @@ from django.template import loader
 
 from .models import Ride
 
-def index(request):
+def ride_queue_view(request):
     latest_rides_list = Ride.objects.order_by('-time_requested')
-    template = loader.get_template('ride_queue/index.html')
+    template = loader.get_template('ride_queue.html')
     context = { 
         'latest_rides_list': latest_rides_list,
     }
-    return render(request, 'ride_queue/index.html', context)
+    return render(request, 'ride_queue.html', context)

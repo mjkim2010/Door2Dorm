@@ -31,8 +31,7 @@ ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', 'localhost
 # Application definition
 
 INSTALLED_APPS = [
-    'student.apps.Student',
-    'ride_queue.apps.RideQueueConfig',
+    'dispatcher_controller.apps.Dispatcher_Controller',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
