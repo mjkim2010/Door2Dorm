@@ -25,7 +25,7 @@ Read the following to set up and run this application.
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
 - Migrate 
     ```
-    python manage.py migrate
+    python manage.py migrate --run-syncdb
     ```
 - Run server
     ```

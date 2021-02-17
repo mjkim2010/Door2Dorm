@@ -25,12 +25,13 @@ SECRET_KEY = 'bcu)jbqj!5*&76=)+87#+005^%__tmpy4&%q1$9haba1lm36(v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'student.apps.Student',
     'ride_queue.apps.RideQueueConfig',
     'django.contrib.admin',
     'django.contrib.auth',

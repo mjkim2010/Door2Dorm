@@ -18,5 +18,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('ride_queue.urls')),
+    # path('', include('student.urls')),
     path('admin/', admin.site.urls),
 ]
