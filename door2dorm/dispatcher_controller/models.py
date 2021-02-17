@@ -18,7 +18,7 @@ class Student(models.Model):
     phone = models.PositiveIntegerField()
 
     def __str__(self):
-        return "Student with Student ID {} made. It has the unique id of {}".format(self.student_id, self.id) 
+        return "Student with Student ID {} made.".format(self.student_id) 
 
 
 class Ride(models.Model):
@@ -28,7 +28,7 @@ class Ride(models.Model):
     #     editable = False, 
     #     unique = True,
     # )
-    student_id = models.PositiveIntegerField(default = 1233242)
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
     dest_lat = models.FloatField(default = 37.4254)
@@ -45,7 +45,7 @@ class Ride(models.Model):
         return "Ride made."
 
 class Driver(models.Model):
-    student_id = models.PositiveIntegerField(default = 1233242)
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
     is_signed_on = models.BooleanField(default = False)
     passenger_list = models.TextField(default = '[]')
     current_lat = models.FloatField(default = 38.2393)

@@ -21,14 +21,16 @@ Read the following to set up and run this application.
     conda deactivate
     ```
 
-## Starting the Server
+## Setting and Resetting the Database
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
-- Delete the ```migrations``` and ```__pycache__``` directories.
+- Delete the ```migrations``` and ```__pycache__``` directories. 
+- If you want to reset the database, delete the ```db.sqlite3``` file.
 - Migrate 
     ```
-    python manage.py migrate --run-syncdb
     python manage.py makemigrations dispatcher_controller
+    python manage.py migrate
     ```
+## Starting the Server
 - Run server
     ```
     python manage.py runserver
