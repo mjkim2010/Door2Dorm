@@ -26,8 +26,8 @@ Read the following to set up and run this application.
 - Delete the ```migrations``` and ```__pycache__``` directories.
 - Migrate 
     ```
-    python manage.py makemigrations dispatcher_controller
     python manage.py migrate --run-syncdb
+    python manage.py makemigrations dispatcher_controller
     ```
 - Run server
     ```
