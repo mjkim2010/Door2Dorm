@@ -23,15 +23,17 @@ Read the following to set up and run this application.
 
 ## Starting the Server
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
+- Delete the ```migrations``` and ```__pycache__``` directories.
 - Migrate 
     ```
+    python manage.py makemigrations dispatcher_controller
     python manage.py migrate --run-syncdb
     ```
 - Run server
     ```
     python manage.py runserver
     ```
-- You may now start the development server at localhost:8000/ in any browser
+- You may now start the development server at localhost:8000/ (this number might be different) in any browser
 
 ## Accessing as ```Admin```
 - Create a super user
