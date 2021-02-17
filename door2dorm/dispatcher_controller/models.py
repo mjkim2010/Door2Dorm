@@ -1,15 +1,8 @@
 from django.db import models
 from datetime import datetime
-# import uuid  // Maybe to be added later
 
 # Create your models here.
 class Student(models.Model):
-    # id = models.UUIDField( 
-    #     primary_key = True, 
-    #     default = uuid.uuid4, 
-    #     editable = False, 
-    #     unique = True,
-    # ) 
     student_id = models.PositiveIntegerField()
     sunet = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
@@ -20,14 +13,12 @@ class Student(models.Model):
     def __str__(self):
         return "Student with Student ID {} made.".format(self.student_id) 
 
+    @classmethod
+    def create(cls, sid, sunet, first, last, email, phone):
+        return cls(student_id = sid, sunet = sunet, first_name = first, last_name = last, email = email, phone = phone)
+
 
 class Ride(models.Model):
-    # id = models.UUIDField( 
-    #     primary_key = True, 
-    #     default = uuid.uuid4, 
-    #     editable = False, 
-    #     unique = True,
-    # )
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
