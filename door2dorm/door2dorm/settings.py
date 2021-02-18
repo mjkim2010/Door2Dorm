@@ -25,13 +25,12 @@ SECRET_KEY = 'bcu)jbqj!5*&76=)+87#+005^%__tmpy4&%q1$9haba1lm36(v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', '127.0.0.1']
-
+ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'ride_queue.apps.RideQueueConfig',
+    'dispatcher_controller.apps.Dispatcher_Controller',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -21,17 +21,21 @@ Read the following to set up and run this application.
     conda deactivate
     ```
 
-## Starting the Server
+## Setting and Resetting the Database
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
+- Delete the ```migrations``` and ```__pycache__``` directories. 
+- If you want to reset the database, delete the ```db.sqlite3``` file.
 - Migrate 
     ```
+    python manage.py makemigrations dispatcher_controller
     python manage.py migrate
     ```
+## Starting the Server
 - Run server
     ```
     python manage.py runserver
     ```
-- You may now start the development server at localhost:8000/ in any browser
+- You may now start the development server at localhost:8000/ (this number might be different) in any browser
 
 ## Accessing as ```Admin```
 - Create a super user

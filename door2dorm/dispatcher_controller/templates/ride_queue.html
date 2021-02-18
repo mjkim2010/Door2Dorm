@@ -4,13 +4,13 @@ Recently requested rides
 {% if latest_rides_list %}
     <table>
         <tr>
-            <th> SUNet ID </th>
+            <th> student ID </th>
             <th> Time requested </th>
             <th> Number of passengers </th>
         </tr>
     {% for ride in latest_rides_list %}
         <tr>
-            <td> {{ ride.sunet }} </td>
+            <td> {{ ride.student.student_id }} </td>
             <td> {{ ride.time_requested }} </td>
             <td> {{ ride.num_passengers }} </td> 
         </tr>

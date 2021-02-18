@@ -8,3 +8,4 @@ door2dorm/d2d-venv/*
 .DS_Store
 __pycache__
 *.sqlite3
+*migrations/*
