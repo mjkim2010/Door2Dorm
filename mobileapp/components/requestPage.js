@@ -32,23 +32,23 @@ class RequestPage extends React.Component {
     //Do the error handling
     console.log('get here');
     let url = 'http://localhost:8000/students/placeholder/cr-student';
-    fetch(url, {
-      method: 'GET',
-    }).then(response => response.json())
-    .catch(err => console.log(err));
+    // fetch(url, {
+    //   method: 'GET',
+    // }).then(response => response.json())
+    // .catch(err => console.log(err));
 
-    // axios.get(url)
-    //   .then(function(res) {
-    //     console.log('Response received\n');
-    //     console.log(res);
-    //   })
-    //   .catch(function(err) {
-    //     console.log("Error making the call\n");
-    //     console.log(err);
-    //     if (err.request) {
-    //       console.log(err.request);
-    //     }
-    //   });
+    axios.get(url)
+      .then(function(res) {
+        console.log('Response received\n');
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log("Error making the call\n");
+        console.log(err);
+        if (err.request) {
+          console.log(err.request);
+        }
+      });
       
 
 //        const socket = new WebSocket

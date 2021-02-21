@@ -5,6 +5,7 @@ from django.template import loader
 from .models import Ride, Student
 from .serializers import StudentSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.decorators import action
 
 class StudentViewSet(viewsets.ModelViewSet):
@@ -21,7 +22,8 @@ class StudentViewSet(viewsets.ModelViewSet):
             'student': student,
         }
         student.save()
-        return render(request, 'cr_student.html', context)
+        serializer = StudentSerializer(student)
+        return Response(serializer.data, status=201)
 
 def ride_queue_view(request):
     latest_rides_list = Ride.objects.order_by('time_requested')
