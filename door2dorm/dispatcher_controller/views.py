@@ -13,27 +13,15 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'], detail=True,
             url_path='cr-student', url_name='create_student')
-    def create_students_ep(self, request, pk=None):
-        print("HEREH!!$!")
-        student = Student.create(1213123, "testing", "mandy", "li", "jk@gmail.com", 1233123213)
+    def cr_student_func(self, request, pk=None):
+        print("ADSFDSFAADSFDSADSFDSAF")
+        student = Student.create(23456, "testing", "mandy", "li", "jk@gmail.com", 1233123213)
         template = loader.get_template('cr_student.html')
         context = {
             'student': student,
         }
         student.save()
         return render(request, 'cr_student.html', context)
-
-    @action(methods=['get'], detail=True)
-    def test(self, request, pk=None):
-        print(request)
-        print("OMG")
-        test = "testing"
-        template = loader.get_template('cr_student.html')
-        context = {
-            'test': test,
-        }
-        return render(request, 'cr_student.html', context)
-
 
 def ride_queue_view(request):
     latest_rides_list = Ride.objects.order_by('time_requested')

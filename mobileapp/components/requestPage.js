@@ -30,21 +30,25 @@ class RequestPage extends React.Component {
 
   submitButton() {
     //Do the error handling
-
-    let url = 'http://localhost:8000/cr-student';
     console.log('get here');
-    axios.get(url)
-      .then(function(res) {
-        console.log('Response received\n');
-        console.log(res);
-      })
-      .catch(function(err) {
-        console.log("Error making the call\n");
-        console.log(err);
-        if (err.request) {
-          console.log(err.request);
-        }
-      });
+    let url = 'http://localhost:8000/students/placeholder/cr-student';
+    fetch(url, {
+      method: 'GET',
+    }).then(response => response.json())
+    .catch(err => console.log(err));
+
+    // axios.get(url)
+    //   .then(function(res) {
+    //     console.log('Response received\n');
+    //     console.log(res);
+    //   })
+    //   .catch(function(err) {
+    //     console.log("Error making the call\n");
+    //     console.log(err);
+    //     if (err.request) {
+    //       console.log(err.request);
+    //     }
+    //   });
       
 
 //        const socket = new WebSocket

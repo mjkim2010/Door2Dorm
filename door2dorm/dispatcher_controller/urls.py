@@ -8,6 +8,6 @@ router.register('students', views.StudentViewSet)
 
 urlpatterns = [
     path('', views.ride_queue_view, name='ride_queue_view'),
-    # path('cr-student/', views.create_student, name='create_student'),
+    path('cr-student/', views.create_student, name='create_student'),
     re_path('^', include(router.urls)),
 ]
