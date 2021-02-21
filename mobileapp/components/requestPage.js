@@ -7,7 +7,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-
+import axios from 'axios';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
@@ -28,10 +28,21 @@ class RequestPage extends React.Component {
     this.submitButton = this.submitButton.bind(this);
   }
 
-    submitButton() {
-        //Do the error handling
+  submitButton() {
+    //Do the error handling
 
-        this.props.onLogin();
+    let url = 'http://localhost:8000/cr-student';
+    console.log('get here');
+    axios.get(url)
+      .then(function(res) {
+        console.log('Response received\n');
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log("Error making the call\n");
+        console.log(err);
+      });
+      
 
 //        const socket = new WebSocket
 //        'ws://'

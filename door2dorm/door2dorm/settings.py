@@ -29,6 +29,25 @@ ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', '127.0.0.1
 
 # Application definition
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+# TODO: documentation:
+# https://pypi.org/project/django-cors-headers/
+# update .yml file
+
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8000',
+# )
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 INSTALLED_APPS = [
     'dispatcher_controller.apps.Dispatcher_Controller',
     'django.contrib.admin',
@@ -37,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'door2dorm.urls'

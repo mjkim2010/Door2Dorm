@@ -13,19 +13,10 @@ def ride_queue_view(request):
     return render(request, 'ride_queue.html', context)
 
 def create_student(request):
-    latest_rides_list = Ride.objects.order_by('time_requested')
-    template = loader.get_template('ride_queue.html')
-    context = {
-        'latest_rides_list': latest_rides_list,
-    }
     student = Student.create(1213123, "testing", "mandy", "li", "jk@gmail.com", 1233123213)
     template = loader.get_template('cr_student.html')
     context = {
         'student': student,
     }
     student.save()
-    if (request.method == 'GET'):
-        return render(request, 'cr_student.html', context)
-    else:
-        return render(request, 'ride_queue.html', context)
-    # return render(request, ‘cr_student.html’, context)
+    return render(request, ‘cr_student.html’, context)
