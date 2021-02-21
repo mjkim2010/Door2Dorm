@@ -4,19 +4,34 @@ from django.template import loader
 
 from .models import Ride, Student
 from .serializers import StudentSerializer
-from rest_framework import viewsets
+# CommentTag: MAKE_POST
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
 class StudentViewSet(viewsets.ModelViewSet):
+    # CommentTag: MAKE_POST
+    permission_classes = (permissions.AllowAny,)
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
 
+    # TODO: 
+    # CommentTag: MAKE_POST (Search for this and you can find residual code where I attempted at this)
+    # Make this a 'post'. Is that necessary? 
+    # If we simply get axios.get() from requestPage.js on the webapp side,
+    # we get a status code 405. Will probably need to play around with
+    # rest_framework.permissions
     @action(methods=['get'], detail=True,
             url_path='cr-student', url_name='create_student')
     def cr_student_func(self, request, pk=None):
-        print("ADSFDSFAADSFDSADSFDSAF")
-        student = Student.create(23456, "testing", "mandy", "li", "jk@gmail.com", 1233123213)
+        student = Student.create(
+            int(request.GET["student_id"]),
+            request.GET["sunet"],
+            request.GET["first"],
+            request.GET["last"],
+            request.GET["email"],
+            int(request.GET["phone"]),
+        )
         template = loader.get_template('cr_student.html')
         context = {
             'student': student,
