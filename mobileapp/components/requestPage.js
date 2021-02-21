@@ -41,6 +41,9 @@ class RequestPage extends React.Component {
       .catch(function(err) {
         console.log("Error making the call\n");
         console.log(err);
+        if (err.request) {
+          console.log(err.request);
+        }
       });
       
 
