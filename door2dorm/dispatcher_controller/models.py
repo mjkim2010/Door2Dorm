@@ -3,12 +3,12 @@ from datetime import datetime
 
 # Create your models here.
 class Student(models.Model):
-    student_id = models.PositiveIntegerField()
+    student_id = models.PositiveIntegerField(default = 12345)
     sunet = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=30)
-    phone = models.PositiveIntegerField()
+    phone = models.PositiveIntegerField(default = 6503339999)
 
     def __str__(self):
         return "Student with Student ID {} made.".format(self.student_id) 
@@ -34,6 +34,11 @@ class Ride(models.Model):
 
     def __str__(self):
         return "Ride made."
+
+    @classmethod
+    def create(cls, p):
+        # p['student_id'], p['current_lat'], p['current_long'], p['dest_lat'], p['dest_long'], p['num_passengers'], p['safety_lvl'], p['priority'], p['time_requested'], p['picked_up'], p['dropped_off'], p['assigned']
+        return cls()
 
 class Driver(models.Model):
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)

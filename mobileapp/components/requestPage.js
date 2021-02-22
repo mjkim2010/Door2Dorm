@@ -72,6 +72,7 @@ class RequestPage extends React.Component {
 //        }));
     }
 
+  // TODO: Need input validation so the values sent over isn't None
   render() {
     return (
           <View style={styles.body}>
