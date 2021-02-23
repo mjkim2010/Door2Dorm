@@ -25,20 +25,49 @@ SECRET_KEY = 'bcu)jbqj!5*&76=)+87#+005^%__tmpy4&%q1$9haba1lm36(v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+# TODO: documentation:
+# https://pypi.org/project/django-cors-headers/
+# update .yml file
+
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8000',
+# )
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 INSTALLED_APPS = [
-    'ride_queue.apps.RideQueueConfig',
+    'dispatcher_controller.apps.Dispatcher_Controller',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
 ]
+
+# CommentTag: MAKE_POST
+REST_FRAMEWORK = {
+   'DEFAULT_PERMISSION_CLASSES': [
+   'rest_framework.permissions.AllowAny',
+   ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'door2dorm.urls'
