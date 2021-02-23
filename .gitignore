@@ -9,3 +9,6 @@ door2dorm/d2d-venv/*
 __pycache__
 *.sqlite3
 *migrations/*
+*.xcworkspacedata
+*.lock
+*.pbxproj

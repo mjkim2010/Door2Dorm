@@ -3,12 +3,13 @@ from datetime import datetime
 
 # Create your models here.
 class Student(models.Model):
-    student_id = models.PositiveIntegerField()
+    # TODO: student_id and sunet are duplicate info
+    student_id = models.PositiveIntegerField(default = 12345)
     sunet = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=30)
-    phone = models.PositiveIntegerField()
+    phone = models.PositiveIntegerField(default = 6503339999)
 
     def __str__(self):
         return "Student with Student ID {} made.".format(self.student_id) 
@@ -22,6 +23,9 @@ class Ride(models.Model):
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
+    # TODO: Add destination string?
+    # TODO: Add current location string?
+    # TOTHINK: Is this necessary (does Google maps or Stanford Map/Location provide an API )
     dest_lat = models.FloatField(default = 37.4254)
     dest_long = models.FloatField(default = -122.1629) 
     num_passengers = models.IntegerField(default = 1) # TODO: Add validator to restrict range [1, 4]
@@ -30,13 +34,23 @@ class Ride(models.Model):
     time_requested = models.DateTimeField('time requested', default = datetime.now)
     picked_up = models.DateTimeField(null = True, default = datetime.min)
     dropped_off = models.DateTimeField(null = True, default = datetime.min)
+
+    # Should this be another models.ForeignKey()
     assigned = models.IntegerField(default = -1)
 
     def __str__(self):
         return "Ride made."
 
+    @classmethod
+    def create(cls, p):
+        # p['student_id'], p['current_lat'], p['current_long'], p['dest_lat'], p['dest_long'], p['num_passengers'], p['safety_lvl'], p['priority'], p['time_requested'], p['picked_up'], p['dropped_off'], p['assigned']
+        return cls()
+
 class Driver(models.Model):
+    # TOTHINK: Should we add a driver id field (for this db) ?
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
+    # TODO: Add Driver License Field
+    # TODO: Modify the is_signed_on to be the Car Plate Field (text field rather than bool)
     is_signed_on = models.BooleanField(default = False)
     passenger_list = models.TextField(default = '[]')
     current_lat = models.FloatField(default = 38.2393)
