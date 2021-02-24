@@ -43,7 +43,6 @@ class StudentViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=True,
             url_path='cr-student', url_name='create_student')
     def cr_student_func(self, request, pk=None):
-
         student_id = get_value("student_id", 'int', request)
         sunet = get_value("sunet", 'str', request)
         first = get_value("first", 'str', request)
@@ -65,27 +64,7 @@ class StudentViewSet(viewsets.ModelViewSet):
         }
         student.save()
         serializer = StudentSerializer(student)
-
-        properties = {
-            'student_id': student_id,
-            'current_lat': student_id,
-            'current_long': student_id,
-            'dest_lat': student_id,
-            'dest_long': student_id,
-            'num_passengers': student_id,
-            'safety_lvl': student_id,
-            'priority': student_id,
-            'time_requested': student_id,
-            'picked_up': student_id,
-            'dropped_off': student_id,
-            'assigned': student_id,
-        }
-        ride = Ride.create(properties)
-        ride_ser = RideSerializer(ride)
-        
-        both_data = dict(serializer.data).copy()
-        both_data.update(dict(ride_ser.data))
-        return Response(both_data, status=201)
+        return Response(serializer.data, status=201)
 
 class RideViewSet(viewsets.ModelViewSet):
     # CommentTag: MAKE_POST
@@ -104,25 +83,13 @@ class RideViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=True,
             url_path='cr-ride', url_name='create_ride')
     def cr_ride_func(self, request, pk=None):
-        student_id = request.GET["student_id"]
-
-        ride = Ride.create(
-            # student object
-            float(request.GET["current_lat"]),
-            float(request.GET["current_long"]),
-            float(request.GET["dest_lat"]),
-            float(request.GET["dest_long"]),
-            int(request.GET["num_passengers"]),
-            int(request.GET["safety_lvl"]),
-            float(request.GET["priority"]),
-            float(request.GET['time_requested']),
-        )
-        template = loader.get_template('cr_student.html')
-        context = {
-            'student': student,
-        }
-        student.save()
-        serializer = StudentSerializer(student)
+        current_loc = get_value("current_loc", 'str', request)
+        dest = get_value("destination", 'str', request)
+        num_riders = get_value("num_riders", 'int', request)
+        safety_level = get_value("safety_level", 'int', request)
+        ride = Ride.create(current_loc, dest, num_riders, safety_level)
+        ride.save()
+        serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)
 
 def dispatcher(request):
