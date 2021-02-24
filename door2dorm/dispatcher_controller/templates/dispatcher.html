@@ -8,7 +8,6 @@
 <table class="styled-table">
     <thead>
         <tr class="ride-in-progress">
-            <th> Student Name</th>
             <th> From </th>
             <th> To </th>
             <th> Carpool </th>
@@ -20,8 +19,7 @@
         {% for ride in rides %}
             {% if ride.assigned == 1 %}
             <tr class="rip-bottom-border">
-                <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td> 
-                <td> {{ ride.current_loc }} </td>
+                <td> {{ ride.current_location }} </td>
                 <td> {{ ride.destination }} </td>
                 <td> {{ ride.num_passengers }} </td>
                 <td> {{ ride.picked_up }} </td>
@@ -37,7 +35,6 @@
 <table class="styled-table">
     <thead>
         <tr class="queue">
-            <th> Student Name</th>
             <th> From </th>
             <th> To </th>
             <th> Carpool </th>
@@ -50,8 +47,7 @@
         {% for ride in rides %}
             {% if ride.assigned == -1 %}
             <tr class="q-bottom-border">
-                <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td> 
-                <td> {{ ride.current_loc }} </td>
+                <td> {{ ride.current_location }} </td>
                 <td> {{ ride.destination }} </td>
                 <td> {{ ride.num_passengers }} </td>
                 <td> {{ ride.priority }} </td>

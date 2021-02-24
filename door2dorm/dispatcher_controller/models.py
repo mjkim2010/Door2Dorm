@@ -47,13 +47,16 @@ class Ride(models.Model):
     def create(cls, current_location, destination, num_passengers, safety_lvl):
         return cls(current_location=current_location, destination=destination, num_passengers=num_passengers,
                 safety_lvl=safety_lvl)
-
 class Driver(models.Model):
     # TOTHINK: Should we add a driver id field (for this db) ?
-    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
+    first_name = models.CharField(max_length=30, default="first")
+    last_name = models.CharField(max_length=30, default="last")
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING, null = True, blank = True)
+    license_plate = models.CharField(max_length=30, null = True, blank = True)
+    email = models.EmailField(max_length=30, default="fake@fake.com")
+    phone = models.PositiveIntegerField(default = 6503339999)
     # TODO: Add Driver License Field
     # TODO: Modify the is_signed_on to be the Car Plate Field (text field rather than bool)
-    is_signed_on = models.BooleanField(default = False)
     passenger_list = models.TextField(default = '[]')
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
