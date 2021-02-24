@@ -5,10 +5,8 @@ from . import views
 
 router = DefaultRouter()
 router.register('students', views.StudentViewSet)
-router.register('rides', views.RideViewSet)
 
 urlpatterns = [
-    path('', views.ride_queue_view, name='ride_queue_view'),
-    path('cr-student/', views.create_student, name='create_student'),
+    path('', views.dispatcher, name='dispatcher'),
     re_path('^', include(router.urls)),
 ]

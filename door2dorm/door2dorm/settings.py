@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ec2-18-191-207-50.us-east-2.compute.amazonaws.com', '127.0.0.1', 'localhost']
 
-
 # Application definition
 
 CORS_ORIGIN_ALLOW_ALL = True

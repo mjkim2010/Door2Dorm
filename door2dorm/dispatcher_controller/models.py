@@ -60,4 +60,4 @@ class Driver(models.Model):
     route = models.TextField(default = '[]')
 
     def __str__(self):
-        return "Driver made."
+        return self.first_name + " " + self.last_name

@@ -13,8 +13,6 @@ from django.utils.dateparse import parse_datetime
 from django.db import models
 from datetime import datetime
 
-import logging
-
 def get_value(name, val_type, request):
     if not request:
         return None
@@ -93,20 +91,12 @@ class RideViewSet(viewsets.ModelViewSet):
         ride.save()
         serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)
-    
-def ride_queue_view(request):
-    latest_rides_list = Ride.objects.order_by('time_requested')
-    template = loader.get_template('ride_queue.html')
-    context = {
-        'latest_rides_list': latest_rides_list,
-    }
-    return render(request, 'ride_queue.html', context)
 
-def create_student(request):
-    student = Student.create(1213123, "testing", "mandy", "li", "jk@gmail.com", 1233123213)
-    template = loader.get_template('cr_student.html')
+def dispatcher(request):
+    template = loader.get_template('dispatcher.html')
     context = {
-        'student': student,
+        'students': Student.objects.all(),
+        'rides': Ride.objects.order_by('priority'),
+        'drivers': Driver.objects.filter(license_plate__isnull=False),
     }
-    student.save()
-    return render(request, 'cr_student.html', context)
+    return render(request, 'dispatcher.html', context)

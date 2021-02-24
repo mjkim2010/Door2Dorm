@@ -23,8 +23,12 @@ Read the following to set up and run this application.
 
 ## Setting and Resetting the Database
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
+<<<<<<< HEAD
 - Delete the ```migrations``` and ```__pycache__``` directories. 
 - If you want to reset the database, delete the ```db.sqlite3``` file.
+=======
+- Delete the ```migrations```, ```__pycache__``` directories and ```db.sqlite3``` file.
+>>>>>>> origin
 - Migrate 
     ```
     python manage.py makemigrations dispatcher_controller
@@ -54,7 +58,8 @@ Read the following to set up and run this application.
     ```
     localhost:8000/admin
     ```
-- Currently, the 'add ride' functionality is limitedly functional under ```RIDE_QUEUE``` on the left side of the panel. 
+## Url to visit
+- Please visit ```localhost:8000``` to view the new dispatcher view
 
 ## Running the Rider Side Mobile App
 - If desired, you may use a virtual environment for easy removal

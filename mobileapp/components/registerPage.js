@@ -81,7 +81,6 @@ class RequestPage extends React.Component {
             console.log(err.request);
           }
         });
-
     }
   }
 
