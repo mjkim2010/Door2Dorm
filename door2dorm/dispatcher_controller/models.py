@@ -23,8 +23,8 @@ class Ride(models.Model):
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
-    # TODO: Add destination string?
-    # TODO: Add current location string?
+    current_loc = models.CharField(default  = 'Okada', max_length = 30)
+    destination = models.CharField(default  = 'Hoover Tower', max_length=30)
     # TOTHINK: Is this necessary (does Google maps or Stanford Map/Location provide an API )
     dest_lat = models.FloatField(default = 37.4254)
     dest_long = models.FloatField(default = -122.1629) 
@@ -48,14 +48,18 @@ class Ride(models.Model):
 
 class Driver(models.Model):
     # TOTHINK: Should we add a driver id field (for this db) ?
-    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING, null = True, blank = True)
+    license_plate = models.CharField(max_length=30, null = True, blank = True)
+    email = models.EmailField(max_length=30)
+    phone = models.PositiveIntegerField(default = 6503339999)
     # TODO: Add Driver License Field
     # TODO: Modify the is_signed_on to be the Car Plate Field (text field rather than bool)
-    is_signed_on = models.BooleanField(default = False)
     passenger_list = models.TextField(default = '[]')
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
     route = models.TextField(default = '[]')
 
     def __str__(self):
-        return "Driver made."
+        return self.first_name + " " + self.last_name

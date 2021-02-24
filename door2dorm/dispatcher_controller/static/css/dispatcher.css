@@ -1,0 +1,75 @@
+h1 {
+    text-align:left
+}
+
+h2 {
+    text-align:center
+}
+
+
+img {
+    float: left;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 75%;
+    text-align:left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.styled-table thead tr {
+    color: #000000;
+    text-align: left;
+}
+
+.ride-in-progress { 
+    background-color: #5bc6eb;
+}
+
+.rip-bottom-border:last-child {
+    border-bottom: 2px solid #5bc6eb;
+}
+
+.queue { 
+    background-color: #f16a70;
+}
+
+.q-bottom-border:last-child {
+    border-bottom: 2px solid #f16a70;
+}
+
+.active-driver { 
+    background-color: #fea889;
+}
+
+.ad-bottom-border:last-child {
+    border-bottom: 2px solid #fea889;
+}
+
+.registered-members { 
+    background-color: #70d0c6;
+}
+
+.rm-bottom-border:last-child {
+    border-bottom: 2px solid #70d0c6;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
