@@ -37,7 +37,7 @@ class RequestPage extends React.Component {
 
     var stuID = /^\d{8}$/;
     var phoneno = /^\d{10}$/;
-    let url = 'http://127.0.0.1:8000/students/placeholder/cr-student';
+    let url = 'http://127.0.0.1:8000/students/placeholder/cr-student/'; // append slash required by Django
 
     if (this.state.firstName.length < 1) {
       alert("You must enter a first name")
@@ -52,6 +52,7 @@ class RequestPage extends React.Component {
     } else if (!this.state.phoneNumber.match(phoneno)) {
       alert("Double check your phone number is valid, numbers only please!")
     } else {
+      // json file that will be sent to the POST endpoint
       let body = {
         "first": this.state.firstName,
         "last": this.state.lastName,
@@ -61,16 +62,15 @@ class RequestPage extends React.Component {
       }
       // TODO: Once fully connected need to move this.props.onLogin() to the success .then portion so we only move you with a successful request.
       this.props.onLogin(body);
-      axios.get(url, {
-        params: {
-                        "first": this.state.firstName,
-                        "last": this.state.lastName,
-                        "sunet": this.state.sunet,
-                        "student_id": this.state.studentId,
-                        "email": this.state.sunet + "@stanford.edu",
-                        "phone": this.state.phoneNumber,
-                      }
-      }).then(function(res) {
+      let payload =  {
+        first: this.state.firstName,
+        last: this.state.lastName,
+        sunet: this.state.sunet,
+        student_id: this.state.studentId,
+        email: this.state.sunet + "@stanford.edu",
+        phone: this.state.phoneNumber};
+      axios.post(url, payload)
+        .then(function(res) {
           console.log('Response received\n');
           console.log(res.data);
         })
