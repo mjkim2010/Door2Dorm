@@ -86,11 +86,12 @@ class RideViewSet(viewsets.ModelViewSet):
     @action(methods=['post'], detail=True,
             url_path='cr-ride', url_name='create_ride')
     def cr_ride_func(self, request, pk=None):
+        sunet = get_value("sunet", "str", request)
         current_loc = get_value("current_loc", 'str', request)
         dest = get_value("destination", 'str', request)
         num_riders = get_value("num_riders", 'int', request)
         safety_level = get_value("safety_level", 'int', request)
-        ride = Ride.create(current_loc, dest, num_riders, safety_level)
+        ride = Ride.create(sunet, current_loc, dest, num_riders, safety_level)
         ride.save()
         serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)

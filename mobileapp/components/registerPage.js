@@ -8,9 +8,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
+import { SaveItem } from "./databaseHelper";
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+
 
 class RequestPage extends React.Component {
   constructor(props) {
@@ -69,6 +71,7 @@ class RequestPage extends React.Component {
         student_id: this.state.studentId,
         email: this.state.sunet + "@stanford.edu",
         phone: this.state.phoneNumber};
+      SaveItem('sunet', this.state.sunet);
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
