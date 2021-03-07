@@ -23,13 +23,7 @@ Read the following to set up and run this application.
 
 ## Setting and Resetting the Database
 - Make sure you are inside the ```door2dorm``` directory and that you have activated the ```d2d_env``` virtual environment.
-<<<<<<< HEAD
-- Delete the ```migrations``` and ```__pycache__``` directories. 
-- If you want to reset the database, delete the ```db.sqlite3``` file.
-=======
 - Delete the ```migrations```, ```__pycache__``` directories and ```db.sqlite3``` file.
->>>>>>> origin
-- Migrate 
     ```
     python manage.py makemigrations dispatcher_controller
     python manage.py migrate
