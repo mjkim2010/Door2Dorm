@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-
+import { registerRootComponent } from 'expo';
 //import necessary components
 import RegisterPage from './components/registerPage';
 import RequestPage from './components/ridePage';
@@ -108,7 +108,11 @@ class App extends React.Component {
 
                 {
                     this.state.userIsLoggedIn && this.state.rideRequested ?
-                        <EtaPage oldState={this.state} onLeave={this.leaveQueue} />
+                        <EtaPage 
+                          oldState={this.state} 
+                          onLeave={this.leaveQueue} 
+                          curLat={this.state.curLat} 
+                          curLong={this.state.curLong}/>
                     :
                         this.state.userIsLoggedIn ?
                           <RequestPage onRequest={this.hitRequest} studentInfo={this.state} onLogout={this.logout} />
@@ -161,4 +165,5 @@ const styles = StyleSheet.create({
   },
 });
 
+registerRootComponent(App);
 export default App;
