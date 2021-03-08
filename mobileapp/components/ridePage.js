@@ -106,6 +106,10 @@ class RequestPage extends React.Component {
           <View style={styles.body}>
                 <Text style={styles.sectionTitle}>Current Location</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ currentLoc: e.nativeEvent.text });
@@ -114,6 +118,10 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Destination</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ destination: e.nativeEvent.text });
