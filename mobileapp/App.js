@@ -45,6 +45,8 @@ class App extends React.Component {
         studentId: "",
         phoneNumber: "",
         numRiders: "",
+        curLat: "",
+        curLong: "",
         currentLoc: "",
         destination: "",
         safetyLevel: "",
@@ -79,6 +81,8 @@ class App extends React.Component {
       destination: body.destination,
       numRiders: body.numRiders,
       safetyLevel: body.safetyLevel,
+      curLat: body.cur_lat,
+      curLong: body.cur_long,
     })
   }
 
