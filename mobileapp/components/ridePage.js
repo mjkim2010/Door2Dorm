@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   TextInput,
@@ -12,12 +12,15 @@ import { ReadItem } from "./databaseHelper";
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 class RequestPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         numRiders: "",
+        // TODO: remove currentLoc
         currentLoc: "",
         destination: "",
         safetyLevel: "",
@@ -29,6 +32,16 @@ class RequestPage extends React.Component {
 
   componentDidMount() {
     this.setState({ studentId: this.props.studentInfo.studentId });
+  }
+
+  async getLocationAsync() {
+    // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
+    let perm;
+    while (!perm || perm.status !== 'granted')
+      {
+        perm = await Permissions.askAsync(Permissions.LOCATION);
+      }
+    return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
   }
 
   logoutButton() {
@@ -52,13 +65,23 @@ class RequestPage extends React.Component {
         alert("Double check your safety level is a digit between 1 and 9")
     } else {
       var sunet = await ReadItem("sunet"); // promise, wait for this value
+      let curLocation = this.getLocationAsync();
+      if (!curLocation)
+        {
+          alert("Cannot access your location.\n");
+          return;
+        }
+
+      // TODO: remove current_loc
       let body = {
         // case must match that of backend
         current_loc: this.state.currentLoc,
         destination: this.state.destination,
         num_riders: this.state.numRiders,
         safety_level: this.state.safetyLevel,
-        sunet: sunet
+        sunet: sunet,
+        cur_lat: (await curLocation).coords.latitude,
+        cur_long: (await curLocation).coords.longitude,
       };
 
       // TODO: Once fully connected need to move this.props.onLogin() to the success .then portion so we only move you with a successful request.
@@ -83,9 +106,14 @@ class RequestPage extends React.Component {
   // TODO: Need input validation so the values sent over isn't None
   render() {
     return (
+          // TODO: remove 'Current Location'
           <View style={styles.body}>
                 <Text style={styles.sectionTitle}>Current Location</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ currentLoc: e.nativeEvent.text });
@@ -94,6 +122,10 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Destination</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ destination: e.nativeEvent.text });
