@@ -9,30 +9,24 @@ import {
     Button,
     Text,
     StatusBar,
-    Alert,
   } from 'react-native';
   
   import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
 
-class PickUpPage extends React.Component {
+class DropOffPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
         student: "Jake Wagner",
-        location: "Florence Moore Hall",
+        location: "Suites",
       };
-      this.pickedUp = this.pickedUp.bind(this);
-      this.call = this.call.bind(this);
+      this.droppedOff = this.droppedOff.bind(this);
     }
 
-    pickedUp() {
-        this.props.history.push("/dropoff");
-    }
-
-    call() {
-        alert("Calling Student");
+    droppedOff() {
+        this.props.history.push("/pickup");
     }
 
     render() {
@@ -44,16 +38,11 @@ class PickUpPage extends React.Component {
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               
-                <Text style={styles.sectionTitle}>Pick up {this.state.student} at {this.state.location}</Text>
+                <Text style={styles.sectionTitle}>Drop off {this.state.student} at {this.state.location}</Text>
                 <Button
-                    onPress={this.pickedUp}
-                    title="Successfully Picked Up"
-                    accessibilityLabel="Pick Up"
-                />
-                <Button
-                    onPress={this.call}
-                    title="Call"
-                    accessibilityLabel="Call"
+                    onPress={this.droppedOff}
+                    title="Successfully Dropped Off"
+                    accessibilityLabel="Dropped Off"
                 />
             </ScrollView>
           </SafeAreaView>
@@ -73,5 +62,5 @@ class PickUpPage extends React.Component {
     },
   });
   
-  export default PickUpPage;
+  export default DropOffPage;
   

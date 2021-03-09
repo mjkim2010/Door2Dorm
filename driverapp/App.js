@@ -13,9 +13,10 @@ import { NativeRouter, Switch, Route, Link } from "react-router-native";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import RegisterPage from './components/register.js';
-import LoginPage from './components/login.js'
-import HomePage from './components/homepage.js'
-import PickUpPage from './components/pickup.js'
+import LoginPage from './components/login.js';
+import HomePage from './components/homepage.js';
+import PickUpPage from './components/pickup.js';
+import DropOffPage from './components/dropoff.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class App extends React.Component {
               <Route path="/register" component={RegisterPage} />
               <Route path="/login" component={LoginPage} />
               <Route path="/pickup" component={PickUpPage} />
+              <Route path="/dropoff" component={DropOffPage} />
             </Switch>
           </NativeRouter>
         </SafeAreaView>
