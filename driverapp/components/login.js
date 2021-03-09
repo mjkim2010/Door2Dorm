@@ -3,8 +3,6 @@ import React from 'react';
 import {
     SafeAreaView,
     StyleSheet,
-    ScrollView,
-    View,
     TextInput,
     Button,
     Text,
@@ -42,14 +40,14 @@ class LoginPage extends React.Component {
             <Text style={styles.title}>Login</Text>
             <Text style={styles.sectionTitle}>Student ID</Text>
             <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                style={styles.textInput}
                 onChange={(e) => {
                     this.setState({ studentID: e.nativeEvent.text });
                 }}
             />
             <Text style={styles.sectionTitle}>Password</Text>
             <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                style={styles.textInput}
                 onChange={(e) => {
                     this.setState({ password : e.nativeEvent.text });
                 }}
@@ -71,8 +69,16 @@ class LoginPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
-    body: {
-      backgroundColor: Colors.white,
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
+    textInput: { 
+        height: 40, 
+        borderColor: 'gray', 
+        borderWidth: 1,
+        marginBottom: 24,
     },
     sectionTitle: {
       fontSize: 24,

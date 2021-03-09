@@ -46,35 +46,35 @@ class RegisterPage extends React.Component {
                 
                 <Text style={styles.sectionTitle}>First Name</Text>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.textInput}
                     onChange={(e) => {
                         this.setState({ firstName: e.nativeEvent.text });
                     }}
                 />
                 <Text style={styles.sectionTitle}>Last Name</Text>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.textInput}
                     onChange={(e) => {
                         this.setState({ lastName: e.nativeEvent.text });
                     }}
                 />
                 <Text style={styles.sectionTitle}>Phone Number</Text>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.textInput}
                     onChange={(e) => {
                         this.setState({ phoneNumber: e.nativeEvent.text });
                     }}
                 />
                 <Text style={styles.sectionTitle}>Student ID</Text>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.textInput}
                     onChange={(e) => {
                         this.setState({ studentID: e.nativeEvent.text });
                     }}
                 />
                 <Text style={styles.sectionTitle}>Password</Text>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    style={styles.textInput}
                     onChange={(e) => {
                         this.setState({ password: e.nativeEvent.text });
                     }}
@@ -98,6 +98,12 @@ class RegisterPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
+    textInput: { 
+        height: 40, 
+        borderColor: 'gray', 
+        borderWidth: 1,
+        marginBottom: 24,
+    },
     title: {
         fontSize: 32,
         textAlign: 'center',

@@ -15,12 +15,12 @@ import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
 
-class LoginPage extends React.Component {
+class PickUpPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        studentID: "",
-        password: "",
+        student: "Jake Wagner",
+        location: "Florence Moore Hall",
       };
       this.switchToRegister = this.switchToRegister.bind(this);
       this.login = this.login.bind(this);
@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        this.props.history.push("/driver");
+        this.props.history.push("/pickup");
     }
 
     render() {
@@ -43,16 +43,16 @@ class LoginPage extends React.Component {
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               
-                <Text style={styles.sectionTitle}>Pickup Person at location Blank</Text>
+                <Text style={styles.sectionTitle}>Pickup {this.state.student} at {this.state.location}</Text>
                 <Button
                     onPress={this.login}
-                    title="Login"
-                    accessibilityLabel="Login"
+                    title="Successfully Picked Up"
+                    accessibilityLabel="Pick Up"
                 />
                 <Button
                     onPress={this.switchToRegister}
-                    title="Don't Have an Account? Register"
-                    accessibilityLabel="Register"
+                    title="Call"
+                    accessibilityLabel="Call"
                 />
             </ScrollView>
           </SafeAreaView>
@@ -62,43 +62,15 @@ class LoginPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: Colors.lighter,
-    },
-    engine: {
-      position: 'absolute',
-      right: 0,
-    },
-    body: {
-      backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-    },
     sectionTitle: {
+      textAlign: 'center',
+      marginHorizontal: 32,
+      marginVertical: 32,
       fontSize: 24,
       fontWeight: '600',
       color: Colors.black,
     },
-    sectionDescription: {
-      marginTop: 8,
-      fontSize: 18,
-      fontWeight: '400',
-      color: Colors.dark,
-    },
-    highlight: {
-      fontWeight: '700',
-    },
-    footer: {
-      color: Colors.dark,
-      fontSize: 12,
-      fontWeight: '600',
-      padding: 4,
-      paddingRight: 12,
-      textAlign: 'right',
-    },
   });
   
-  export default LoginPage;
+  export default PickUpPage;
   
