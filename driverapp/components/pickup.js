@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        this.props.history.push("/pickup");
+        this.props.history.push("/driver");
     }
 
     render() {
@@ -43,21 +43,7 @@ class LoginPage extends React.Component {
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               
-                <Text style={styles.sectionTitle}>Login</Text>
-                <Text style={styles.sectionTitle}>Student ID</Text>
-                <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                    onChange={(e) => {
-                        this.setState({ studentID: e.nativeEvent.text });
-                    }}
-                />
-                <Text style={styles.sectionTitle}>Password</Text>
-                <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                    onChange={(e) => {
-                        this.setState({ password : e.nativeEvent.text });
-                    }}
-                />
+                <Text style={styles.sectionTitle}>Pickup Person at location Blank</Text>
                 <Button
                     onPress={this.login}
                     title="Login"

@@ -19,13 +19,14 @@ import {
 class HomePage extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
+        this.state = {
+
       };
       this.enterApp = this.enterApp.bind(this);
     }
 
     enterApp() {
-      this.props.EnterApp()
+      this.props.history.push("/register")
     }
 
     render() {
