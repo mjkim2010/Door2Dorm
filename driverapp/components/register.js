@@ -98,11 +98,6 @@ class RegisterPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
-    button: {
-        fontSize: 32,
-        backgroundColor: 'blue',
-        color: 'red',
-    },
     title: {
         fontSize: 32,
         textAlign: 'center',
