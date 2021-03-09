@@ -93,6 +93,9 @@ class RequestPage extends React.Component {
           <View style={styles.body}>
                 <Text style={styles.sectionTitle}>First Name</Text>
                 <TextInput
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ firstName: e.nativeEvent.text });
@@ -101,6 +104,9 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Last Name</Text>
                 <TextInput
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ lastName: e.nativeEvent.text });
@@ -109,6 +115,10 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Sunet (No @stanford.edu)</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       onChange={(e) => {
                           this.setState({ sunet: e.nativeEvent.text });
@@ -117,6 +127,10 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Student ID (Number)</Text>
                 <TextInput
+                      autoCapitalize={'none'}
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      spellCheck={false}
                       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                       keyboardType={'number-pad'}
                       onChange={(e) => {

@@ -12,5 +12,5 @@ __pycache__
 *.xcworkspacedata
 *.lock
 *.pbxproj
-.expo
+*.expo
 .vscode

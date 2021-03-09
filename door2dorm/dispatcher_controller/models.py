@@ -45,9 +45,9 @@ class Ride(models.Model):
         return "Ride made."
 
     @classmethod
-    def create(cls, sunet, current_location, destination, num_passengers, safety_lvl):
+    def create(cls, sunet, current_location, destination, num_passengers, safety_lvl, cur_lat, cur_long):
         return cls(sunet=sunet, current_location=current_location, destination=destination, num_passengers=num_passengers,
-                safety_lvl=safety_lvl)
+                safety_lvl=safety_lvl, current_lat=cur_lat, current_long=cur_long)
 class Driver(models.Model):
     # TOTHINK: Should we add a driver id field (for this db) ?
     first_name = models.CharField(max_length=30, default="first")

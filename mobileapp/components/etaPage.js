@@ -7,8 +7,9 @@ import {
   Alert,
   View,
   StyleSheet,
+  Dimensions
 } from 'react-native';
-
+import MapView from 'react-native-maps';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
@@ -36,6 +37,21 @@ class EtaPage extends React.Component {
   render() {
     return (
       <View style={styles.body}>
+        <MapView
+        initialRegion={{
+          latitude: this.props.curLat,
+          longitude: this.props.curLong,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+         style = {styles.map}
+         showsUserLocation = {true}
+         followUserLocation = {false}
+         zoomEnabled = {true}
+      />
+        <Text style={styles.sectionTitle}>Your current latitude is {this.props.curLat}.</Text>
+        <Text style={styles.sectionTitle}>Your current longitude is {this.props.curLong}. </Text>
+
         <Text style={styles.sectionTitle}>There are currently {this.state.queuePosition} ahead of you in the queue</Text>
         <Text style={styles.sectionTitle}>You have an estimated {this.state.timeLeft} minutes before 5-SURE arrives</Text>
         <Button
@@ -56,7 +72,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '600',
         color: Colors.black,
-      }
+      },
+      map: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height/2,
+      },
 });
 
 export default EtaPage;
