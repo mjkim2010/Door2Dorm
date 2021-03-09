@@ -34,17 +34,17 @@ class DropOffPage extends React.Component {
         <>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              style={styles.scrollView}>
-              
+            <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Drop off {this.state.student} at {this.state.location}</Text>
-                <Button
-                    onPress={this.droppedOff}
-                    title="Successfully Dropped Off"
-                    accessibilityLabel="Dropped Off"
-                />
-            </ScrollView>
+                <View style={styles.buttonContainer}>
+                  <Button
+                      onPress={this.droppedOff}
+                      title="Successfully Dropped Off"
+                      accessibilityLabel="Dropped Off"
+                      color='#55D7F5'
+                  />
+                </View>
+            </View>
           </SafeAreaView>
         </>
       );
@@ -52,6 +52,10 @@ class DropOffPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
+    container: {
+      justifyContent: 'center',
+      height: '100%'
+    },
     sectionTitle: {
       textAlign: 'center',
       marginHorizontal: 32,
@@ -59,6 +63,11 @@ class DropOffPage extends React.Component {
       fontSize: 24,
       fontWeight: '600',
       color: Colors.black,
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      justifyContent:"flex-start",
+      alignItems: 'center',
     },
   });
   

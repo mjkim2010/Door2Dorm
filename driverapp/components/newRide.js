@@ -38,22 +38,24 @@ class NewRidePage extends React.Component {
         <>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              style={styles.scrollView}>
-              
+            <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Select Option</Text>
-                <Button
-                    onPress={this.newRide}
-                    title="New Ride"
-                    accessibilityLabel="New Ride"
-                />
-                <Button
-                    onPress={this.logout}
-                    title="Log Off"
-                    accessibilityLabel="Log Off"
-                />
-            </ScrollView>
+                <View style={styles.buttonContainer}> 
+                  <Button
+                      onPress={this.newRide}
+                      title="New Ride"
+                      accessibilityLabel="New Ride"
+                      color='#55D7F5'
+                  />
+                  <View style={styles.separator} />
+                  <Button
+                      onPress={this.logout}
+                      title="Log Off"
+                      accessibilityLabel="Log Off"
+                      color='#55D7F5'
+                  />
+                </View>
+            </View>
           </SafeAreaView>
         </>
       );
@@ -61,6 +63,10 @@ class NewRidePage extends React.Component {
   }
   
   const styles = StyleSheet.create({
+    container: {
+      justifyContent: 'center',
+      height: '100%'
+    },
     sectionTitle: {
       textAlign: 'center',
       marginHorizontal: 32,
@@ -68,6 +74,15 @@ class NewRidePage extends React.Component {
       fontSize: 24,
       fontWeight: '600',
       color: Colors.black,
+    },
+    separator: {
+      marginVertical: 8,
+      borderBottomColor: '#737373',
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      justifyContent:"flex-start",
+      alignItems: 'center',
     },
   });
   

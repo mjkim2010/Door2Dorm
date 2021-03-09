@@ -9,6 +9,7 @@ import {
     StatusBar,
     Button,
     Image,
+    View,
   } from 'react-native';
   
   import {
@@ -42,6 +43,7 @@ class RegisterPage extends React.Component {
         <>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
+            <ScrollView>
                 <Text style={styles.title}>Register</Text>
                 
                 <Text style={styles.sectionTitle}>First Name</Text>
@@ -79,18 +81,24 @@ class RegisterPage extends React.Component {
                         this.setState({ password: e.nativeEvent.text });
                     }}
                 />
-                <Button
-                    style={styles.button}
-                    onPress={this.register}
-                    title="Register"
-                    accessibilityLabel="Register"
-                />
-                <Button
-                    style={styles.button}
-                    onPress={this.switchToLogin}
-                    title="Already Have an Account? Login"
-                    accessibilityLabel="Login"
-                />
+                <View style={styles.buttonContainer}>
+                  <Button
+                      style={styles.button}
+                      onPress={this.register}
+                      title="Register"
+                      accessibilityLabel="Register"
+                      color='#55D7F5'
+                  />
+                  <View style={styles.separator} />
+                  <Button
+                      style={styles.button}
+                      onPress={this.switchToLogin}
+                      title="Already Have an Account? Login"
+                      accessibilityLabel="Login"
+                      color='#55D7F5'
+                  />
+                </View> 
+              </ScrollView>
           </SafeAreaView>
         </>
       );
@@ -112,9 +120,18 @@ class RegisterPage extends React.Component {
         marginVertical: 32,
     },
     sectionTitle: {
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: '600',
       color: Colors.black,
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      justifyContent:"flex-start",
+      alignItems: 'center',
+    },
+    separator: {
+      marginVertical: 8,
+      borderBottomColor: '#737373',
     },
   });
   

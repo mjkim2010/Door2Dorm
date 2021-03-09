@@ -7,6 +7,7 @@ import {
     Button,
     Text,
     StatusBar,
+    View,
   } from 'react-native';
   
   import {
@@ -36,32 +37,39 @@ class LoginPage extends React.Component {
       return (
         <>
           <StatusBar barStyle="dark-content" />
-          <SafeAreaView>
-            <Text style={styles.title}>Login</Text>
-            <Text style={styles.sectionTitle}>Student ID</Text>
-            <TextInput
-                style={styles.textInput}
-                onChange={(e) => {
-                    this.setState({ studentID: e.nativeEvent.text });
-                }}
-            />
-            <Text style={styles.sectionTitle}>Password</Text>
-            <TextInput
-                style={styles.textInput}
-                onChange={(e) => {
-                    this.setState({ password : e.nativeEvent.text });
-                }}
-            />
-            <Button
-                onPress={this.login}
-                title="Login"
-                accessibilityLabel="Login"
-            />
-            <Button
-                onPress={this.switchToRegister}
-                title="Don't Have an Account? Register"
-                accessibilityLabel="Register"
-            />
+          <SafeAreaView style={styles.container}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>Login</Text>
+              <Text style={styles.sectionTitle}>Student ID</Text>
+              <TextInput
+                  style={styles.textInput}
+                  onChange={(e) => {
+                      this.setState({ studentID: e.nativeEvent.text });
+                  }}
+              />
+              <Text style={styles.sectionTitle}>Password</Text>
+              <TextInput
+                  style={styles.textInput}
+                  onChange={(e) => {
+                      this.setState({ password : e.nativeEvent.text });
+                  }}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                  onPress={this.login}
+                  title="Login"
+                  accessibilityLabel="Login"
+                  color='#55D7F5'
+              />
+              <View style={styles.separator} />
+              <Button
+                  onPress={this.switchToRegister}
+                  title="Don't Have an Account? Register"
+                  accessibilityLabel="Register"
+                  color='#55D7F5'
+              />
+            </View>
           </SafeAreaView>
         </>
       );
@@ -69,11 +77,6 @@ class LoginPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
-    image: {
-        flex: 1,
-        resizeMode: "cover",
-        justifyContent: "center"
-    },
     textInput: { 
         height: 40, 
         borderColor: 'gray', 
@@ -91,6 +94,15 @@ class LoginPage extends React.Component {
         fontWeight: '600',
         color: Colors.black,
         marginVertical: 32,
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      justifyContent:"flex-start",
+      alignItems: 'center',
+    },
+    separator: {
+      marginVertical: 8,
+      borderBottomColor: '#737373',
     },
   });
   

@@ -40,22 +40,25 @@ class PickUpPage extends React.Component {
         <>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              style={styles.scrollView}>
+            <View style={styles.container}>
               
                 <Text style={styles.sectionTitle}>Pick up {this.state.student} at {this.state.location}</Text>
-                <Button
-                    onPress={this.pickedUp}
-                    title="Successfully Picked Up"
-                    accessibilityLabel="Pick Up"
-                />
-                <Button
-                    onPress={this.call}
-                    title="Call"
-                    accessibilityLabel="Call"
-                />
-            </ScrollView>
+                <View style={styles.buttonContainer}> 
+                  <Button
+                      onPress={this.pickedUp}
+                      title="Successfully Picked Up"
+                      accessibilityLabel="Pick Up"
+                      color='#55D7F5'
+                  />
+                  <View style={styles.separator} />
+                  <Button
+                      onPress={this.call}
+                      title="Call"
+                      accessibilityLabel="Call"
+                      color='#55D7F5'
+                  />
+                </View>
+            </View>
           </SafeAreaView>
         </>
       );
@@ -63,6 +66,10 @@ class PickUpPage extends React.Component {
   }
   
   const styles = StyleSheet.create({
+    container: {
+      justifyContent: 'center',
+      height: '100%'
+    },
     sectionTitle: {
       textAlign: 'center',
       marginHorizontal: 32,
@@ -70,6 +77,15 @@ class PickUpPage extends React.Component {
       fontSize: 24,
       fontWeight: '600',
       color: Colors.black,
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      justifyContent:"flex-start",
+      alignItems: 'center',
+    },
+    separator: {
+      marginVertical: 8,
+      borderBottomColor: '#737373',
     },
   });
   
