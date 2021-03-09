@@ -15,19 +15,23 @@ import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
 
-class DropOffPage extends React.Component {
+class NewRidePage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        student: "Jake Wagner",
-        location: "Suites",
       };
-      this.droppedOff = this.droppedOff.bind(this);
+      this.newRide = this.newRide.bind(this);
+      this.logout = this.logout.bind(this);
     }
 
-    droppedOff() {
-        this.props.history.push("/newRide");
+    newRide() {
+      this.props.history.push("/loading")
     }
+
+    logout() {
+      this.props.history.push("/")
+    }
+
 
     render() {
       return (
@@ -38,11 +42,16 @@ class DropOffPage extends React.Component {
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               
-                <Text style={styles.sectionTitle}>Drop off {this.state.student} at {this.state.location}</Text>
+                <Text style={styles.sectionTitle}>Select Option</Text>
                 <Button
-                    onPress={this.droppedOff}
-                    title="Successfully Dropped Off"
-                    accessibilityLabel="Dropped Off"
+                    onPress={this.newRide}
+                    title="New Ride"
+                    accessibilityLabel="New Ride"
+                />
+                <Button
+                    onPress={this.logout}
+                    title="Log Off"
+                    accessibilityLabel="Log Off"
                 />
             </ScrollView>
           </SafeAreaView>
@@ -62,5 +71,5 @@ class DropOffPage extends React.Component {
     },
   });
   
-  export default DropOffPage;
+  export default NewRidePage;
   
