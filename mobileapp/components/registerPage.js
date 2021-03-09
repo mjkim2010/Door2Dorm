@@ -93,7 +93,6 @@ class RequestPage extends React.Component {
           <View style={styles.body}>
                 <Text style={styles.sectionTitle}>First Name</Text>
                 <TextInput
-                      autoCapitalize={'none'}
                       autoCompleteType={'off'}
                       autoCorrect={false}
                       spellCheck={false}
@@ -105,7 +104,6 @@ class RequestPage extends React.Component {
 
                 <Text style={styles.sectionTitle}>Last Name</Text>
                 <TextInput
-                      autoCapitalize={'none'}
                       autoCompleteType={'off'}
                       autoCorrect={false}
                       spellCheck={false}

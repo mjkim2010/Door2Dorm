@@ -36,12 +36,12 @@ class RequestPage extends React.Component {
 
   async getLocationAsync() {
     // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
-    } else {
-      console.log('Location permission not granted\n');
-    }
+    let perm;
+    while (!perm || perm.status !== 'granted')
+      {
+        perm = await Permissions.askAsync(Permissions.LOCATION);
+      }
+    return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
   }
 
   logoutButton() {
@@ -65,8 +65,12 @@ class RequestPage extends React.Component {
         alert("Double check your safety level is a digit between 1 and 9")
     } else {
       var sunet = await ReadItem("sunet"); // promise, wait for this value
-
       let curLocation = this.getLocationAsync();
+      if (!curLocation)
+        {
+          alert("Cannot access your location.\n");
+          return;
+        }
 
       // TODO: remove current_loc
       let body = {
