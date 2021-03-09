@@ -30,7 +30,7 @@ class RegisterPage extends React.Component {
     }
 
     register() {
-        this.props.history.push("/pickup")
+        this.props.history.push("/newRide")
     }
 
     switchToLogin() {

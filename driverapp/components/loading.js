@@ -22,6 +22,14 @@ class LoadingPage extends React.Component {
       this.state = {
       };
       this.logout = this.logout.bind(this);
+      this.componentDidMount = this.componentDidMount.bind(this);
+    }
+
+    componentDidMount() {
+      setTimeout(function(history) {
+        console.log(history);
+        history.push("/pickup");
+      }, 4000, this.props.history);
     }
 
     logout() {

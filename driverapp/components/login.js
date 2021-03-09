@@ -29,7 +29,7 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        this.props.history.push("/pickup");
+        this.props.history.push("/newRide");
     }
 
     render() {
