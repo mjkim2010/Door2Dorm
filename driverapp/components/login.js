@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
         <>
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
-            <ScrollView
+            <ScrollView>
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               

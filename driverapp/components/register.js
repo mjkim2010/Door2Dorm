@@ -8,6 +8,7 @@ import {
     Text,
     StatusBar,
     Button,
+    Image,
   } from 'react-native';
   
   import {
@@ -46,6 +47,7 @@ class RegisterPage extends React.Component {
               style={styles.scrollView}>
               
                 <Text style={styles.sectionTitle}>Register</Text>
+                
                 <Text style={styles.sectionTitle}>First Name</Text>
                 <TextInput
                     style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
