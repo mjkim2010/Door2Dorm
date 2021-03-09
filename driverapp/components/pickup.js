@@ -22,15 +22,15 @@ class PickUpPage extends React.Component {
         student: "Jake Wagner",
         location: "Florence Moore Hall",
       };
-      this.switchToRegister = this.switchToRegister.bind(this);
-      this.login = this.login.bind(this);
+      this.pickedUp = this.pickedUp.bind(this);
+      this.call = this.call.bind(this);
     }
 
-    switchToRegister() {
+    pickedUp() {
         this.props.history.push("/register");
     }
 
-    login() {
+    call() {
         this.props.history.push("/pickup");
     }
 
@@ -45,12 +45,12 @@ class PickUpPage extends React.Component {
               
                 <Text style={styles.sectionTitle}>Pickup {this.state.student} at {this.state.location}</Text>
                 <Button
-                    onPress={this.login}
+                    onPress={this.pickedUp}
                     title="Successfully Picked Up"
                     accessibilityLabel="Pick Up"
                 />
                 <Button
-                    onPress={this.switchToRegister}
+                    onPress={this.call}
                     title="Call"
                     accessibilityLabel="Call"
                 />
