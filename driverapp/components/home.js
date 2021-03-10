@@ -56,8 +56,7 @@ class HomePage extends React.Component {
       backgroundColor: 'white',
       alignItems:'center',
       justifyContent:'center',
-      flex:1,
-      paddingTop: 600
+      height: '100%'
     },
     body: {
       alignSelf: 'center',
