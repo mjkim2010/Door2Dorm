@@ -50,20 +50,20 @@ class StudentViewSet(viewsets.ModelViewSet):
             url_path='cr-student', url_name='create_student')
     def cr_student_func(self, request, pk=None):
         print(json.loads(request.body.decode("utf-8")))
-        student_id = get_value("student_id", 'int', request)
         sunet = get_value("sunet", 'str', request)
         first = get_value("first", 'str', request)
         last = get_value("last", 'str', request)
         email = get_value("email", 'str', request)
         phone = get_value("phone", 'int', request)
+        password = get_value("password", 'str', request)
 
         student = Student.create(
-            student_id,
             sunet,
             first,
             last,
             email,
-            phone
+            phone,
+            password
         )
         student.save()
         serializer = StudentSerializer(student)
@@ -87,13 +87,21 @@ class RideViewSet(viewsets.ModelViewSet):
             url_path='cr-ride', url_name='create_ride')
     def cr_ride_func(self, request, pk=None):
         sunet = get_value("sunet", "str", request)
+        student = Student.objects.get(sunet=sunet) #TODO: add a check to make sure the student exists in the database
         current_loc = get_value("current_loc", 'str', request)
         dest = get_value("destination", 'str', request)
         num_riders = get_value("num_riders", 'int', request)
         safety_level = get_value("safety_level", 'int', request)
         cur_lat = get_value("cur_lat", 'float', request)
         cur_long = get_value("cur_long", 'float', request)
-        ride = Ride.create(sunet, current_loc, dest, num_riders, safety_level, cur_lat, cur_long)
+        ride = Ride.create(
+            student, 
+            current_loc, 
+            dest, 
+            num_riders, 
+            safety_level, 
+            cur_lat, 
+            cur_long)
         ride.save()
         serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)
