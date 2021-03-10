@@ -11,17 +11,17 @@ class Student(models.Model):
     password = models.CharField(max_length=30)
 
     def __str__(self):
-        return "Student with Student ID {} made.".format(self.student_id) 
+        return "Student with Student ID {} made.".format(self.sunet) 
 
     @classmethod
-    def create(cls, sid, sunet, first, last, email, phone):
-        return cls(sunet = sunet, first_name = first, last_name = last, email = email, phone = phone)
+    def create(cls, sunet, first, last, email, phone, password):
+        return cls(sunet = sunet, first_name = first, last_name = last, email = email, phone = phone, password = password)
 
 
 class Ride(models.Model):
-    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING, default=1)
-    current_address= models.CharField(max_length=30)
-    destination_address = models.CharField(max_length=30)
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
+    current_address= models.CharField(max_length=150)
+    destination_address = models.CharField(max_length=150)
     current_lat = models.FloatField(default = 38.2393)
     current_long = models.FloatField(default = -85.7598)
     dest_lat = models.FloatField(default = 37.4254)
@@ -38,32 +38,41 @@ class Ride(models.Model):
         return "Ride made."
 
     @classmethod
-    def create(cls, current_location, destination, num_passengers, safety_lvl):
-        return cls(current_location=current_location, destination=destination, num_passengers=num_passengers,
-                safety_lvl=safety_lvl)
+    def create(cls, student, start_address, end_address, num_passengers, safety_lvl, cur_lat, cur_long):
+        return cls(
+            student = student,
+            current_address = start_address,
+            destination_address = end_address,
+            num_passengers = num_passengers,
+            safety_lvl = safety_lvl,
+            current_lat = cur_lat,
+            currend_long = cur_long)
         
 class Driver(models.Model):
+    #this is the id
+    driver_license = models.CharField(max_length=30, default="FAKE980")
     first_name = models.CharField(max_length=30, default="first")
     last_name = models.CharField(max_length=30, default="last")
-    license_plate = models.CharField(max_length=30, null = True, blank = True)
     email = models.EmailField(max_length=30, default="fake@fake.com")
     phone = models.PositiveIntegerField(default = 6503339999)
-    driver_license = models.CharField(max_length=30, default="first")
+    password = models.CharField(max_length=30)
+    
+    #if blank, driver is not active.
+    license_plate = models.CharField(max_length=30, null = True, blank = True)
     
     #contain list of location objects
-    route = models.TextField(default = '[]')
+    route = models.TextField(default = '[]', null=True, blank=True)
     
     #current location of the car
-    current_lat = models.FloatField(default = 38.2393)
-    current_long = models.FloatField(default = -85.7598)
+    current_lat = models.FloatField(default = 38.2393, null=True, blank=True)
+    current_long = models.FloatField(default = -85.7598, null=True, blank=True)
     
-
     def __str__(self):
         return self.first_name + " " + self.last_name
-
+    
     @classmethod
-    def create(cls, first_name, last_name, email, phone, driver_license):
-        return cls(first_name=first_name, last_name=last_name, email=email, phone=phone, driver_license=driver_license)
+    def create(cls, dl, first, last, email, phone, password):
+        return cls(driver_license = dl, first_name = first, last_name = last, email = email, phone = phone, password = password)
     
 class location(models.Model):
     #True, driver goes to picked_up location. False, driver goes to dropped_off location.
