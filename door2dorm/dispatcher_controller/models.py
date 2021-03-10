@@ -15,11 +15,11 @@ class Student(models.Model):
 
     @classmethod
     def create(cls, sid, sunet, first, last, email, phone):
-        return cls(student_id = sid, sunet = sunet, first_name = first, last_name = last, email = email, phone = phone)
+        return cls(sunet = sunet, first_name = first, last_name = last, email = email, phone = phone)
 
 
 class Ride(models.Model):
-    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
+    student = models.ForeignKey(Student, on_delete = models.DO_NOTHING, default=1)
     current_address= models.CharField(max_length=30)
     destination_address = models.CharField(max_length=30)
     current_lat = models.FloatField(default = 38.2393)
@@ -58,9 +58,12 @@ class Driver(models.Model):
     current_long = models.FloatField(default = -85.7598)
     
 
-
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+    @classmethod
+    def create(cls, first_name, last_name, email, phone, driver_license):
+        return cls(first_name=first_name, last_name=last_name, email=email, phone=phone, driver_license=driver_license)
     
 class location(models.Model):
     #True, driver goes to picked_up location. False, driver goes to dropped_off location.
