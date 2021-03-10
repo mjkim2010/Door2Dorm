@@ -48,7 +48,7 @@ class Driver(models.Model):
     license_plate = models.CharField(max_length=30, null = True, blank = True)
     email = models.EmailField(max_length=30, default="fake@fake.com")
     phone = models.PositiveIntegerField(default = 6503339999)
-    driver_licence = models.CharField(max_length=30, default="first")
+    driver_license = models.CharField(max_length=30, default="first")
     
     #contain list of location objects
     route = models.TextField(default = '[]')
