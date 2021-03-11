@@ -25,6 +25,7 @@ const RequestPage = (props) => {
   const [originLong, setOriginLong] = useState("");
   const [destLat, setDestLat] = useState("");
   const [destLong, setDestLong] = useState("");
+  const [cnt, increment] = useState(0);
 
   const mapView = () => {
     return (
@@ -44,6 +45,10 @@ const RequestPage = (props) => {
         {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
       </MapView>
     );
+  }
+
+  const forceUpdate = () => {
+    increment (cnt + 1);
   }
   
   const pin = (name, lat, long, onDragEndHandler) => {
@@ -84,6 +89,7 @@ const RequestPage = (props) => {
       const location = locations[0];
       setLatFunc(location.latitude);
       setLongFunc(location.longitude);
+      forceUpdate();
     }
   }
 
