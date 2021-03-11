@@ -14,7 +14,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 
-class RequestPage extends React.Component {
+class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,11 +32,15 @@ class RequestPage extends React.Component {
         emailAddress: "",
 
     };
-    this.submitButton = this.submitButton.bind(this);
+    this.register = this.register.bind(this);
+    this.switchToLogin = this.switchToLogin.bind(this);
   }
 
-  submitButton() {
+  switchToLogin() {
+    this.props.history.push("/loginRider")
+  }
 
+  register() {
     var stuID = /^\d{8}$/;
     var phoneno = /^\d{10}$/;
     let url = 'http://127.0.0.1:8000/students/placeholder/cr-student/'; // append slash required by Django
@@ -62,8 +66,8 @@ class RequestPage extends React.Component {
         "student_id": this.state.studentId,
         "phone": this.state.phoneNumber,
       }
-      // TODO: Once fully connected need to move this.props.onLogin() to the success .then portion so we only move you with a successful request.
-      this.props.onLogin(body);
+      // TODO: Once fully connected need to move this.props.history.push() to the success .then portion so we only move you with a successful request.
+      this.props.history.push("/rideRequest");
       let payload =  {
         first: this.state.firstName,
         last: this.state.lastName,
@@ -181,11 +185,19 @@ class RequestPage extends React.Component {
                           this.setState({ emailAddress: e.nativeEvent.text });
                       }}
                 /> */}
-
                 <Button
-                      title="Register"
-                      onPress={this.submitButton}
+                  onPress={this.register}
+                  title="Register"
+                  accessibilityLabel="Register"
+                  color='#55D7F5'
                 />
+                <Button
+                      style={styles.button}
+                      onPress={this.switchToLogin}
+                      title="Already Have an Account? Login"
+                      accessibilityLabel="Login"
+                      color='#55D7F5'
+                  />
           </View>
     );
   }
@@ -202,4 +214,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default RequestPage;
+export default RegisterPage;
