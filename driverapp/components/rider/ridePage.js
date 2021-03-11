@@ -119,7 +119,6 @@ const RequestPage = (props) => {
       alert("Double check your safety level is a digit between 1 and 9")
     }
 
-    // Add verification for origin and dest (that the corresponding lat and longs are set for each)
   }
 
   const requestButton = async (setLat, setLong) => {
