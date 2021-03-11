@@ -6,11 +6,13 @@ import {
   Alert,
   View,
   StyleSheet,
+  Dimensions
 } from 'react-native';
 import axios from 'axios';
 import { ReadItem } from "./databaseHelper";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 import * as Permissions from 'expo-permissions';
 import { LocationContext } from '../locationContext.js';
 
@@ -23,6 +25,41 @@ const RequestPage = (props) => {
   const [originLong, setOriginLong] = useState("");
   const [destLat, setDestLat] = useState("");
   const [destLong, setDestLong] = useState("");
+
+  const mapView = () => {
+    return (
+      <MapView
+        initialRegion={{
+          latitude: 37.764955,
+          longitude: -122.419817,
+          latitudeDelta: 0.0122,
+          longitudeDelta: 0.0121,
+        }}
+        style = {styles.map}
+        // showsUserLocation = {true}
+        followUserLocation = {false}
+        zoomEnabled = {true}
+      >
+        {originLat && originLong ? pin ("Origin", originLat, originLong, onDragEndOrigin) : null}
+        {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
+      </MapView>
+    );
+  }
+  
+  const pin = (name, lat, long, onDragEndHandler) => {
+    return (
+      <MapView.Marker 
+        draggable={true}
+        coordinate={{
+          latitude: lat,
+          longitude: long,
+        }}
+        title={name}
+        onDragEnd={onDragEndHandler}
+        onEndEditing
+      />
+    );
+  }
 
   const getPermission = async() => {
     let perm;
@@ -38,32 +75,34 @@ const RequestPage = (props) => {
     return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
   }
 
-  const convertOriginToLatLong = async () => {
+  const convertToLatLong = async (name, setLatFunc, setLongFunc) => {
     getPermission();
     const locations = await Location.geocodeAsync(origin);
     if (!locations || locations.length == 0) {
-      alert("Please enter a valid pickup address.\n");
+      alert(`Please enter a valid ${name} address.\n`);
     } else {
       const location = locations[0];
-      setOriginLat((await location).latitude);
-      setOriginLong((await location).longitude);
+      setLatFunc(location.latitude);
+      setLongFunc(location.longitude);
     }
-
-    // Add pin
-
   }
 
-  const convertDestinationToLatLong = async () => {
-    getPermission();
-    const locations = await Location.geocodeAsync(dest);
-    if (!locations || locations.length == 0) {
-      alert("Please enter a valid dropoff address.\n");
-    } else {
-      const location = locations[0];
-      setDestLat((await location).latitude);
-      setDestLong((await location).longitude);
-    }
-    // Add pin
+  const onDragEndDest = async (e) => {
+    const coord = e.nativeEvent.coordinate;
+    const addrs = await Location.reverseGeocodeAsync(coord);
+    setDestLat(coord.latitude);
+    setDestLong(coord.longitude);
+    const addr = addrs[0];
+    setDest(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
+  }
+
+  const onDragEndOrigin = async (e) => {
+    const coord = e.nativeEvent.coordinate;
+    const addrs = await Location.reverseGeocodeAsync(coord);
+    setOriginLat(coord.latitude);
+    setOriginLong(coord.longitude);
+    const addr = addrs[0];
+    setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
 
   const verify = () => {
@@ -99,16 +138,11 @@ const RequestPage = (props) => {
       num_riders: numRiders,
       safety_level: safetyLevel,
       origin: origin,
-      // To be deleted
-      origin_lat: (await curLocation).coords.latitude,
-      origin_long: (await curLocation).coords.longitude,
-      // origin_lat: originLat,
-      // origin_long: originLong,
+      origin_lat: originLat,
+      origin_long: originLong,
       dest: dest,
-      dest_lat: 3,
-      dest_long: 4,
-      // dest_lat: destLat, 
-      // dest_long: destLong,
+      dest_lat: destLat, 
+      dest_long: destLong,
     };
 
     setLat(body.origin_lat);
@@ -131,22 +165,6 @@ const RequestPage = (props) => {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.sectionTitle}>Pickup Address</Text>
-      <TextInput
-        value={origin}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setOrigin (e.nativeEvent.text)}
-        onEndEditing={() => convertOriginToLatLong()}
-      />
-      <Text style={styles.sectionTitle}>Dropoff Address</Text>
-      <TextInput
-        value={dest}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setDest (e.nativeEvent.text)}
-        onEndEditing={() => convertDestinationToLatLong()}
-      />
       <Text style={styles.sectionTitle}>Number of Riders</Text>
       <TextInput
         style={styles.textInput}
@@ -160,6 +178,24 @@ const RequestPage = (props) => {
         keyboardType={'number-pad'}
         onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
       />
+      <Text style={styles.sectionTitle}>Pickup Address</Text>
+      <TextInput
+        value={origin}
+        props={commonProps}
+        style={styles.textInput}
+        onChange={(e) => setOrigin (e.nativeEvent.text)}
+        onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
+      />
+      <Text style={styles.sectionTitle}>Dropoff Address</Text>
+      <TextInput
+        value={dest}
+        props={commonProps}
+        style={styles.textInput}
+        onChange={(e) => setDest (e.nativeEvent.text)}
+        onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
+      />
+      {mapView ()}
+      
       <LocationContext.Consumer>
       {({ setLat, setLong }) => {
           return (<Button
@@ -201,7 +237,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: Colors.black,
-  }
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height/2.5,
+  },
 });
 
 export default RequestPage;

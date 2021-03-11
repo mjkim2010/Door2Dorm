@@ -11,6 +11,5 @@ __pycache__
 *migrations/*
 *.xcworkspacedata
 *.lock
-*.pbxproj
 *.expo
 .vscode
