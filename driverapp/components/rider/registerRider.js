@@ -14,7 +14,6 @@ import {
 
 
 const RegisterPage = (props) => {
-  // const register = props.register.bind(this);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [sunet, setSunet] = useState("");

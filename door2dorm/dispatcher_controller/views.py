@@ -87,12 +87,15 @@ class RideViewSet(viewsets.ModelViewSet):
 
         ride = Ride.create(
             student, 
-            current_loc, 
-            dest, 
             num_riders, 
             safety_level, 
-            cur_lat, 
-            cur_long)
+            origin, 
+            origin_lat, 
+            origin_long, 
+            dest,
+            dest_lat,
+            dest_long
+        )
         ride.save()
         serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)
