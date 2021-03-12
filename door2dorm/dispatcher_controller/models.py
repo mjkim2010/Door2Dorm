@@ -73,7 +73,6 @@ class Driver(models.Model):
     @classmethod
     def create(cls, dl, first, last, email, phone, password):
         return cls(driver_license = dl, first_name = first, last_name = last, email = email, phone = phone, password = password)
-
     
 class location(models.Model):
     #True, driver goes to picked_up location. False, driver goes to dropped_off location.

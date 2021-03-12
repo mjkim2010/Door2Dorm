@@ -35,21 +35,13 @@ def get_value(name, val_type, request):
     
 
 class StudentViewSet(viewsets.ModelViewSet):
-    # CommentTag: MAKE_POST
     permission_classes = (permissions.AllowAny,)
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
 
-    # TODO: 
-    # CommentTag: MAKE_POST (Search for this and you can find residual code where I attempted at this)
-    # Make this a 'post'. Is that necessary? 
-    # If we simply get axios.get() from requestPage.js on the webapp side,
-    # we get a status code 405. Will probably need to play around with
-    # rest_framework.permissions
     @action(methods=['post'], detail=True,
             url_path='cr-student', url_name='create_student')
     def cr_student_func(self, request, pk=None):
-        print(json.loads(request.body.decode("utf-8")))
         sunet = get_value("sunet", 'str', request)
         first = get_value("first", 'str', request)
         last = get_value("last", 'str', request)
@@ -70,19 +62,10 @@ class StudentViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=201)
 
 class RideViewSet(viewsets.ModelViewSet):
-    # CommentTag: MAKE_POST
     permission_classes = (permissions.AllowAny,)
     serializer_class = RideSerializer
     queryset = Ride.objects.all()
 
-    # TODO: 
-    # CommentTag: MAKE_POST (Search for this and you can find residual code where I attempted at this)
-    # Make this a 'post'. Is that necessary? 
-    # If we simply get axios.get() from requestPage.js on the webapp side,
-    # we get a status code 405. Will probably need to play around with
-    # rest_framework.permissions
-
-    # Currently, we can hack this function this create both the student and the ride at the same time
     @action(methods=['post'], detail=True,
             url_path='cr-ride', url_name='create_ride')
     def cr_ride_func(self, request, pk=None):
@@ -104,6 +87,32 @@ class RideViewSet(viewsets.ModelViewSet):
             cur_long)
         ride.save()
         serializer = RideSerializer(ride)
+        return Response(serializer.data, status=201)
+
+class DriverViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = DriverSerializer 
+    queryset = Driver.objects.all()
+
+    @action(methods=['post'], detail=True,
+            url_path='cr-driver', url_name='create_driver')
+    def cr_driver_func(self, request, pk=None):
+        first = get_value("first", 'str', request)
+        last = get_value("last", 'str', request)
+        email = get_value("email", 'str', request)
+        phone = get_value("phone", 'int', request)
+        dl = get_value("license", 'str', request)
+        pwd = get_value("password", 'str', request)
+
+        driver = Driver.create(dl,
+            first,
+            last,
+            email,
+            phone,
+            pwd)
+
+        driver.save()
+        serializer = DriverSerializer(driver)
         return Response(serializer.data, status=201)
 
 def dispatcher(request):
