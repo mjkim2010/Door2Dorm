@@ -46,7 +46,7 @@ class Ride(models.Model):
             num_passengers = num_passengers,
             safety_lvl = safety_lvl,
             current_lat = cur_lat,
-            currend_long = cur_long)
+            current_long = cur_long)
         
 class Driver(models.Model):
     #this is the id
