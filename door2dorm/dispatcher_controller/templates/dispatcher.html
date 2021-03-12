@@ -12,6 +12,8 @@
 <table class="styled-table">
     <thead>
         <tr class="ride-in-progress">
+            <th> Name </th>
+            <th> Sunet </th>
             <th> From </th>
             <th> To </th>
             <th> Carpool </th>
@@ -23,8 +25,10 @@
         {% for ride in rides %}
             {% if ride.assigned == 1 %}
             <tr class="rip-bottom-border">
-                <td> {{ ride.current_location }} </td>
-                <td> {{ ride.destination }} </td>
+                <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td>
+                <td> {{ ride.student.sunet }} </td>
+                <td> {{ ride.current_address }} </td>
+                <td> {{ ride.destination_address }} </td>
                 <td> {{ ride.num_passengers }} </td>
                 <td> {{ ride.picked_up }} </td>
                 <td> {{ ride.dropped_off }} </td>
@@ -39,6 +43,8 @@
 <table class="styled-table">
     <thead>
         <tr class="queue">
+            <th> Name </th>
+            <th> Sunet </th>
             <th> From </th>
             <th> To </th>
             <th> Carpool </th>
@@ -51,8 +57,10 @@
         {% for ride in rides %}
             {% if ride.assigned == -1 %}
             <tr class="q-bottom-border">
-                <td> {{ ride.current_location }} </td>
-                <td> {{ ride.destination }} </td>
+                <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td>
+                <td> {{ ride.student.sunet }} </td>
+                <td> {{ ride.current_address }} </td>
+                <td> {{ ride.destination_address }} </td>
                 <td> {{ ride.num_passengers }} </td>
                 <td> {{ ride.priority }} </td>
                 <td> {{ ride.safety_lvl }} </td>
@@ -72,7 +80,8 @@
             <th> Currently Driving </th>
             <th> Email </th>
             <th> Phone </th>
-            <th> Serving </th>
+            <th> Driver License </th>
+            <th> Current Location </th>
         </tr>
     </thead>
     <tbody>
@@ -82,7 +91,8 @@
             <td> {{ driver.license_plate }} </td>
             <td> {{ driver.email }} </td> 
             <td> {{ driver.phone }} </td>
-            <td> {{ driver.student.first_name }} {{ driver.student.last_name }} </td>
+            <td> {{ driver.driver_license }} </td>
+            <td> 40° 26.767′ N 79° 58.933′ W </td>
         </tr>
         {% endfor %}
     </tbody>

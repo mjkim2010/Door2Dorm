@@ -1,20 +1,6 @@
 import React from 'react';
 
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    TextInput,
-    Button,
-    Text,
-    StatusBar,
-    Image,
-    Dimensions,
-  } from 'react-native';
-  import {
-    Colors,
-  } from 'react-native/Libraries/NewAppScreen';
+import { StyleSheet, View, Button, Text, Image, Dimensions } from 'react-native';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -22,11 +8,16 @@ class HomePage extends React.Component {
         this.state = {
 
       };
-      this.enterApp = this.enterApp.bind(this);
+      this.driverEnters = this.driverEnters.bind(this);
+      this.riderEnters = this.riderEnters.bind(this);
     }
 
-    enterApp() {
+    driverEnters() {
       this.props.history.push("/login")
+    }
+
+    riderEnters() {
+      this.props.history.push("/loginRider")
     }
 
     render() {
@@ -39,9 +30,16 @@ class HomePage extends React.Component {
               source={require('../img/Door2Dorm2.png')}
             />
             <Button
+              color='#55D7F5'
               title="I'm a Driver"
-              onPress={this.enterApp}
+              onPress={this.driverEnters}
               accessibilityLabel="I'm a Driver"
+            />
+            <Button
+              color='#55D7F5'
+              title="I'm a Rider"
+              onPress={this.riderEnters}
+              accessibilityLabel="I'm a Rider"
             />
           </View>
         </View>

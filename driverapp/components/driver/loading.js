@@ -45,7 +45,7 @@ class LoadingPage extends React.Component {
               <Text style={styles.text}>Waiting for a ride...</Text>
               <Image
                 style={styles.image}
-                source={require('../img/loading.jpg')}
+                source={require('../../img/loading.jpg')}
               />
               <Button
                 title="Log Out"

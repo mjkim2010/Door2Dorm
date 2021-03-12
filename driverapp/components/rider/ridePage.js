@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import {
   Text,
   TextInput,
@@ -9,18 +9,16 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { ReadItem } from "./databaseHelper";
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { LocationContext } from '../locationContext.js';
 
 class RequestPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         numRiders: "",
-        // TODO: remove currentLoc
         currentLoc: "",
         destination: "",
         safetyLevel: "",
@@ -31,7 +29,8 @@ class RequestPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ studentId: this.props.studentInfo.studentId });
+    // TODO RETRIEVE STUDENTID FROM URL
+    this.setState({ studentId: '06175468' });
   }
 
   async getLocationAsync() {
@@ -45,11 +44,11 @@ class RequestPage extends React.Component {
   }
 
   logoutButton() {
-      this.props.onLogout();
+      this.props.history.push('/loginRider');
   }
 
   // async so that we can handle promise from AsyncStorage
-  async requestButton() {
+  async requestButton(setLat, setLong) {
 
     var numPassengers = /^\d{1}$/;
     var safetyNum = /^\d{1}$/;
@@ -72,7 +71,6 @@ class RequestPage extends React.Component {
           return;
         }
 
-      // TODO: remove current_loc
       let body = {
         // case must match that of backend
         current_loc: this.state.currentLoc,
@@ -83,9 +81,10 @@ class RequestPage extends React.Component {
         cur_lat: (await curLocation).coords.latitude,
         cur_long: (await curLocation).coords.longitude,
       };
-
-      // TODO: Once fully connected need to move this.props.onLogin() to the success .then portion so we only move you with a successful request.
-      this.props.onRequest(body);
+      setLat(body.cur_lat);
+      setLong(body.cur_long);
+      // TODO: Once fully connected need to move this.props.history.push() to the success .then portion so we only move you with a successful request.
+      this.props.history.push('/eta');
       console.log(body);
       axios.post(url, body)
         .then(function(res) {
@@ -103,10 +102,8 @@ class RequestPage extends React.Component {
     }
   }
 
-  // TODO: Need input validation so the values sent over isn't None
   render() {
     return (
-          // TODO: remove 'Current Location'
           <View style={styles.body}>
                 <Text style={styles.sectionTitle}>Current Location</Text>
                 <TextInput
@@ -151,10 +148,18 @@ class RequestPage extends React.Component {
                       }}
                 />
 
-                <Button
+                <LocationContext.Consumer>
+                {({ setLat, setLong }) => {
+                    return (<Button
                       title="Request Ride"
-                      onPress={this.requestButton}
-                />
+                      onPress={() => {
+                        this.requestButton(setLat, setLong)}
+                      }
+                    />)
+                  }
+                }
+                </LocationContext.Consumer>
+                
                 <Button
                     title="Logout"
                     onPress={this.logoutButton}
