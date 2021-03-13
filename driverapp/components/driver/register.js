@@ -101,6 +101,7 @@ class RegisterPage extends React.Component {
             </View>
               <View style={styles.inputView}>
                 <TextInput
+                  autoCapitalize={'none'}
                   autoCompleteType={'off'}
                   autoCorrect={false}
                   spellCheck={false}
