@@ -165,7 +165,7 @@ const RequestPage = (props) => {
     }
   }
 
-  const requestButton = async (setLat, setLong) => {
+  const requestButton = async (setLatLongs) => {
     verify(); 
     const sunet = await ReadItem("sunet");
     const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
@@ -188,8 +188,7 @@ const RequestPage = (props) => {
       dest_long: destLong,
     };
 
-    setLat(body.origin_lat);
-    setLong(body.origin_long);
+    setLatLongs(body.origin_lat, body.origin_long, body.dest_lat, body.dest_long);
 
     axios.post(url, body)
       .then(function(res) {
@@ -239,11 +238,11 @@ const RequestPage = (props) => {
         onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
       />
       <LocationContext.Consumer>
-          {({ setLat, setLong }) => {
+          {({ setLatLongs }) => {
               return (
                 <TouchableOpacity 
                   onPress={() => {
-                    requestButton(setLat, setLong)}
+                    requestButton(setLatLongs)}
                   }
                   style={styles.button}>
                   <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
