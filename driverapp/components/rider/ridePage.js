@@ -27,6 +27,8 @@ const RequestPage = (props) => {
   const [originLong, setOriginLong] = useState("");
   const [destLat, setDestLat] = useState("");
   const [destLong, setDestLong] = useState("");
+  const [mapLat, setMapLat] = useState("");
+  const [mapLong, setMapLong] = useState("");
   const [cnt, increment] = useState(0);
 
   useEffect (() => {
@@ -47,12 +49,20 @@ const RequestPage = (props) => {
       setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
       setOriginLat(location.coords.latitude);
       setOriginLong(location.coords.longitude);
+      setMapLat(location.coords.latitude);
+      setMapLong(location.coords.longitude);
     }
   }
 
   const mapView = () => {
     return (
       <MapView
+        region={{
+          latitude: mapLat ? mapLat : originLat,
+          longitude: mapLong ? mapLong : originLong,
+          latitudeDelta: 0.0122,
+          longitudeDelta: 0.0121,
+        }}
         initialRegion={{
           latitude: originLat,
           longitude: originLong,
@@ -60,7 +70,7 @@ const RequestPage = (props) => {
           longitudeDelta: 0.0121,
         }}
         style = {styles.map}
-        // showsUserLocation = {true}
+        showsUserLocation = {true}
         followUserLocation = {false}
         zoomEnabled = {true}
       >
@@ -113,6 +123,8 @@ const RequestPage = (props) => {
       const location = locations[0];
       setLatFunc(location.latitude);
       setLongFunc(location.longitude);
+      setMapLat(location.latitude);
+      setMapLong(location.longitude);
     }
   }
 
@@ -121,6 +133,8 @@ const RequestPage = (props) => {
     const addrs = await Location.reverseGeocodeAsync(coord);
     setDestLat(coord.latitude);
     setDestLong(coord.longitude);
+    setMapLat(coord.latitude);
+    setMapLong(coord.longitude);
     const addr = addrs[0];
     setDest(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
@@ -130,6 +144,8 @@ const RequestPage = (props) => {
     const addrs = await Location.reverseGeocodeAsync(coord);
     setOriginLat(coord.latitude);
     setOriginLong(coord.longitude);
+    setMapLat(coord.latitude);
+    setMapLong(coord.longitude);
     const addr = addrs[0];
     setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
