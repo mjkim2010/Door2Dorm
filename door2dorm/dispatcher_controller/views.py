@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 import random
 from django.utils.dateparse import parse_datetime
-from django.db import models
+from django.db import models, transaction
 from datetime import datetime
 
 def get_value(name, val_type, request):
@@ -129,6 +129,39 @@ class DriverViewSet(viewsets.ModelViewSet):
         driver.save()
         serializer = DriverSerializer(driver)
         return Response(serializer.data, status=201)
+
+    """
+    Grabs the oldest request for a ride that hasn't been assigned. Atomic so that multiple
+    drivers don't grab the same ride.
+    """
+    @transaction.atomic
+    def get_available_ride(self, driver):
+        r = Ride.objects.filter(assigned=False).order_by('-time_requested').first()
+        if r is not None:
+             r.assigned = True
+             r.driver = driver
+        return r
+
+    """
+    Driver notifies the server that they are ready to pick up a ride.
+    The server responds with a route if there are rides in the queue,
+    otherwise telling the Driver to wait.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='driver-ready', url_name='driver_ready')
+    def driver_ready(self, request, pk=None):
+        try:
+            email = get_value("email", 'str', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+
+        driver = Driver.objects.filter(email=email).first() 
+        if driver is None:
+            return HttpResponseBadRequest("No driver with email \"{}\" in our database".format(email))
+        driver.route = None # driver does not have a route anymore -- they're ready!
+
+        ride = self.get_available_ride(driver) 
+        return Response(RideSerializer(ride).data, status=201)
 
 def dispatcher(request):
     template = loader.get_template('dispatcher.html')
