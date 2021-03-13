@@ -23,6 +23,9 @@ const EtaPage = (props) => {
       .catch(err => console.log ("Something went wrong."));
   }, []);
 
+  const defaultDelta = 0.0122;
+  const defaultDeltaMultiplier= 3;
+
   const leaveQueue = () => props.history.push("/rideRequest");
 
   const getDirections = async () => {
@@ -51,15 +54,36 @@ const EtaPage = (props) => {
     return lat + "," + long;
   }
 
+  const pin = (name, lat, long) => {
+    return (
+      <MapView.Marker 
+        draggable={false}
+        coordinate={{
+          latitude: lat,
+          longitude: long,
+        }}
+        title={name}
+        pinColor={name == 'Destination' ? 'red' : 'green'}
+      />
+    );
+  }
+
   const getMap = (originLat, originLong, destLat, destLong) => {
     let originLatNum = Number(originLat)
     let originLongNum = Number(originLong)
     let destLatNum = Number(destLat)
     let destLongNum = Number(destLong)
 
+    const edge = defaultDelta * defaultDeltaMultiplier;
     return (
       <>
         <MapView
+          region={{
+            latitude: (originLat + destLat) / 2,
+            longitude: (originLong + destLong) / 2,
+            latitudeDelta: Math.abs(originLat - destLat) + edge,
+            longitudeDelta: Math.abs(originLong - destLong) + edge,
+          }}
           initialRegion={{
             latitude: originLatNum,
             longitude: originLongNum,
@@ -71,6 +95,8 @@ const EtaPage = (props) => {
           followUserLocation = {false}
           zoomEnabled = {true}>
           {coords.length > 0 && <Polyline coordinates={coords} />}
+          {pin ("Origin", originLat, originLong)}
+          {pin ("Destination", destLat, destLong)}
         </MapView>
       </>
     );

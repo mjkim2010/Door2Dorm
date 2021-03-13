@@ -54,7 +54,11 @@ const RequestPage = (props) => {
     }
   }
 
+  const defaultDelta = 0.0122;
+  const defaultDeltaMultiplier= 3;
+
   const mapView = () => {
+    const edge = defaultDelta * defaultDeltaMultiplier;
     return (
       <View>
         <View style={styles.message}>
@@ -62,16 +66,16 @@ const RequestPage = (props) => {
         </View>
         <MapView
         region={{
-          latitude: mapLat ? mapLat : originLat,
-          longitude: mapLong ? mapLong : originLong,
-          latitudeDelta: 0.0122,
-          longitudeDelta: 0.0121,
+          latitude: originLat && destLat ? ((originLat + destLat) / 2) : originLat,
+          longitude: originLong && destLong ? ((originLong + destLong) / 2) : originLong,
+          latitudeDelta: originLat && destLat ? Math.abs(originLat - destLat) + edge: defaultDelta,
+          longitudeDelta: originLong && destLong ? Math.abs(originLong - destLong) + edge : defaultDelta,
         }}
         initialRegion={{
           latitude: originLat,
           longitude: originLong,
-          latitudeDelta: 0.0122,
-          longitudeDelta: 0.0121,
+          latitudeDelta: defaultDelta,
+          longitudeDelta: defaultDelta,
         }}
         style = {styles.map}
         showsUserLocation = {true}
@@ -100,7 +104,7 @@ const RequestPage = (props) => {
         }}
         title={name}
         onDragEnd={onDragEndHandler}
-        onEndEditing
+        pinColor={name == 'Destination' ? 'red' : 'green'}
       />
     );
   }

@@ -34,7 +34,7 @@ class App extends React.Component {
         originLong: originLong,
         destLat: destLat,
         destLong: destLong,
-        origin,
+        origin: origin,
         dest: dest
       }));
     }
@@ -74,7 +74,7 @@ class App extends React.Component {
                               originLong={this.state.originLong}
                               destLat={this.state.destLat}
                               destLong={this.state.destLong}
-                              origin={this.state.dest}
+                              origin={this.state.origin}
                               dest={this.state.dest}/>
                          )}
                   />
