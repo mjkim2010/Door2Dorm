@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   TextInput,
@@ -29,12 +29,33 @@ const RequestPage = (props) => {
   const [destLong, setDestLong] = useState("");
   const [cnt, increment] = useState(0);
 
+  useEffect (() => {
+    getInitialLocation();
+  }, []);
+
+  const getInitialLocation = async () => {
+    getPermission();
+    const location = await getLocationAsync();
+    if (location) {
+      const lat = location.coords.latitude;
+      const long = location.coords.longitude;
+      const addrs = await Location.reverseGeocodeAsync({
+        latitude: lat,
+        longitude: long,
+      });
+      const addr = addrs[0];
+      setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
+      setOriginLat(location.coords.latitude);
+      setOriginLong(location.coords.longitude);
+    }
+  }
+
   const mapView = () => {
     return (
       <MapView
         initialRegion={{
-          latitude: 37.764955,
-          longitude: -122.419817,
+          latitude: originLat,
+          longitude: originLong,
           latitudeDelta: 0.0122,
           longitudeDelta: 0.0121,
         }}
@@ -84,14 +105,14 @@ const RequestPage = (props) => {
 
   const convertToLatLong = async (name, setLatFunc, setLongFunc) => {
     getPermission();
-    const locations = await Location.geocodeAsync(origin);
+    const whichLocation = name == 'pickup' ? origin : dest;
+    const locations = await Location.geocodeAsync(whichLocation);
     if (!locations || locations.length == 0) {
       alert(`Please enter a valid ${name} address.\n`);
     } else {
       const location = locations[0];
       setLatFunc(location.latitude);
       setLongFunc(location.longitude);
-      forceUpdate();
     }
   }
 
@@ -170,71 +191,56 @@ const RequestPage = (props) => {
   }
 
   return (
-    <SafeAreaView>
-        <View style={styles.back}>
-            <Button
-              onPress={logoutButton}
-              title="Back"
-              accessibilityLabel="Back"
-              color='black'
-            />
-        </View>
-        <View>
-            {mapView ()}
-            <View style={styles.inputView}>
-              <Text style={styles.sectionTitle}>Pickup address</Text>
-              <TextInput
-                value={origin}
-                props={commonProps}
-                style={styles.textInput}
-                onChange={(e) => setOrigin (e.nativeEvent.text)}
-                onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <Text style={styles.sectionTitle}>Destination address</Text>
-              <TextInput
-                value={dest}
-                props={commonProps}
-                style={styles.textInput}
-                onChange={(e) => setDest (e.nativeEvent.text)}
-                onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <Text style={styles.sectionTitle}>Number of riders (1-4)</Text>
-              <TextInput
-                keyboardType={'number-pad'}
-                style={styles.textInput}
-                onChange={(e) => setNumRiders (e.nativeEvent.text)}
-              />
-            </View>
-            <View style={styles.inputView}>
-              <Text style={styles.sectionTitle}>Safety level (1-9)</Text>
-              <TextInput
-                keyboardType={'number-pad'}
-                style={styles.textInput}
-                placeholder="Ex: 9 is emergency."
-                placeholderTextColor="#a3aaad"
-                onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
-              />
-            </View>
-            <LocationContext.Consumer>
-              {({ setLat, setLong }) => {
-                  return (
-                    <TouchableOpacity 
-                      onPress={() => {
-                        requestButton(setLat, setLong)}
-                      }
-                      style={styles.button}>
-                      <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
-                    </TouchableOpacity>
-                  )
-                }
-              }
-          </LocationContext.Consumer>
-        </View>
-      </SafeAreaView>
+    <View style={styles.body}>
+      {mapView ()}
+      <Text style={styles.sectionTitle}>Pickup Address</Text>
+      <TextInput
+        value={origin}
+        props={commonProps}
+        style={styles.textInput}
+        onChange={(e) => setOrigin (e.nativeEvent.text)}
+        onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
+      />
+      <Text style={styles.sectionTitle}>Dropoff Address</Text>
+      <TextInput
+        value={dest}
+        props={commonProps}
+        style={styles.textInput}
+        onChange={(e) => setDest (e.nativeEvent.text)}
+        onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
+      />
+      <Text style={styles.sectionTitle}>Number of Riders</Text>
+      <TextInput
+        style={styles.textInput}
+        keyboardType={'number-pad'}
+        onChange={(e) => setNumRiders (e.nativeEvent.text)}
+      />
+      <Text style={styles.sectionTitle}>Safety Level</Text>
+      <Text style={styles.sectionTitle}>Rate 0-9 (0 no problem, 9 emergency)</Text>
+      <TextInput
+        style={styles.textInput}
+        keyboardType={'number-pad'}
+        onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
+      />
+      <LocationContext.Consumer>
+          {({ setLat, setLong }) => {
+              return (
+                <TouchableOpacity 
+                  onPress={() => {
+                    requestButton(setLat, setLong)}
+                  }
+                  style={styles.button}>
+                  <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
+                </TouchableOpacity>
+              )
+            }
+          }
+      </LocationContext.Consumer>
+      <Button
+        title="Logout"
+        onPress={logoutButton}
+      />
+    </View>
   );
 }
   
@@ -265,7 +271,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2.2,
+    height: Dimensions.get('window').height/2.8,
     marginBottom: 10,
   },
   back: {
