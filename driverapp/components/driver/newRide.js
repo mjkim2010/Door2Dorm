@@ -3,12 +3,10 @@ import React from 'react';
 import {
     SafeAreaView,
     StyleSheet,
-    ScrollView,
     View,
-    TextInput,
-    Button,
     Text,
     StatusBar,
+    TouchableOpacity,
   } from 'react-native';
   
   import {
@@ -29,7 +27,7 @@ class NewRidePage extends React.Component {
     }
 
     logout() {
-      this.props.history.push("/")
+      this.props.history.push("/login")
     }
 
 
@@ -39,21 +37,14 @@ class NewRidePage extends React.Component {
           <StatusBar barStyle="dark-content" />
           <SafeAreaView>
             <View style={styles.container}>
-                <Text style={styles.sectionTitle}>Select Option</Text>
+                <Text style={styles.sectionTitle}>You have been assigned a ride!</Text>
                 <View style={styles.buttonContainer}> 
-                  <Button
-                      onPress={this.newRide}
-                      title="New Ride"
-                      accessibilityLabel="New Ride"
-                      color='#55D7F5'
-                  />
-                  <View style={styles.separator} />
-                  <Button
-                      onPress={this.logout}
-                      title="Log Off"
-                      accessibilityLabel="Log Off"
-                      color='#55D7F5'
-                  />
+                  <TouchableOpacity onPress={this.newRide} style={styles.button}>
+                      <Text> Accept </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={this.logout} style={styles.button}>
+                      <Text> Log Out </Text>
+                  </TouchableOpacity>
                 </View>
             </View>
           </SafeAreaView>
@@ -75,16 +66,23 @@ class NewRidePage extends React.Component {
       fontWeight: '600',
       color: Colors.black,
     },
-    separator: {
-      marginVertical: 8,
-      borderBottomColor: '#737373',
-    },
     buttonContainer: {
       alignSelf: 'center',
       justifyContent:"flex-start",
       alignItems: 'center',
     },
+    button: {
+      backgroundColor: '#55D7F5',
+      borderRadius: 11,
+      color: 'black',
+      overflow: 'hidden',
+      textAlign:'center',
+      width: 150,
+      height: 40,
+      margin: 10,
+      alignItems: "center",
+      padding: 10,
+    },
   });
   
   export default NewRidePage;
-  

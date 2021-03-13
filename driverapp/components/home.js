@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { StyleSheet, View, Button, Text, Image, Dimensions } from 'react-native';
+import { 
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+ } from 'react-native';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -23,26 +30,21 @@ class HomePage extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-          <View style={styles.body}>
-            <Text style={styles.logoText}> Door2Dorm </Text>
-            <Image
-              style={styles.logo}
-              source={require('../img/Door2Dorm2.png')}
-            />
-            <Button
-              color='#55D7F5'
-              title="I'm a Driver"
-              onPress={this.driverEnters}
-              accessibilityLabel="I'm a Driver"
-            />
-            <Button
-              color='#55D7F5'
-              title="I'm a Rider"
-              onPress={this.riderEnters}
-              accessibilityLabel="I'm a Rider"
-            />
+          <Text style={styles.logoText}> Door2Dorm </Text>
+          <Image
+            style={styles.logo}
+            source={require('../img/Door2Dorm2.png')}
+          />
+          <Text style={styles.optionText}> I am a </Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this.riderEnters} style={styles.button}>
+              <Text> Rider </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.driverEnters} style={styles.button}>
+              <Text> Driver </Text>
+            </TouchableOpacity>
           </View>
-        </View>
+      </View>
       );
     }
   }
@@ -56,20 +58,36 @@ class HomePage extends React.Component {
       justifyContent:'center',
       height: '100%'
     },
-    body: {
-      alignSelf: 'center',
-      justifyContent:"flex-start",
-      alignItems: 'center',
-      position:"absolute",
-    },
     logoText: {
         color: 'black',
         justifyContent:'center',
-        fontSize: 50
+        fontSize: 50,
+        fontWeight: 'bold',
+    },
+    optionText: {
+        color: 'black',
+        justifyContent:'center',
+        fontSize: 20,
+        height: 30,
     },
     logo: {
       width: 200,
       height: 200,
+    },
+    button: {
+      backgroundColor: '#55D7F5',
+      borderRadius: 11,
+      color: 'black',
+      overflow: 'hidden',
+      textAlign:'center',
+      width: 100,
+      height: 40,
+      margin: 10,
+      alignItems: "center",
+      padding: 10,
+    },
+    buttonContainer: {
+      flexDirection: "row",
     },
   });
   

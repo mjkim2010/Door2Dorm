@@ -5,12 +5,12 @@ import {
   Button,
   View,
   StyleSheet,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
 import { SaveItem } from "./databaseHelper";
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
 
 
 const RegisterPage = (props) => {
@@ -72,60 +72,79 @@ const RegisterPage = (props) => {
   }
 
   return (
-    <View style={styles.body}>
-    <Text style={styles.sectionTitle}>First Name</Text>
-    <TextInput
-      value={firstName}
-      props={commonProps}
-      style={styles.textInput}
-      onChange={(e) => setFirstName (e.nativeEvent.text)}
-    />
-    <Text style={styles.sectionTitle}>Last Name</Text>
-    <TextInput
-      value={lastName}
-      props={commonProps}
-      style={styles.textInput}
-      onChange={(e) => setLastName (e.nativeEvent.text)}
-    />
-
-    <Text style={styles.sectionTitle}>Sunet (No @stanford.edu)</Text>
-    <TextInput
-      value={sunet}
-      autoCapitalize={'none'}
-      props={commonProps}
-      style={styles.textInput}
-      onChange={(e) => setSunet (e.nativeEvent.text)}
-    />
-    <Text style={styles.sectionTitle}>Password</Text>
-    <TextInput
-      value={password}
-      style={styles.textInput}
-      autoCapitalize={'none'}
-      props={commonProps}
-      secureTextEntry={true}
-      onChange={(e) => setPassword (e.nativeEvent.text)}
-    />
-    <Text style={styles.sectionTitle}>Phone Number (Numbers only please)</Text>
-    <TextInput
-      value={phone}
-      style={styles.textInput}
-      keyboardType={'phone-pad'}
-      onChange={(e) => setPhone (e.nativeEvent.text)}
-    />
-    <Button
-      onPress={register}
-      title="Register"
-      accessibilityLabel="Register"
-      color='#55D7F5'
-    />
-    <Button
-      style={styles.button}
-      onPress={switchToLogin}
-      title="Already Have an Account? Login"
-      accessibilityLabel="Login"
-      color='#55D7F5'
-    />
-    </View>
+    <SafeAreaView>
+      <View style={styles.container}>
+          <Image
+              style={styles.logo}
+              source={require('../../img/Door2Dorm2.png')}
+          />
+          <View style={styles.inputView}>
+              <TextInput
+                props={commonProps}
+                value={firstName}
+                style={styles.textInput}
+                placeholder="First Name"
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setFirstName (e.nativeEvent.text)}
+              />
+          </View>
+          <View style={styles.inputView}>
+              <TextInput
+                props={commonProps}
+                value={lastName}
+                style={styles.textInput}
+                placeholder="Last Name"
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setLastName (e.nativeEvent.text)}
+              />
+          </View>
+          <View style={styles.inputView}>
+              <TextInput
+                autoCapitalize={'none'}
+                props={commonProps}
+                value={sunet}
+                style={styles.textInput}
+                placeholder="Sunet ID"
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setSunet (e.nativeEvent.text)}
+              />
+          </View>
+          <View style={styles.inputView}>
+              <TextInput
+                autoCapitalize={'none'}
+                props={commonProps}
+                value={phone}
+                style={styles.textInput}
+                placeholder="Phone Number"
+                keyboardType={'phone-pad'}
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setPhone (e.nativeEvent.text)}
+              />
+          </View>
+          <View style={styles.inputView}>
+              <TextInput
+                autoCapitalize={'none'}
+                props={commonProps}
+                value={password}
+                style={styles.textInput}
+                placeholder="Password"
+                placeholderTextColor="#a3aaad"
+                secureTextEntry={true}
+                onChange={(e) => setPassword (e.nativeEvent.text)}
+              />
+          </View>
+          <TouchableOpacity onPress={register} style={styles.registerBtn}>
+              <Text>Register</Text>
+          </TouchableOpacity>
+          <Button
+              style={styles.button}
+              onPress={switchToLogin}
+              title="Already Have an Account? Sign In"
+              accessibilityLabel="Sign In"
+              color='black'
+            />
+        </View>
+    </SafeAreaView>
   );
 }
 
@@ -136,19 +155,45 @@ const commonProps = {
 }
 
 const styles = StyleSheet.create({
-  textInput: { 
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1 
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+   },
+  back: {
+    alignItems: "flex-start",
   },
-  body: {
-    backgroundColor: Colors.white,
+  logo: {
+    width: 170,
+    height: 170,
+    marginBottom: 40,
+    marginTop: 30,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  }
+  inputView: {
+    backgroundColor: "#eceeee",
+    borderRadius: 30,
+    width: 350,
+    height: 45,
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  textInput: {
+    height: 50,
+    flex: 1,
+    padding: 10,
+  },
+  registerBtn: {
+    width: 150,
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#55D7F5",
+  },
+  forgot_button: {
+    height: 30,
+    marginBottom: 10,
+  },
 });
 
 export default RegisterPage;

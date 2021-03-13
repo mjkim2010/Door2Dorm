@@ -3,14 +3,16 @@ import {
   Text,
   TextInput,
   Button,
-  Alert,
   View,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  SafeAreaView,
+  TouchableOpacity,
+  StatusBar,
 } from 'react-native';
+
 import axios from 'axios';
 import { ReadItem } from "./databaseHelper";
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import * as Location from 'expo-location';
 import MapView from 'react-native-maps';
 import * as Permissions from 'expo-permissions';
@@ -124,7 +126,6 @@ const RequestPage = (props) => {
     } else if (!safetyLevel.match(safetyNum)) {
       alert("Double check your safety level is a digit between 1 and 9")
     }
-
   }
 
   const requestButton = async (setLat, setLong) => {
@@ -169,58 +170,74 @@ const RequestPage = (props) => {
   }
 
   return (
-    <View style={styles.body}>
-      <Text style={styles.sectionTitle}>Number of Riders</Text>
-      <TextInput
-        style={styles.textInput}
-        keyboardType={'number-pad'}
-        onChange={(e) => setNumRiders (e.nativeEvent.text)}
-      />
-      <Text style={styles.sectionTitle}>Safety Level</Text>
-      <Text style={styles.sectionTitle}>Rate 0-9 (0 no problem, 9 emergency)</Text>
-      <TextInput
-        style={styles.textInput}
-        keyboardType={'number-pad'}
-        onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
-      />
-      <Text style={styles.sectionTitle}>Pickup Address</Text>
-      <TextInput
-        value={origin}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setOrigin (e.nativeEvent.text)}
-        onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
-      />
-      <Text style={styles.sectionTitle}>Dropoff Address</Text>
-      <TextInput
-        value={dest}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setDest (e.nativeEvent.text)}
-        onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
-      />
-      {mapView ()}
-      
-      <LocationContext.Consumer>
-      {({ setLat, setLong }) => {
-          return (<Button
-            title="Request Ride"
-            onPress={() => {
-              requestButton(setLat, setLong)}
-            }
-          />)
-        }
-      }
-      </LocationContext.Consumer>
-      <Button
-        title="Logout"
-        onPress={logoutButton}
-      />
-    </View>
+    <SafeAreaView>
+        <View style={styles.back}>
+            <Button
+              onPress={logoutButton}
+              title="Back"
+              accessibilityLabel="Back"
+              color='black'
+            />
+        </View>
+        <View>
+            {mapView ()}
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Pickup address</Text>
+              <TextInput
+                value={origin}
+                props={commonProps}
+                style={styles.textInput}
+                onChange={(e) => setOrigin (e.nativeEvent.text)}
+                onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Destination address</Text>
+              <TextInput
+                value={dest}
+                props={commonProps}
+                style={styles.textInput}
+                onChange={(e) => setDest (e.nativeEvent.text)}
+                onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Number of riders (1-4)</Text>
+              <TextInput
+                keyboardType={'number-pad'}
+                style={styles.textInput}
+                onChange={(e) => setNumRiders (e.nativeEvent.text)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Safety level (1-9)</Text>
+              <TextInput
+                keyboardType={'number-pad'}
+                style={styles.textInput}
+                placeholder="Ex: 9 is emergency."
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
+              />
+            </View>
+            <LocationContext.Consumer>
+              {({ setLat, setLong }) => {
+                  return (
+                    <TouchableOpacity 
+                      onPress={() => {
+                        requestButton(setLat, setLong)}
+                      }
+                      style={styles.button}>
+                      <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
+                    </TouchableOpacity>
+                  )
+                }
+              }
+          </LocationContext.Consumer>
+        </View>
+      </SafeAreaView>
   );
 }
   
-
 const commonProps = {
   autoCapitalize: 'none',
   autoCompleteType: 'off',
@@ -228,24 +245,49 @@ const commonProps = {
   spellCheck: false,
 }
 
-
 const styles = StyleSheet.create({
-  textInput: { 
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1 
+  inputView: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    width: Dimensions.get('window').width - 20,
+    height: 60,
+    borderWidth: 1,
+    borderColor: '#ebeff1',
+    marginLeft: 10,
+    marginRight: 10,
+    shadowOpacity: 0.1,
+    marginBottom: 10,
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  textInput: {
+    height: 50,
+    flex: 1,
+    padding: 10,
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2.5,
+    height: Dimensions.get('window').height/2.2,
+    marginBottom: 10,
+  },
+  back: {
+    alignItems: "flex-start",
+  },
+  sectionTitle: {
+    alignItems: "flex-start",
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: '#55D7F9',
+  },
+  button: {
+    backgroundColor: '#55D7F5',
+    borderRadius: 11,
+    color: 'black',
+    overflow: 'hidden',
+    textAlign:'center',
+    width: 150,
+    height: 40,
+    margin: 10,
+    alignSelf: 'center',
+    padding: 10,
   },
 });
 
