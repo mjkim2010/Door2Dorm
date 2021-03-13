@@ -28,12 +28,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setLatLongs = (originLat, originLong, destLat, destLong) => {
+    this.setLocations = (originLat, originLong, destLat, destLong, origin, dest) => {
       this.setState( _ => ({
         originLat: originLat,
         originLong: originLong,
         destLat: destLat,
-        destLong: destLong
+        destLong: destLong,
+        origin,
+        dest: dest
       }));
     }
     
@@ -43,7 +45,7 @@ class App extends React.Component {
       originLong: "",
       destLat: "",
       destLong: "",
-      setLatLongs: this.setLatLongs,
+      setLocations: this.setLocations,
     };
 
   }
@@ -71,7 +73,9 @@ class App extends React.Component {
                               originLat={this.state.originLat}
                               originLong={this.state.originLong}
                               destLat={this.state.destLat}
-                              destLong={this.state.destLong}/>
+                              destLong={this.state.destLong}
+                              origin={this.state.dest}
+                              dest={this.state.dest}/>
                          )}
                   />
                   <Route path="/loginRider" component={LoginRiderPage} />

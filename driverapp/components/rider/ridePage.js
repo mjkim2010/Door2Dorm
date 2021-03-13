@@ -56,7 +56,11 @@ const RequestPage = (props) => {
 
   const mapView = () => {
     return (
-      <MapView
+      <View>
+        <View style={styles.message}>
+          <Text>You may drag the pins to adjust the pickup/dropoff location. </Text>
+        </View>
+        <MapView
         region={{
           latitude: mapLat ? mapLat : originLat,
           longitude: mapLong ? mapLong : originLong,
@@ -73,10 +77,12 @@ const RequestPage = (props) => {
         showsUserLocation = {true}
         followUserLocation = {false}
         zoomEnabled = {true}
-      >
-        {originLat && originLong ? pin ("Origin", originLat, originLong, onDragEndOrigin) : null}
-        {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
-      </MapView>
+        >
+          {originLat && originLong ? pin ("Origin", originLat, originLong, onDragEndOrigin) : null}
+          {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
+        </MapView>
+      </View>
+      
     );
   }
 
@@ -165,7 +171,7 @@ const RequestPage = (props) => {
     }
   }
 
-  const requestButton = async (setLatLongs) => {
+  const requestButton = async (setLocations) => {
     verify(); 
     const sunet = await ReadItem("sunet");
     const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
@@ -188,7 +194,7 @@ const RequestPage = (props) => {
       dest_long: destLong,
     };
 
-    setLatLongs(body.origin_lat, body.origin_long, body.dest_lat, body.dest_long);
+    setLocations(body.origin_lat, body.origin_long, body.dest_lat, body.dest_long, body.origin, body.dest);
 
     axios.post(url, body)
       .then(function(res) {
@@ -206,43 +212,61 @@ const RequestPage = (props) => {
   }
 
   return (
-    <View style={styles.body}>
-      {mapView ()}
-      <Text style={styles.sectionTitle}>Pickup Address</Text>
-      <TextInput
-        value={origin}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setOrigin (e.nativeEvent.text)}
-        onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
-      />
-      <Text style={styles.sectionTitle}>Dropoff Address</Text>
-      <TextInput
-        value={dest}
-        props={commonProps}
-        style={styles.textInput}
-        onChange={(e) => setDest (e.nativeEvent.text)}
-        onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
-      />
-      <Text style={styles.sectionTitle}>Number of Riders</Text>
-      <TextInput
-        style={styles.textInput}
-        keyboardType={'number-pad'}
-        onChange={(e) => setNumRiders (e.nativeEvent.text)}
-      />
-      <Text style={styles.sectionTitle}>Safety Level</Text>
-      <Text style={styles.sectionTitle}>Rate 0-9 (0 no problem, 9 emergency)</Text>
-      <TextInput
-        style={styles.textInput}
-        keyboardType={'number-pad'}
-        onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
-      />
-      <LocationContext.Consumer>
-          {({ setLatLongs }) => {
+    <SafeAreaView>
+        <View style={styles.back}>
+            <Button
+              onPress={logoutButton}
+              title="Back"
+              accessibilityLabel="Back"
+              color='black'
+            />
+        </View>
+        <View>
+            {mapView ()}
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Pickup address</Text>
+              <TextInput
+                value={origin}
+                props={commonProps}
+                style={styles.textInput}
+                onChange={(e) => setOrigin (e.nativeEvent.text)}
+                onEndEditing={() => convertToLatLong("pickup", setOriginLat, setOriginLong)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Destination address</Text>
+              <TextInput
+                value={dest}
+                props={commonProps}
+                style={styles.textInput}
+                onChange={(e) => setDest (e.nativeEvent.text)}
+                onEndEditing={() => convertToLatLong("dropoff", setDestLat, setDestLong)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Number of riders (1-4)</Text>
+              <TextInput
+                keyboardType={'number-pad'}
+                style={styles.textInput}
+                onChange={(e) => setNumRiders (e.nativeEvent.text)}
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Text style={styles.sectionTitle}>Safety level (1-9)</Text>
+              <TextInput
+                keyboardType={'number-pad'}
+                style={styles.textInput}
+                placeholder="Ex: 9 is emergency."
+                placeholderTextColor="#a3aaad"
+                onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
+              />
+            </View>
+            <LocationContext.Consumer>
+          {({ setLocations }) => {
               return (
                 <TouchableOpacity 
                   onPress={() => {
-                    requestButton(setLatLongs)}
+                    requestButton(setLocations)}
                   }
                   style={styles.button}>
                   <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
@@ -251,11 +275,8 @@ const RequestPage = (props) => {
             }
           }
       </LocationContext.Consumer>
-      <Button
-        title="Logout"
-        onPress={logoutButton}
-      />
-    </View>
+        </View>
+      </SafeAreaView>
   );
 }
   
@@ -309,6 +330,10 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: 'center',
     padding: 10,
+  },
+  message: {
+    marginTop: 5,
+    marginLeft: 10,
   },
 });
 

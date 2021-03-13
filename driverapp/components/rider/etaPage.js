@@ -12,7 +12,7 @@ import { LocationContext } from '../locationContext.js';
 import { decode } from "@mapbox/polyline";
 
 const EtaPage = (props) => {
-  const { originLat, originLong, destLat, destLong } = props;
+  const { originLat, originLong, destLat, destLong, origin, dest } = props;
   const [queuePosition, setQueuePosition] = useState(4);
   const [timeLeft, setTimeLeft] = useState(17);
   const [coords, setCoords] = useState([]);
@@ -72,10 +72,6 @@ const EtaPage = (props) => {
           zoomEnabled = {true}>
           {coords.length > 0 && <Polyline coordinates={coords} />}
         </MapView>
-        <Text style={styles.sectionTitle}>Your current latitude is {originLatNum}.</Text>
-        <Text style={styles.sectionTitle}>Your current longitude is {originLongNum}. </Text>
-        <Text style={styles.sectionTitle}>Your destination latitude is {destLatNum}.</Text>
-        <Text style={styles.sectionTitle}>Your destination longitude is {destLongNum}. </Text>
       </>
     );
   }
@@ -89,20 +85,20 @@ const EtaPage = (props) => {
         <Text style={styles.confirmation}>Your ride is registered! Current wait time is approximately {timeLeft} minutes.</Text>
         <Text style={styles.detailTitle}>Ride Details</Text>
         <View style={styles.message}>
-          <Text>Queue positon: {this.state.queuePosition}</Text>
+          <Text>Queue positon: {queuePosition}</Text>
           <Text>Driver's name: TBD </Text>
           <Text>License plate: TBD </Text>
 
           {/* TODO: Update these addresses from ridePage.js */}
-          <Text>From: 123 Stanford Dr. Palo Alto, CA 97862 </Text>
-          <Text>To: 139 Green Dr. Palo Alto, CA 97862 </Text>
+          <Text>From: {origin}</Text>
+          <Text>To: {dest} </Text>
         </View>
         <Text style={styles.detailTitle}>Notes</Text>
         <View style={styles.message}>
           <Text>We will let you know when a driver is assigned. Please call 911 if you are feeling unsafe.</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={this.leaveQueue} style={styles.button}>
+      <TouchableOpacity onPress={leaveQueue} style={styles.button}>
             <Text style={{ alignSelf: 'center' }}> Leave queue </Text>
       </TouchableOpacity>
     </View>
