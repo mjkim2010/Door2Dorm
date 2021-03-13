@@ -5,7 +5,6 @@ import json
 
 from .models import Ride, Student, Driver
 from .serializers import StudentSerializer, RideSerializer, DriverSerializer
-# CommentTag: MAKE_POST
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -44,7 +43,6 @@ class StudentViewSet(viewsets.ModelViewSet):
             sunet = get_value("sunet", 'str', request)
             first = get_value("first", 'str', request)
             last = get_value("last", 'str', request)
-            email = get_value("email", 'str', request)
             phone = get_value("phone", 'int', request)
             password = get_value("password", 'str', request)
         except KeyError as e:
@@ -55,7 +53,7 @@ class StudentViewSet(viewsets.ModelViewSet):
             sunet,
             first,
             last,
-            email,
+            sunet + "@stanford.edu",
             phone,
             password
         )
@@ -73,12 +71,14 @@ class RideViewSet(viewsets.ModelViewSet):
     def cr_ride_func(self, request, pk=None):
         try:
             sunet = get_value("sunet", "str", request)
-            current_loc = get_value("current_loc", 'str', request)
-            dest = get_value("destination", 'str', request)
+            current_loc = get_value("origin", 'str', request)
+            dest = get_value("dest", 'str', request)
             num_riders = get_value("num_riders", 'int', request)
             safety_level = get_value("safety_level", 'int', request)
-            cur_lat = get_value("cur_lat", 'float', request)
-            cur_long = get_value("cur_long", 'float', request)
+            cur_lat = get_value("origin_lat", 'float', request)
+            cur_long = get_value("origin_long", 'float', request)
+            dest_lat = get_value("dest_lat", 'float', request)
+            dest_long = get_value("dest_long", 'float', request)
         except KeyError as e:
             return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
 
@@ -88,12 +88,15 @@ class RideViewSet(viewsets.ModelViewSet):
 
         ride = Ride.create(
             student, 
-            current_loc, 
-            dest, 
             num_riders, 
             safety_level, 
+            current_loc, 
             cur_lat, 
-            cur_long)
+            cur_long, 
+            dest,
+            dest_lat,
+            dest_long
+        )
         ride.save()
         serializer = RideSerializer(ride)
         return Response(serializer.data, status=201)

@@ -38,15 +38,18 @@ class Ride(models.Model):
         return "Ride made."
 
     @classmethod
-    def create(cls, student, start_address, end_address, num_passengers, safety_lvl, cur_lat, cur_long):
+    def create(cls, student, num_riders, safety_lvl, origin, origin_lat, origin_long, dest, dest_lat, dest_long):
         return cls(
             student = student,
-            current_address = start_address,
-            destination_address = end_address,
-            num_passengers = num_passengers,
+            current_address = origin,
+            destination_address = dest,
+            num_passengers = num_riders,
             safety_lvl = safety_lvl,
-            current_lat = cur_lat,
-            current_long = cur_long)
+            current_lat = origin_lat,
+            current_long = origin_long,
+            dest_lat = dest_lat,
+            dest_long = dest_long
+        )
         
 class Driver(models.Model):
     #this is the id

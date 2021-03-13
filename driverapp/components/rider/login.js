@@ -18,7 +18,7 @@ class LoginRiderPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        studentID: "",
+        sunet: "",
         password: "",
       };
       this.switchToRegister = this.switchToRegister.bind(this);
@@ -45,16 +45,25 @@ class LoginRiderPage extends React.Component {
           <SafeAreaView style={styles.container}>
             <View style={styles.textContainer}>
               <Text style={styles.title}>Login</Text>
-              <Text style={styles.sectionTitle}>Student ID</Text>
+              <Text style={styles.sectionTitle}>Sunet</Text>
               <TextInput
                   style={styles.textInput}
+                  autoCapitalize={'none'}
+                  autoCompleteType={'off'}
+                  autoCorrect={false}
+                  spellCheck={false}
                   onChange={(e) => {
-                      this.setState({ studentID: e.nativeEvent.text });
+                      this.setState({ sunet: e.nativeEvent.text });
                   }}
               />
               <Text style={styles.sectionTitle}>Password</Text>
               <TextInput
                   style={styles.textInput}
+                  autoCapitalize={'none'}
+                  autoCompleteType={'off'}
+                  autoCorrect={false}
+                  spellCheck={false}
+                  secureTextEntry={true}
                   onChange={(e) => {
                       this.setState({ password : e.nativeEvent.text });
                   }}
