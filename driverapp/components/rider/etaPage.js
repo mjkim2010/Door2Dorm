@@ -73,6 +73,7 @@ const EtaPage = (props) => {
     let originLongNum = Number(originLong)
     let destLatNum = Number(destLat)
     let destLongNum = Number(destLong)
+    console.log ("Line 76: ", originLatNum, originLongNum, destLatNum, destLongNum);
 
     const edge = defaultDelta * defaultDeltaMultiplier;
     return (

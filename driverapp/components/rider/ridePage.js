@@ -13,7 +13,6 @@ import axios from 'axios';
 import { ReadItem } from "./databaseHelper";
 import * as Location from 'expo-location';
 import MapView from 'react-native-maps';
-import * as Permissions from 'expo-permissions';
 import { LocationContext } from '../locationContext.js';
 
 const RequestPage = (props) => {
