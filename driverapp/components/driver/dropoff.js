@@ -23,12 +23,34 @@ class DropOffPage extends React.Component {
         location: "Suites",
       };
       this.droppedOff = this.droppedOff.bind(this);
+      this.sendPostRequest = this.sendPostRequest.bind(this);
     }
 
     droppedOff() {
       var ride_id = this.context.ride_id;
-      console.log(ride_id);
-      this.props.history.push("/newRide");
+      this.sendPostRequest(ride_id);
+    }
+
+    sendPostRequest(ride_id) {
+      // JSON file that will be sent to the POST endpoint
+      let payload = {
+        "ride_id": ride_id,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/dropped-off/';
+      var self = this;
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          self.props.history.push("/newRide");
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
     }
 
     render() {
