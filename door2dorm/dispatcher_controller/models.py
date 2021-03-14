@@ -61,6 +61,7 @@ class Ride(models.Model):
     # null by default, not active until we pick someone up
     picked_up = models.DateTimeField(null = True, default = None) 
     dropped_off = models.DateTimeField(null = True, default = None)
+    assigned = models.BooleanField(default = False) # use this to serve as a "lock" on ride
 
     def __str__(self):
         return "Ride made."
