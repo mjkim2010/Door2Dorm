@@ -1,0 +1,17 @@
+Watching for file changes with StatReloader
+[14/Mar/2021 00:59:40] "POST /students/placeholder/cr-student/ HTTP/1.1" 201 115
+[14/Mar/2021 00:59:40] "POST /drivers/placeholder/cr-driver/ HTTP/1.1" 201 214
+/Users/Peter/opt/miniconda3/envs/d2d_env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1367: RuntimeWarning: DateTimeField Ride.time_requested received a naive datetime (2021-03-14 00:59:40.117876) while time zone support is active.
+  warnings.warn("DateTimeField %s received a naive datetime (%s)"
+[14/Mar/2021 00:59:40] "POST /rides/placeholder/cr-ride/ HTTP/1.1" 201 423
+[14/Mar/2021 00:59:40] "POST /drivers/placeholder/ask-assignment/ HTTP/1.1" 201 422
+[14/Mar/2021 00:59:40] "POST /drivers/placeholder/accept-assignment/ HTTP/1.1" 201 632
+[14/Mar/2021 00:59:40] "POST /drivers/placeholder/picked-up/ HTTP/1.1" 201 657
+[14/Mar/2021 00:59:42] "POST /drivers/placeholder/dropped-off/ HTTP/1.1" 201 682
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 14, 2021 - 00:59:35
+Django version 3.1.5, using settings 'door2dorm.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.

@@ -10,8 +10,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 import random
 from django.utils.dateparse import parse_datetime
-from django.db import models
+from django.db import models, transaction
 from datetime import datetime
+from django.utils import timezone
 
 def get_value(name, val_type, request):
     if not request:
@@ -129,6 +130,116 @@ class DriverViewSet(viewsets.ModelViewSet):
         driver.save()
         serializer = DriverSerializer(driver)
         return Response(serializer.data, status=201)
+
+    """
+    Grabs the oldest request for a ride that hasn't been assigned. Atomic so that multiple
+    drivers don't grab the same ride.
+    """
+    @transaction.atomic
+    def get_available_ride(self):
+        r = Ride.objects.filter(assigned=False).order_by('-time_requested').first()
+        if r is not None:
+             r.assigned = True
+             r.save()
+        return r
+
+    """
+    Driver notifies the server that they are ready to pick up a ride by sending their id.
+    Server responds with a potential Ride, or None if there is no ride available.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='ask-assignment', url_name='ask_assignment')
+    def ask_for_assignment(self, request, pk=None):
+        try:
+            id = get_value("driver_id", 'int', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+
+        driver = Driver.objects.filter(id=id).first()
+        if driver is None:
+            return HttpResponseBadRequest("No rider with id \"{}\" in our database".format(id))
+
+        ride = self.get_available_ride() 
+        return Response(RideSerializer(ride).data, status=201)
+
+    """
+    Driver sends their DRIVER_ID and the RIDE_ID of the possible assignment. The Server
+    links the Driver to the Ride and returns the Ride object.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='accept-assignment', url_name='accept_assignment')
+    def accept_assignment(self, request, pk=None):
+        try:
+            driver_id = get_value("driver_id", 'int', request)
+            ride_id = get_value("ride_id", 'int', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+
+        r = Ride.objects.filter(id=ride_id).first() 
+        if r is None:
+            return HttpResponseBadRequest("No ride with id \"{}\" in our database".format(ride_id))
+
+        driver = Driver.objects.filter(id=driver_id).first() 
+        if driver is None:
+            return HttpResponseBadRequest("No driver with id \"{}\" in our database".format(driver_id))
+        r.driver = driver # set driver of ride to be rider
+        r.save()
+        return Response(RideSerializer(r).data, status=201)
+
+    """
+    Driver sends the RIDE_ID of the possible assignment and the Server releases the assignment
+    hold on the Ride.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='reject-assignment', url_name='reject_assignment')
+    def reject_assignment(self, request, pk=None):
+        try:
+            ride_id = get_value("ride_id", 'int', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+
+        r = Ride.objects.filter(id=ride_id).first() 
+        if r is None:
+            return HttpResponseBadRequest("No ride with id \"{}\" in our database".format(ride_id))
+        r.assigned = False
+        r.save()
+        return Response(RideSerializer(r).data, status=201)
+
+    """
+    Driver sends the RIDE_ID. Database records that ride has started and returns the updated Ride object.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='picked-up', url_name='picked_up')
+    def picked_up(self, request, pk=None):
+        try:
+            ride_id = get_value("ride_id", 'int', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+      
+        ride = Ride.objects.filter(id=ride_id, picked_up=None).first()
+        if ride is None:
+            return HttpResponseBadRequest("No active ride found with id {}".format(ride_id))
+        ride.picked_up = timezone.now()
+        ride.save()
+        return Response(RideSerializer(ride).data, status=201)
+
+    """
+    Driver sends the RIDE_ID. Database records that ride has ended and returns the updated Ride object.
+    """
+    @action(methods=['post'], detail=True,
+            url_path='dropped-off', url_name='dropped_off')
+    def dropped_off(self, request, pk=None):
+        try:
+            ride_id = get_value("ride_id", 'int', request) # identify by phone number
+        except KeyError as e:
+            return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
+      
+        ride = Ride.objects.filter(id=ride_id, dropped_off=None).first()
+        if ride is None:
+            return HttpResponseBadRequest("No active ride found with id {}".format(ride_id))
+        ride.dropped_off = timezone.now()
+        ride.save()
+        return Response(RideSerializer(ride).data, status=201)
 
 def dispatcher(request):
     template = loader.get_template('dispatcher.html')

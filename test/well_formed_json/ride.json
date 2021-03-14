@@ -1,9 +1,11 @@
 {
     "sunet": "pb", 
-    "current_loc": "Okada", 
-    "destination": "Suites", 
+    "origin": "Okada", 
+    "dest": "Suites", 
     "num_riders": "2", 
     "safety_level": "2",
-    "cur_lat": "0.0",
-    "cur_long": "0.0"
+    "origin_lat": "0.0",
+    "origin_long": "0.0",
+    "dest_lat": "0.0",
+    "dest_long": "0.0"
 }
