@@ -8,6 +8,7 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
+import * as Permissions from 'expo-permissions';
 
 import axios from 'axios';
 import { ReadItem } from "./databaseHelper";

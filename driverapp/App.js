@@ -24,6 +24,7 @@ import LoginRiderPage from './components/rider/login.js';
 import RegisterRiderPage from './components/rider/registerRider';
 import RequestPage from './components/rider/ridePage';
 import EtaPage from './components/rider/etaPage';
+import * as Permissions from 'expo-permissions';
 
 class App extends React.Component {
   constructor(props) {
