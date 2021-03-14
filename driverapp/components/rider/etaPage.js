@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,79 +6,129 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Polyline } from 'react-native-maps';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { LocationContext } from '../locationContext.js';
+import { decode } from "@mapbox/polyline";
 
-class EtaPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      queuePosition: 4,
-      timeLeft: 17,
-    };
-    this.leaveQueue = this.leaveQueue.bind(this);
+const EtaPage = (props) => {
+  const { originLat, originLong, destLat, destLong, origin, dest } = props;
+  const [queuePosition, setQueuePosition] = useState(4);
+  const [timeLeft, setTimeLeft] = useState(17);
+  const [coords, setCoords] = useState([]);
+
+  useEffect (() => {
+    getDirections()
+      .then(coordinates => setCoords (coordinates))
+      .catch(err => console.log ("Something went wrong."));
+  }, []);
+
+  const defaultDelta = 0.0122;
+  const defaultDeltaMultiplier= 3;
+
+  const leaveQueue = () => props.history.push("/rideRequest");
+
+  const getDirections = async () => {
+    const startLoc = getLatLongString (originLat, originLong);
+    const destinationLoc = getLatLongString (destLat, destLong);
+    try {
+      const KEY = "AIzaSyCtFAsi3z_lYe66Ad9nMTU6CVLVvtdDdKM";
+      let resp = await fetch(
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}`
+      );
+      let respJson = await resp.json();
+      let points = decode(respJson.routes[0].overview_polyline.points);
+      let coordindates = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1]
+        };
+      });
+      return coordindates;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const getLatLongString = (lat, long) => {
+    return lat + "," + long;
   }
 
-  leaveQueue() {
-    // Here we need to post that the person wants to get out of the queue
-    this.props.history.push("/rideRequest");
-  }
-
-
-  componentDidMount() {
-    // Here we should send the request for number of people in the queue and expected time left.
-  }
-
-  render() {
+  const pin = (name, lat, long) => {
     return (
-      <View style={styles.body}>
-        <LocationContext.Consumer>
-        {({ cur_lat, cur_long }) => {
-                    let cur_lat_num = Number(cur_lat)
-                    let cur_long_num = Number(cur_long)
-                    return (
-                            <>
-                            <MapView
-                            initialRegion={{
-                              latitude: cur_lat_num,
-                              longitude: cur_long_num,
-                              latitudeDelta: 0.0922,
-                              longitudeDelta: 0.0421,
-                            }}
-                            style = {styles.map}
-                            showsUserLocation = {true}
-                            followUserLocation = {false}
-                            zoomEnabled = {true}
-                          />
-                          </>
-                          )
-
-                  }
-                }
-      </LocationContext.Consumer>
-        <View>
-          <Text style={styles.confirmation}>Your ride is registered! Current wait time is approximately {this.state.timeLeft} minutes.</Text>
-          <Text style={styles.detailTitle}>Ride Details</Text>
-          <View style={styles.message}>
-            <Text>Queue positon: {this.state.queuePosition}</Text>
-            <Text>Driver's name: TBD </Text>
-            <Text>License plate: TBD </Text>
-
-            {/* TODO: Update these addresses from ridePage.js */}
-            <Text>From: 123 Stanford Dr. Palo Alto, CA 97862 </Text>
-            <Text>To: 139 Green Dr. Palo Alto, CA 97862 </Text>
-          </View>
-          <Text style={styles.detailTitle}>Notes</Text>
-          <View style={styles.message}>
-            <Text>We will let you know when a driver is assigned. Please call 911 if you are feeling unsafe.</Text>
-          </View>
-        </View>
-        <TouchableOpacity onPress={this.leaveQueue} style={styles.button}>
-              <Text style={{ alignSelf: 'center' }}> Leave queue </Text>
-        </TouchableOpacity>
-      </View>
+      <MapView.Marker 
+        draggable={false}
+        coordinate={{
+          latitude: lat,
+          longitude: long,
+        }}
+        title={name}
+        pinColor={name == 'Destination' ? 'red' : 'green'}
+      />
     );
   }
+
+  const getMap = (originLat, originLong, destLat, destLong) => {
+    let originLatNum = Number(originLat)
+    let originLongNum = Number(originLong)
+    let destLatNum = Number(destLat)
+    let destLongNum = Number(destLong)
+
+    const edge = defaultDelta * defaultDeltaMultiplier;
+    return (
+      <>
+        <MapView
+          region={{
+            latitude: (originLat + destLat) / 2,
+            longitude: (originLong + destLong) / 2,
+            latitudeDelta: Math.abs(originLat - destLat) + edge,
+            longitudeDelta: Math.abs(originLong - destLong) + edge,
+          }}
+          initialRegion={{
+            latitude: originLatNum,
+            longitude: originLongNum,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          style = {styles.map}
+          showsUserLocation = {true}
+          followUserLocation = {false}
+          zoomEnabled = {true}>
+          {coords.length > 0 && <Polyline coordinates={coords} />}
+          {pin ("Origin", originLat, originLong)}
+          {pin ("Destination", destLat, destLong)}
+        </MapView>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.body}>
+      <LocationContext.Consumer>
+      {({ originLat, originLong, destLat, destLong }) => getMap (originLat, originLong, destLat, destLong)}
+    </LocationContext.Consumer>
+      <View>
+        <Text style={styles.confirmation}>Your ride is registered! Current wait time is approximately {timeLeft} minutes.</Text>
+        <Text style={styles.detailTitle}>Ride Details</Text>
+        <View style={styles.message}>
+          <Text>Queue positon: {queuePosition}</Text>
+          <Text>Driver's name: TBD </Text>
+          <Text>License plate: TBD </Text>
+
+          {/* TODO: Update these addresses from ridePage.js */}
+          <Text>From: {origin}</Text>
+          <Text>To: {dest} </Text>
+        </View>
+        <Text style={styles.detailTitle}>Notes</Text>
+        <View style={styles.message}>
+          <Text>We will let you know when a driver is assigned. Please call 911 if you are feeling unsafe.</Text>
+        </View>
+      </View>
+      <TouchableOpacity onPress={leaveQueue} style={styles.button}>
+            <Text style={{ alignSelf: 'center' }}> Leave queue </Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

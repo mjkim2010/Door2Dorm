@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   TextInput,
@@ -27,25 +27,66 @@ const RequestPage = (props) => {
   const [originLong, setOriginLong] = useState("");
   const [destLat, setDestLat] = useState("");
   const [destLong, setDestLong] = useState("");
+  const [mapLat, setMapLat] = useState("");
+  const [mapLong, setMapLong] = useState("");
   const [cnt, increment] = useState(0);
 
+  useEffect (() => {
+    getInitialLocation();
+  }, []);
+
+  const getInitialLocation = async () => {
+    getPermission();
+    const location = await getLocationAsync();
+    if (location) {
+      const lat = location.coords.latitude;
+      const long = location.coords.longitude;
+      const addrs = await Location.reverseGeocodeAsync({
+        latitude: lat,
+        longitude: long,
+      });
+      const addr = addrs[0];
+      setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
+      setOriginLat(location.coords.latitude);
+      setOriginLong(location.coords.longitude);
+      setMapLat(location.coords.latitude);
+      setMapLong(location.coords.longitude);
+    }
+  }
+
+  const defaultDelta = 0.0122;
+  const defaultDeltaMultiplier= 3;
+
   const mapView = () => {
+    const edge = defaultDelta * defaultDeltaMultiplier;
     return (
-      <MapView
+      <View>
+        <View style={styles.message}>
+          <Text>You may drag the pins to adjust the pickup/dropoff location. </Text>
+        </View>
+        <MapView
+        region={{
+          latitude: originLat && destLat ? ((originLat + destLat) / 2) : originLat,
+          longitude: originLong && destLong ? ((originLong + destLong) / 2) : originLong,
+          latitudeDelta: originLat && destLat ? Math.abs(originLat - destLat) + edge: defaultDelta,
+          longitudeDelta: originLong && destLong ? Math.abs(originLong - destLong) + edge : defaultDelta,
+        }}
         initialRegion={{
-          latitude: 37.764955,
-          longitude: -122.419817,
-          latitudeDelta: 0.0122,
-          longitudeDelta: 0.0121,
+          latitude: originLat,
+          longitude: originLong,
+          latitudeDelta: defaultDelta,
+          longitudeDelta: defaultDelta,
         }}
         style = {styles.map}
-        // showsUserLocation = {true}
+        showsUserLocation = {true}
         followUserLocation = {false}
         zoomEnabled = {true}
-      >
-        {originLat && originLong ? pin ("Origin", originLat, originLong, onDragEndOrigin) : null}
-        {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
-      </MapView>
+        >
+          {originLat && originLong ? pin ("Origin", originLat, originLong, onDragEndOrigin) : null}
+          {destLat && destLong ? pin ("Destination", destLat, destLong, onDragEndDest): null}
+        </MapView>
+      </View>
+      
     );
   }
 
@@ -63,7 +104,7 @@ const RequestPage = (props) => {
         }}
         title={name}
         onDragEnd={onDragEndHandler}
-        onEndEditing
+        pinColor={name == 'Destination' ? 'red' : 'green'}
       />
     );
   }
@@ -84,14 +125,16 @@ const RequestPage = (props) => {
 
   const convertToLatLong = async (name, setLatFunc, setLongFunc) => {
     getPermission();
-    const locations = await Location.geocodeAsync(origin);
+    const whichLocation = name == 'pickup' ? origin : dest;
+    const locations = await Location.geocodeAsync(whichLocation);
     if (!locations || locations.length == 0) {
       alert(`Please enter a valid ${name} address.\n`);
     } else {
       const location = locations[0];
       setLatFunc(location.latitude);
       setLongFunc(location.longitude);
-      forceUpdate();
+      setMapLat(location.latitude);
+      setMapLong(location.longitude);
     }
   }
 
@@ -100,6 +143,8 @@ const RequestPage = (props) => {
     const addrs = await Location.reverseGeocodeAsync(coord);
     setDestLat(coord.latitude);
     setDestLong(coord.longitude);
+    setMapLat(coord.latitude);
+    setMapLong(coord.longitude);
     const addr = addrs[0];
     setDest(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
@@ -109,6 +154,8 @@ const RequestPage = (props) => {
     const addrs = await Location.reverseGeocodeAsync(coord);
     setOriginLat(coord.latitude);
     setOriginLong(coord.longitude);
+    setMapLat(coord.latitude);
+    setMapLong(coord.longitude);
     const addr = addrs[0];
     setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
@@ -128,7 +175,7 @@ const RequestPage = (props) => {
     }
   }
 
-  const requestButton = async (setLat, setLong) => {
+  const requestButton = async (setLocations) => {
     verify(); 
     const sunet = await ReadItem("sunet");
     const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
@@ -151,8 +198,7 @@ const RequestPage = (props) => {
       dest_long: destLong,
     };
 
-    setLat(body.origin_lat);
-    setLong(body.origin_long);
+    setLocations(body.origin_lat, body.origin_long, body.dest_lat, body.dest_long, body.origin, body.dest);
 
     axios.post(url, body)
       .then(function(res) {
@@ -220,19 +266,19 @@ const RequestPage = (props) => {
               />
             </View>
             <LocationContext.Consumer>
-              {({ setLat, setLong }) => {
-                  return (
-                    <TouchableOpacity 
-                      onPress={() => {
-                        requestButton(setLat, setLong)}
-                      }
-                      style={styles.button}>
-                      <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
-                    </TouchableOpacity>
-                  )
-                }
-              }
-          </LocationContext.Consumer>
+          {({ setLocations }) => {
+              return (
+                <TouchableOpacity 
+                  onPress={() => {
+                    requestButton(setLocations)}
+                  }
+                  style={styles.button}>
+                  <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
+                </TouchableOpacity>
+              )
+            }
+          }
+      </LocationContext.Consumer>
         </View>
       </SafeAreaView>
   );
@@ -265,7 +311,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2.2,
+    height: Dimensions.get('window').height/2.8,
     marginBottom: 10,
   },
   back: {
@@ -288,6 +334,10 @@ const styles = StyleSheet.create({
     margin: 10,
     alignSelf: 'center',
     padding: 10,
+  },
+  message: {
+    marginTop: 5,
+    marginLeft: 10,
   },
 });
 

@@ -28,23 +28,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setLat = (lat) => {
+    this.setLocations = (originLat, originLong, destLat, destLong, origin, dest) => {
       this.setState( _ => ({
-        cur_lat: lat,
+        originLat: originLat,
+        originLong: originLong,
+        destLat: destLat,
+        destLong: destLong,
+        origin: origin,
+        dest: dest
       }));
-    };
-
-    this.setLong = (long) => {
-      this.setState( _ => ({
-        cur_long: long,
-      }));
-    };
+    }
+    
 
     this.state = {
-      cur_lat: "",
-      setLat: this.setLat,
-      cur_long: "",
-      setLong: this.setLong
+      originLat: "",
+      originLong: "",
+      destLat: "",
+      destLong: "",
+      setLocations: this.setLocations,
     };
 
   }
@@ -66,7 +67,17 @@ class App extends React.Component {
                   <Route path="/loading" component={LoadingPage} />
                   <Route path="/registerRider" component={RegisterRiderPage} />
                   <Route path="/rideRequest" component={RequestPage} />
-                  <Route path="/eta" component={EtaPage} />
+                  <Route path="/eta" 
+                         render={(props) => (
+                            <EtaPage {...props} 
+                              originLat={this.state.originLat}
+                              originLong={this.state.originLong}
+                              destLat={this.state.destLat}
+                              destLong={this.state.destLong}
+                              origin={this.state.origin}
+                              dest={this.state.dest}/>
+                         )}
+                  />
                   <Route path="/loginRider" component={LoginRiderPage} />
                 </Switch>
               </NativeRouter>
