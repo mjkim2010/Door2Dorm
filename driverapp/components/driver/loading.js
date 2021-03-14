@@ -14,24 +14,78 @@ import {
   } from 'react-native/Libraries/NewAppScreen';
 
 import { DriverContext } from '../driverContext.js';
+import axios from 'axios';
 
 class LoadingPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
+        ride_id: ''
       };
       this.componentDidMount = this.componentDidMount.bind(this);
+      this.sendPostRequest = this.sendPostRequest.bind(this);
     }
 
     componentDidMount() {
+      console.log("here");
       var phoneNumber = this.context.driver_phone_number;
-      let ride_id = "Jake";
-      this.context.setRideID(ride_id);
-      setTimeout(function(history) {
-        console.log(history);
-        history.push("/pickup");
-      }, 4000, this.props.history);
+      this.context.setRideID(this.state.ride_id);
+      var self = this;
+      let payload = {
+        "driver_id": phoneNumber,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          var ride_id = res.data['id']
+          if (!ride_id) {
+            setTimeout(function() {
+              self.componentDidMount();
+            }, 4000);
+          } else {
+            console.log(ride_id);
+            self.context.setRideID(ride_id);
+            self.props.history.push("/pickup");
+          }       
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
+      // }
+      // this.props.history.push("/pickup");
+      
     }
+
+    sendPostRequest(phoneNumber) {
+    // JSON file that will be sent to the POST endpoint
+      let payload = {
+        "driver_id": phoneNumber,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      var self = this;
+      var ride_id = '';
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          console.log(res.data['id']);
+          ride_id = res.data['id'];
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
+    }
+
 
     render() {
       return (
