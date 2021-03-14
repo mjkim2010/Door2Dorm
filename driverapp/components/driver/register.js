@@ -201,6 +201,7 @@ import {
     Image,
     View,
   } from 'react-native';
+import axios from 'axios';
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -214,12 +215,39 @@ class RegisterPage extends React.Component {
         emailAddress: "",
         driverLicense: "",
       };
+      this.sendPostRequest = this.sendPostRequest.bind(this);
       this.register = this.register.bind(this);
       this.switchToLogin = this.switchToLogin.bind(this);
     }
 
+    sendPostRequest() {
+    // JSON file that will be sent to the POST endpoint
+    let payload = {
+      "first": this.state.firstName,
+      "last": this.state.lastName,
+      "email": this.state.emailAddress,
+      "password": this.state.password,
+      "phone": this.state.phoneNumber,
+      "license": this.state.driverLicense
+    }
+    const url = 'http://127.0.0.1:8000/drivers/placeholder/cr-driver/';
+    axios.post(url, payload)
+      .then(function(res) {
+        console.log('Response received\n');
+        console.log(res.data);
+        props.history.push("/newRide");
+      })
+      .catch(function(err) {
+        console.log("Error making the call");
+        console.log(err);
+        if (err.request) {
+          console.log(err.request);
+        }
+      });
+  }
+
     register() {
-        this.props.history.push("/newRide")
+        this.sendPostRequest();
     }
 
     switchToLogin() {
@@ -296,10 +324,10 @@ class RegisterPage extends React.Component {
                   autoCorrect={false}
                   spellCheck={false}
                   style={styles.textInput}
-                  placeholder="Username"
+                  placeholder="Email"
                   placeholderTextColor="#a3aaad"
                   onChange={(e) => {
-                    this.setState({ ID: e.nativeEvent.text });
+                    this.setState({ emailAddress: e.nativeEvent.text });
                   }}
                 />
               </View>
