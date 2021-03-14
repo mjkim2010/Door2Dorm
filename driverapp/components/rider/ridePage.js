@@ -7,8 +7,6 @@ import {
   StyleSheet,
   Dimensions,
   SafeAreaView,
-  TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 
 import axios from 'axios';
@@ -61,9 +59,6 @@ const RequestPage = (props) => {
     const edge = defaultDelta * defaultDeltaMultiplier;
     return (
       <View>
-        <View style={styles.message}>
-          <Text>You may drag the pins to adjust the pickup/dropoff location. </Text>
-        </View>
         <MapView
         region={{
           latitude: originLat && destLat ? ((originLat + destLat) / 2) : originLat,
@@ -217,16 +212,32 @@ const RequestPage = (props) => {
 
   return (
     <SafeAreaView>
-        <View style={styles.back}>
-            <Button
-              onPress={logoutButton}
-              title="Back"
-              accessibilityLabel="Back"
-              color='black'
-            />
-        </View>
+        <View style={styles.buttonContainer}>
+          <View style={styles.back}>
+              <Button
+                onPress={logoutButton}
+                title="Back"
+                accessibilityLabel="Back"
+                color='black'
+              />
+          </View>
+          <LocationContext.Consumer>
+            {({ setLocations }) => {
+                return (
+                  <Button
+                    onPress={() => {
+                      requestButton(setLocations)}
+                    }
+                    title="Request"
+                    accessibilityLabel="Request"
+                    color='black'
+                  />
+                )
+              }
+            }
+          </LocationContext.Consumer>
+        </View>  
         <View>
-            {mapView ()}
             <View style={styles.inputView}>
               <Text style={styles.sectionTitle}>Pickup address</Text>
               <TextInput
@@ -240,6 +251,8 @@ const RequestPage = (props) => {
             <View style={styles.inputView}>
               <Text style={styles.sectionTitle}>Destination address</Text>
               <TextInput
+                placeholder="Ex: 123 Stanford Dr, Taft, CA 12345"
+                placeholderTextColor="#a3aaad"
                 value={dest}
                 props={commonProps}
                 style={styles.textInput}
@@ -260,25 +273,13 @@ const RequestPage = (props) => {
               <TextInput
                 keyboardType={'number-pad'}
                 style={styles.textInput}
-                placeholder="Ex: 9 is emergency."
-                placeholderTextColor="#a3aaad"
                 onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
               />
             </View>
-            <LocationContext.Consumer>
-          {({ setLocations }) => {
-              return (
-                <TouchableOpacity 
-                  onPress={() => {
-                    requestButton(setLocations)}
-                  }
-                  style={styles.button}>
-                  <Text style={{ alignSelf: 'center' }}> Request Ride </Text>
-                </TouchableOpacity>
-              )
-            }
-          }
-      </LocationContext.Consumer>
+            <View>
+              <Text style={styles.note}>Note: Dragging the pin will edit the pickup/dropoff locations.</Text>
+            </View>
+            {mapView ()}
         </View>
       </SafeAreaView>
   );
@@ -311,11 +312,13 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height/2.8,
-    marginBottom: 10,
+    height: Dimensions.get('window').height/1.5,
   },
   back: {
     alignItems: "flex-start",
+  },
+  request: {
+    alignItems: "flex-end",
   },
   sectionTitle: {
     alignItems: "flex-start",
@@ -335,10 +338,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 10,
   },
-  message: {
-    marginTop: 5,
+  note: {
+    color: 'gray',
     marginLeft: 10,
+    marginBottom: 10,
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+  }
 });
 
 export default RequestPage;

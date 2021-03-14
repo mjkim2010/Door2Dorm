@@ -18,7 +18,6 @@ class LoadingPage extends React.Component {
       super(props);
       this.state = {
       };
-      this.logout = this.logout.bind(this);
       this.componentDidMount = this.componentDidMount.bind(this);
     }
 
@@ -27,10 +26,6 @@ class LoadingPage extends React.Component {
         console.log(history);
         history.push("/pickup");
       }, 4000, this.props.history);
-    }
-
-    logout() {
-      this.props.history.push("/")
     }
 
     render() {
@@ -44,9 +39,6 @@ class LoadingPage extends React.Component {
                 style={styles.image}
                 source={require('../../img/loading.jpg')}
               />
-              <TouchableOpacity onPress={this.logout} style={styles.button}>
-                  <Text> Log Out </Text>
-              </TouchableOpacity>
             </View>
           </View>
         </>
