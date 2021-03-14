@@ -32,7 +32,7 @@ class LoadingPage extends React.Component {
       this.context.setRideID(this.state.ride_id);
       var self = this;
       let payload = {
-        "driver_id": phoneNumber,
+        "driver_phone": phoneNumber,
       }
       const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
       axios.post(url, payload)

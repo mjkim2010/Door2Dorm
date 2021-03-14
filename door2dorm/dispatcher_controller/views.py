@@ -151,13 +151,13 @@ class DriverViewSet(viewsets.ModelViewSet):
             url_path='ask-assignment', url_name='ask_assignment')
     def ask_for_assignment(self, request, pk=None):
         try:
-            id = get_value("driver_id", 'int', request) # identify by phone number
+            phone = get_value("driver_phone", 'int', request) # identify by phone number
         except KeyError as e:
             return HttpResponseBadRequest("Missing field {} in request".format(e.args[0]))
 
-        driver = Driver.objects.filter(id=id).first()
+        driver = Driver.objects.filter(phone=phone).first()
         if driver is None:
-            return HttpResponseBadRequest("No rider with id \"{}\" in our database".format(id))
+            return HttpResponseBadRequest("No driver with phone number \"{}\" in our database".format(phone))
 
         ride = self.get_available_ride() 
         return Response(RideSerializer(ride).data, status=201)
