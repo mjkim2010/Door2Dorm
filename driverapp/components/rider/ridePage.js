@@ -61,9 +61,6 @@ const RequestPage = (props) => {
     const edge = defaultDelta * defaultDeltaMultiplier;
     return (
       <View>
-        <View style={styles.message}>
-          <Text>You may drag the pins to adjust the pickup/dropoff location. </Text>
-        </View>
         <MapView
         region={{
           latitude: originLat && destLat ? ((originLat + destLat) / 2) : originLat,
@@ -227,6 +224,9 @@ const RequestPage = (props) => {
         </View>
         <View>
             {mapView ()}
+            <View>
+              <Text style={styles.note}>Note: Dragging the pin will edit the pickup/dropoff location.</Text>
+            </View>
             <View style={styles.inputView}>
               <Text style={styles.sectionTitle}>Pickup address</Text>
               <TextInput
@@ -240,6 +240,8 @@ const RequestPage = (props) => {
             <View style={styles.inputView}>
               <Text style={styles.sectionTitle}>Destination address</Text>
               <TextInput
+                placeholder="Ex: 123 Stanford Dr, Taft, CA 12345"
+                placeholderTextColor="#a3aaad"
                 value={dest}
                 props={commonProps}
                 style={styles.textInput}
@@ -260,8 +262,6 @@ const RequestPage = (props) => {
               <TextInput
                 keyboardType={'number-pad'}
                 style={styles.textInput}
-                placeholder="Ex: 9 is emergency."
-                placeholderTextColor="#a3aaad"
                 onChange={(e) => setSafetyLevel (e.nativeEvent.text)}
               />
             </View>
@@ -335,10 +335,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 10,
   },
-  message: {
-    marginTop: 5,
+  note: {
+    color: 'gray',
     marginLeft: 10,
-  },
+    marginBottom: 30,
+  }
 });
 
 export default RequestPage;
