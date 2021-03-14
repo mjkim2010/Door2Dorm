@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-
+from django.utils import timezone
 
 class Student(models.Model):
     sunet = models.CharField(max_length=30, unique=True)
@@ -57,7 +57,7 @@ class Ride(models.Model):
     num_passengers = models.IntegerField(default = 1) # TODO: Add validator to restrict range [1, 4]
     safety_lvl = models.PositiveIntegerField(default = 5) # TODO: Add validator to restrict range [0, 10]
     priority = models.FloatField(default = 50) # TODO: Add validator to restrict range [0, 100]
-    time_requested = models.DateTimeField('time requested', default = datetime.now)
+    time_requested = models.DateTimeField('time requested', default = timezone.now)
     # null by default, not active until we pick someone up
     picked_up = models.DateTimeField(null = True, default = None) 
     dropped_off = models.DateTimeField(null = True, default = None)
