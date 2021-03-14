@@ -23,7 +23,7 @@ class LoadingPage extends React.Component {
         ride_id: ''
       };
       this.componentDidMount = this.componentDidMount.bind(this);
-      this.sendPostRequest = this.sendPostRequest.bind(this);
+      this.acceptRide = this.acceptRide.bind(this);
     }
 
     componentDidMount() {
@@ -47,8 +47,31 @@ class LoadingPage extends React.Component {
           } else {
             console.log(ride_id);
             self.context.setRideID(ride_id);
-            self.props.history.push("/pickup");
+            self.acceptRide(phoneNumber, ride_id);
           }       
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
+    }
+
+    acceptRide(driver_id, ride_id) {
+    // JSON file that will be sent to the POST endpoint
+      let payload = {
+        "driver_id": driver_id,
+        "ride_id": ride_id,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      var self = this;
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          self.props.history.push("/pickup");
         })
         .catch(function(err) {
           console.log("Error making the call");

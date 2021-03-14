@@ -25,8 +25,6 @@ class NewRidePage extends React.Component {
     }
 
     newRide(driver_phone_number, ride_id) {
-      console.log("drive_phone_number: ", driver_phone_number);
-      console.log("ride_id: ", ride_id);
       this.props.history.push("/loading");
     }
 
