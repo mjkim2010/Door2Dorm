@@ -11,7 +11,9 @@ import {
   } from 'react-native';
   import MapView from 'react-native-maps';
   import { LocationContext } from '../locationContext.js';
+  import { DriverContext } from '../driverContext.js';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 class DropOffPage extends React.Component {
     constructor(props) {
@@ -24,7 +26,9 @@ class DropOffPage extends React.Component {
     }
 
     droppedOff() {
-        this.props.history.push("/newRide");
+      var ride_id = this.context.ride_id;
+      console.log(ride_id);
+      this.props.history.push("/newRide");
     }
 
     render() {
@@ -71,6 +75,8 @@ class DropOffPage extends React.Component {
     }
   }
   
+  DropOffPage.contextType = DriverContext;
+
   const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',

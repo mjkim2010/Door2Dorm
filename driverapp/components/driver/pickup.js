@@ -11,6 +11,7 @@ import {
   } from 'react-native';
   import MapView from 'react-native-maps';
   import { LocationContext } from '../locationContext.js';
+  import { DriverContext } from '../driverContext.js';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 class PickUpPage extends React.Component {
@@ -25,7 +26,9 @@ class PickUpPage extends React.Component {
     }
 
     pickedUp() {
-        this.props.history.push("/dropoff");
+      var ride_id = this.context.ride_id;
+      console.log(ride_id);
+      this.props.history.push("/dropoff");
     }
 
     call() {
@@ -78,6 +81,8 @@ class PickUpPage extends React.Component {
       );
     }
   }
+  
+  PickUpPage.contextType = DriverContext;
   
   const styles = StyleSheet.create({
     container: {

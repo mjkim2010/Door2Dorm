@@ -9,9 +9,11 @@ import {
     TouchableOpacity,
   } from 'react-native';
   
-  import {
+import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
+
+import { DriverContext } from '../driverContext.js';
 
 class LoadingPage extends React.Component {
     constructor(props) {
@@ -22,6 +24,9 @@ class LoadingPage extends React.Component {
     }
 
     componentDidMount() {
+      var phoneNumber = this.context.driver_phone_number;
+      let ride_id = "Jake";
+      this.context.setRideID(ride_id);
       setTimeout(function(history) {
         console.log(history);
         history.push("/pickup");
@@ -46,6 +51,8 @@ class LoadingPage extends React.Component {
     }
   }
   
+  LoadingPage.contextType = DriverContext;
+
   const styles = StyleSheet.create({
     container: {
       backgroundColor: 'white',
