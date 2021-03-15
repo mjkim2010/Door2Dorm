@@ -11,6 +11,7 @@ import { SafeAreaView, StatusBar} from 'react-native';
 import { registerRootComponent } from 'expo';
 import { NativeRouter, Switch, Route } from "react-router-native";
 import { LocationContext } from './components/locationContext.js';
+import { DriverContext } from './components/driverContext.js';
 
 import RegisterDriverPage from './components/driver/register.js';
 import LoginDriverPage from './components/driver/login.js';
@@ -38,14 +39,29 @@ class App extends React.Component {
         dest: dest
       }));
     }
-    
 
+    this.setNumber = (number) => {
+      this.setState( _ => ({
+        driver_phone_number: number,
+      }));
+    }
+
+    this.setRideID = (number) => {
+      this.setState( _ => ({
+        ride_id: number,
+      }));
+    }
+    
     this.state = {
       originLat: "",
       originLong: "",
       destLat: "",
       destLong: "",
       setLocations: this.setLocations,
+      driver_phone_number: "",
+      setNumber: this.setNumber,
+      ride_id: "",
+      setRideID: this.setRideID,
     };
 
   }
@@ -55,33 +71,35 @@ class App extends React.Component {
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
-          <LocationContext.Provider value={this.state}>
-              <NativeRouter>
-                <Switch>
-                  <Route exact path="/" component={HomePage} />
-                  <Route path="/register" component={RegisterDriverPage} />
-                  <Route path="/login" component={LoginDriverPage} />
-                  <Route path="/pickup" component={PickUpPage} />
-                  <Route path="/dropoff" component={DropOffPage} />
-                  <Route path="/newRide" component={NewRidePage} />
-                  <Route path="/loading" component={LoadingPage} />
-                  <Route path="/registerRider" component={RegisterRiderPage} />
-                  <Route path="/rideRequest" component={RequestPage} />
-                  <Route path="/eta" 
-                         render={(props) => (
-                            <EtaPage {...props} 
-                              originLat={this.state.originLat}
-                              originLong={this.state.originLong}
-                              destLat={this.state.destLat}
-                              destLong={this.state.destLong}
-                              origin={this.state.origin}
-                              dest={this.state.dest}/>
-                         )}
-                  />
-                  <Route path="/loginRider" component={LoginRiderPage} />
-                </Switch>
-              </NativeRouter>
-            </LocationContext.Provider>
+          <DriverContext.Provider value={this.state}>
+            <LocationContext.Provider value={this.state}>
+                <NativeRouter>
+                  <Switch>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/register" component={RegisterDriverPage} />
+                    <Route path="/login" component={LoginDriverPage} />
+                    <Route path="/pickup" component={PickUpPage} />
+                    <Route path="/dropoff" component={DropOffPage} />
+                    <Route path="/newRide" component={NewRidePage} />
+                    <Route path="/loading" component={LoadingPage} />
+                    <Route path="/registerRider" component={RegisterRiderPage} />
+                    <Route path="/rideRequest" component={RequestPage} />
+                    <Route path="/eta" 
+                          render={(props) => (
+                              <EtaPage {...props} 
+                                originLat={this.state.originLat}
+                                originLong={this.state.originLong}
+                                destLat={this.state.destLat}
+                                destLong={this.state.destLong}
+                                origin={this.state.origin}
+                                dest={this.state.dest}/>
+                          )}
+                    />
+                    <Route path="/loginRider" component={LoginRiderPage} />
+                  </Switch>
+                </NativeRouter>
+              </LocationContext.Provider>
+            </DriverContext.Provider>
         </SafeAreaView>
       </>
     );

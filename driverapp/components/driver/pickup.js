@@ -11,6 +11,7 @@ import {
   } from 'react-native';
   import MapView from 'react-native-maps';
   import { LocationContext } from '../locationContext.js';
+  import { DriverContext } from '../driverContext.js';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 class PickUpPage extends React.Component {
@@ -21,11 +22,35 @@ class PickUpPage extends React.Component {
         location: "Florence Moore Hall",
       };
       this.pickedUp = this.pickedUp.bind(this);
+      this.sendPostRequest = this.sendPostRequest.bind(this);
       this.call = this.call.bind(this);
     }
 
     pickedUp() {
-        this.props.history.push("/dropoff");
+      var ride_id = this.context.ride_id;
+      this.sendPostRequest(ride_id);
+    }
+
+    sendPostRequest(ride_id) {
+    // JSON file that will be sent to the POST endpoint
+      let payload = {
+        "ride_id": ride_id,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/picked-up/';
+      var self = this;
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          self.props.history.push("/dropoff");
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
     }
 
     call() {
@@ -78,6 +103,8 @@ class PickUpPage extends React.Component {
       );
     }
   }
+  
+  PickUpPage.contextType = DriverContext;
   
   const styles = StyleSheet.create({
     container: {

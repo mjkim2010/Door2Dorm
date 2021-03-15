@@ -9,23 +9,77 @@ import {
     TouchableOpacity,
   } from 'react-native';
   
-  import {
+import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
+
+import { DriverContext } from '../driverContext.js';
+import axios from 'axios';
 
 class LoadingPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
+        ride_id: ''
       };
       this.componentDidMount = this.componentDidMount.bind(this);
+      this.acceptRide = this.acceptRide.bind(this);
     }
 
     componentDidMount() {
-      setTimeout(function(history) {
-        console.log(history);
-        history.push("/pickup");
-      }, 4000, this.props.history);
+      console.log("here");
+      var phoneNumber = this.context.driver_phone_number;
+      this.context.setRideID(this.state.ride_id);
+      var self = this;
+      let payload = {
+        "driver_phone": phoneNumber,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          var ride_id = res.data['id']
+          if (!ride_id) {
+            setTimeout(function() {
+              self.componentDidMount();
+            }, 4000);
+          } else {
+            console.log(ride_id);
+            self.context.setRideID(ride_id);
+            self.acceptRide(phoneNumber, ride_id);
+          }       
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
+    }
+
+    acceptRide(driver_id, ride_id) {
+    // JSON file that will be sent to the POST endpoint
+      let payload = {
+        "driver_phone": driver_id,
+        "ride_id": ride_id,
+      }
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      var self = this;
+      axios.post(url, payload)
+        .then(function(res) {
+          console.log('Response received\n');
+          console.log(res.data);
+          self.props.history.push("/pickup");
+        })
+        .catch(function(err) {
+          console.log("Error making the call");
+          console.log(err);
+          if (err.request) {
+            console.log(err.request);
+          }
+        });
     }
 
     render() {
@@ -46,6 +100,8 @@ class LoadingPage extends React.Component {
     }
   }
   
+  LoadingPage.contextType = DriverContext;
+
   const styles = StyleSheet.create({
     container: {
       backgroundColor: 'white',

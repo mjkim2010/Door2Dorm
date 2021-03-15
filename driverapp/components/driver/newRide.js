@@ -9,9 +9,11 @@ import {
     TouchableOpacity,
   } from 'react-native';
   
-  import {
+import {
     Colors,
   } from 'react-native/Libraries/NewAppScreen';
+
+import { DriverContext } from '../driverContext.js';
 
 class NewRidePage extends React.Component {
     constructor(props) {
@@ -22,12 +24,12 @@ class NewRidePage extends React.Component {
       this.logout = this.logout.bind(this);
     }
 
-    newRide() {
-      this.props.history.push("/loading")
+    newRide(driver_phone_number, ride_id) {
+      this.props.history.push("/loading");
     }
 
     logout() {
-      this.props.history.push("/login")
+      this.props.history.push("/login");
     }
 
 
@@ -38,10 +40,21 @@ class NewRidePage extends React.Component {
           <SafeAreaView>
             <View style={styles.container}>
                 <Text style={styles.sectionTitle}>You have been assigned a ride!</Text>
-                <View style={styles.buttonContainer}> 
-                  <TouchableOpacity onPress={this.newRide} style={styles.button}>
-                      <Text> Accept </Text>
-                  </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <DriverContext.Consumer>
+                    {({ driver_phone_number, ride_id }) => {
+                      return (
+                        <TouchableOpacity 
+                          onPress={() => {
+                            this.newRide(driver_phone_number, ride_id);
+                              }
+                            } 
+                          style={styles.button}>
+                          <Text>Accept</Text>
+                        </TouchableOpacity>
+                      )
+                    }}
+                  </DriverContext.Consumer>
                   <TouchableOpacity onPress={this.logout} style={styles.button}>
                       <Text> Log Out </Text>
                   </TouchableOpacity>
