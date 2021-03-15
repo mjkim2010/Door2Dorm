@@ -50,8 +50,8 @@ const RegisterPage = (props) => {
       "password": password,
       "phone": phone,
     }
-    const url = 'http://127.0.0.1:8000/students/placeholder/cr-student/';
-    //const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/students/placeholder/cr-student/';
+    //const url = 'http://127.0.0.1:8000/students/placeholder/cr-student/';
+    const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/students/placeholder/cr-student/';
     axios.post(url, payload)
       .then(function(res) {
         console.log('Response received\n');
