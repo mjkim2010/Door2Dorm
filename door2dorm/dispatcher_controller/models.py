@@ -29,7 +29,7 @@ class Driver(models.Model):
     password = models.CharField(max_length=30)
     
     #if blank, driver is not active.
-    license_plate = models.CharField(max_length=30, null = True, blank = True)
+    license_plate = models.CharField(max_length=30, blank = True, default="IKEA980")
     
     #contain list of location objects
     route = models.TextField(default = '[]', null=True, blank=True)
