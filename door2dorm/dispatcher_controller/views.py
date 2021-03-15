@@ -137,14 +137,14 @@ class DriverViewSet(viewsets.ModelViewSet):
     """
     @transaction.atomic
     def get_available_ride(self):
-        r = Ride.objects.filter(assigned=False).order_by('-time_requested').first()
+        r = Ride.objects.filter(assigned=False).order_by('time_requested').first()
         if r is not None:
              r.assigned = True
              r.save()
         return r
 
     """
-    Driver notifies the server that they are ready to pick up a ride by sending their id.
+    Driver notifies the server that they are ready to pick up a ride by sending their phone number.
     Server responds with a potential Ride, or None if there is no ride available.
     """
     @action(methods=['post'], detail=True,
@@ -163,7 +163,7 @@ class DriverViewSet(viewsets.ModelViewSet):
         return Response(RideSerializer(ride).data, status=201)
 
     """
-    Driver sends their DRIVER_ID and the RIDE_ID of the possible assignment. The Server
+    Driver sends their PHONE_NUMBER and the RIDE_ID of the possible assignment. The Server
     links the Driver to the Ride and returns the Ride object.
     """
     @action(methods=['post'], detail=True,
