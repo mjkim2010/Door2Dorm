@@ -130,9 +130,9 @@ const EtaPage = (props) => {
       </TouchableOpacity>
 
       {/* This is to be removed. For development purpose only */}
-      <TouchableOpacity onPress={back} style={styles.button}>
+      {/* <TouchableOpacity onPress={back} style={styles.button}>
             <Text style={{ alignSelf: 'center' }}> back </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

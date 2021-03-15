@@ -104,11 +104,11 @@ class LoadingPage extends React.Component {
                 style={styles.image}
                 source={require('../../img/loading.jpg')}
               />
-              <Button
+              {/* <Button
                   onPress={this.back}
                   title="Back"
                   color='black'
-              />
+              /> */}
             </View>
           </View>
         </>
