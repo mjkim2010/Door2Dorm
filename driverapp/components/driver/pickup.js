@@ -41,8 +41,9 @@ const PickupPage = (props) => {
     findRouteCoords();
   }, []);
 
-  // const pickedUp = () => props.history.push("/dropoff");
-  const call = () => alert("Calling Student");
+  const call = () => {
+    alert(`Please call student at ${context.student.phone}`);
+  }
 
   // Temporary, for dev purpose only
   const back = () => props.history.push("/login");
