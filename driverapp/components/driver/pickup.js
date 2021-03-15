@@ -10,6 +10,7 @@ import {
   Platform, 
   Linking
   } from 'react-native';
+  import axios from 'axios';
   import { LocationContext } from '../locationContext.js';
   import { DriverContext } from '../driverContext.js';
   import MapView, { Polyline } from 'react-native-maps';
@@ -20,6 +21,7 @@ const PickupPage = (props) => {
   let { originLat, originLong, destLat, destLong, origin, dest,
           phone, student, driverLat, driverLong, driverLoc } = props;
   const [coords, setCoords] = useState([]);
+  const context = DriverContext;
 
   const findRouteCoords = async () => {
     let allCoords = [];
@@ -51,6 +53,7 @@ const PickupPage = (props) => {
   const defaultDeltaMultiplier= 3;
 
   const pin = (name, lat, long, color) => {
+    console.log("56", lat, long);
     return (
       <MapView.Marker 
         draggable={false}
@@ -66,7 +69,7 @@ const PickupPage = (props) => {
 
   const mapView = () => {
     const edge = defaultDelta * defaultDeltaMultiplier;
-    if (driverLat == "" || driverLong == "" || driverLoc == "") {
+    if (driverLat == "" || driverLong == "" || driverLoc == "" || originLat == "" || originLong == "" || destLat == "" || destLong == "") {
       return null;
     }
     return (
@@ -111,7 +114,7 @@ const PickupPage = (props) => {
       .then(function(res) {
         console.log('Response received\n');
         console.log(res.data);
-        props.history.push("/dropoff");
+        // props.history.push("/dropoff");
       })
       .catch(function(err) {
         console.log("Error making the call");
@@ -120,6 +123,7 @@ const PickupPage = (props) => {
           console.log(err.request);
         }
       });
+    props.history.push("/dropoff");
   }
 
   const openExternalMapButton = () => {
@@ -133,7 +137,6 @@ const PickupPage = (props) => {
           <TouchableOpacity 
             onPress={() => {
               Linking.openURL(`maps://app?saddr=${driverLat}+${driverLong}&daddr=${originLat}+${originLong}`);
-              props.history.push("/dropoff");
             }}
             style={styles.button}>
             <Text> Open in Maps </Text>
@@ -141,7 +144,6 @@ const PickupPage = (props) => {
           <TouchableOpacity 
             onPress={() => {
               Linking.openURL(`google.navigation:q=${originLat}+${originLong}`);
-              props.history.push("/dropoff");
             }}
             style={styles.button}>
               <Text> Open in Maps </Text>
@@ -199,8 +201,6 @@ const PickupPage = (props) => {
     </>
   );
 }
-
-// PickUpPage.contextType = DriverContext;
 
 const styles = StyleSheet.create({
   container: {

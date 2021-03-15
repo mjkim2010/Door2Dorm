@@ -133,7 +133,19 @@ class App extends React.Component {
                             student={"Shelly Deng"}
                             phone={6503678867}/>
                        )}/>
-                  <Route path="/dropoff" component={DropOffPage} />
+                  <Route path="/dropoff" 
+                         render={(props) => (
+                          <PickUpPage {...props} 
+                            // Currently hardcoded
+                            destLat={37.4242442}
+                            destLong={-122.1779277}
+                            driverLat={37.4254281}
+                            driverLong={-122.1628727}
+                            dest={"589 Governor's Ave, Stanford, CA 94305"}
+                            driverLoc={"655 Escondido Rd, Stanford, CA 94305"}
+                            student={"Shelly Deng"}
+                            phone={6503678867}/>
+                       )}/>
                   <Route path="/newRide" component={NewRidePage} />
                   <Route path="/loading" component={LoadingPage} />
                   <Route path="/registerRider" component={RegisterRiderPage} />
