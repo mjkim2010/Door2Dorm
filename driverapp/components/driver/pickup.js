@@ -10,7 +10,6 @@ import {
   Platform, 
   Linking
   } from 'react-native';
-  import MapView from 'react-native-maps';
   import { LocationContext } from '../locationContext.js';
   import { DriverContext } from '../driverContext.js';
   import MapView, { Polyline } from 'react-native-maps';

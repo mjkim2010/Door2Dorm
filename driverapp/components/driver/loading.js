@@ -27,7 +27,6 @@ class LoadingPage extends React.Component {
     }
 
     componentDidMount() {
-<<<<<<< HEAD
       console.log("here");
       var phoneNumber = this.context.driver_phone_number;
       this.context.setRideID(this.state.ride_id);
@@ -81,12 +80,6 @@ class LoadingPage extends React.Component {
             console.log(err.request);
           }
         });
-=======
-      setTimeout(function(history) {
-        console.log(history);
-        history.push("/pickup");
-      }, 50, this.props.history);
->>>>>>> mapview (pickup) and open external map
     }
 
     render() {
