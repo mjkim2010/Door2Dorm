@@ -47,6 +47,18 @@ class App extends React.Component {
       }));
     }
 
+    this.setStudent = (student) => {
+      this.setState( _ => ({
+        student: student,
+      }));
+    }
+
+    this.setRideRequest = (rideRequest) => {
+      this.setState( _ => ({
+        rideRequest: rideRequest,
+      }));
+    }
+
     this.setRideID = (number) => {
       this.setState( _ => ({
         ride_id: number,
@@ -54,22 +66,30 @@ class App extends React.Component {
     }
     
     this.state = {
-      originLat: "",
-      originLong: "",
-      origin: "",
+      // Driver
+      student: {},
+      rideRequest: {},
 
-      destLat: "",
-      destLong: "",
-      dest: "",
-      
       driverLat: "",
       driverLong: "",
       driverLoc: "",
-      setLocations: this.setLocations,
+
       driver_phone_number: "",
-      setNumber: this.setNumber,
       ride_id: "",
+
       setRideID: this.setRideID,
+      setRideRequest: this.setRideRequest,
+      setStudent: this.setStudent,
+      setNumber: this.setNumber,
+
+      // Rider 
+      originLat: "",
+      originLong: "",
+      destLat: "",
+      destLong: "",
+      origin: "",
+      dest: "",
+      setLocations: this.setLocations,
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);

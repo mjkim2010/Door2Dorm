@@ -11,24 +11,21 @@ import {
   Linking
   } from 'react-native';
   import axios from 'axios';
-  import { LocationContext } from '../locationContext.js';
   import { DriverContext } from '../driverContext.js';
   import MapView, { Polyline } from 'react-native-maps';
   import { Colors } from 'react-native/Libraries/NewAppScreen';
   import { decode } from "@mapbox/polyline";
 
 const PickupPage = (props) => {
-  let { originLat, originLong, destLat, destLong, origin, dest,
-          phone, student, driverLat, driverLong, driverLoc } = props;
-  const [coords, setCoords] = useState([]);
   const context = useContext(DriverContext);
-
+  const [coords, setCoords] = useState([]);
+  
   const findRouteCoords = async () => {
     let allCoords = [];
-    getDirections(driverLat, driverLong, originLat, originLong)
+    getDirections(context.context.driverLat, context.driverLong, context.rideRequest.current_lat, context.rideRequest.current_long)
       .then(coordinates => {
         allCoords.push(...coordinates);
-        getDirections(originLat, originLong, destLat, destLong)
+        getDirections(context.rideRequest.current_lat, context.rideRequest.current_long, context.rideRequest.dest_lat, context.rideRequest.dest_long)
           .then(coordinates => {
             allCoords.push(...coordinates);
             setCoords(allCoords);
@@ -40,7 +37,7 @@ const PickupPage = (props) => {
   }
 
   useEffect(()=> {
-    console.log("43", context.ride_id);
+    console.log("43", context.ride_id, context.student, context.rideRequest, context.driverLat, context.driverLong);
     findRouteCoords();
   }, []);
 
@@ -70,17 +67,14 @@ const PickupPage = (props) => {
 
   const mapView = () => {
     const edge = defaultDelta * defaultDeltaMultiplier;
-    if (driverLat == "" || driverLong == "" || driverLoc == "" || originLat == "" || originLong == "" || destLat == "" || destLong == "") {
-      return null;
-    }
     return (
       <View>
         <MapView
           region={{
-            latitude: (originLat + destLat) / 2,
-            longitude: (originLong + destLong) / 2,
-            latitudeDelta: Math.abs(originLat - destLat) + edge,
-            longitudeDelta: Math.abs(originLong - destLong) + edge,
+            latitude: (context.rideRequest.current_lat + context.rideRequest.dest_lat) / 2,
+            longitude: (context.rideRequest.current_long + context.rideRequest.dest_long) / 2,
+            latitudeDelta: Math.abs(context.rideRequest.current_lat - context.rideRequest.dest_lat) + edge,
+            longitudeDelta: Math.abs(context.rideRequest.current_long - context.rideRequest.dest_long) + edge,
           }}
           style = {styles.map}
           showsUserLocation = {true}
@@ -88,9 +82,9 @@ const PickupPage = (props) => {
           zoomEnabled = {true}
         >
           {coords.length > 0 && <Polyline coordinates={coords} />}
-          {pin ("Pickup Location", originLat, originLong, 'red')}
-          {pin ("Dropoff Location", destLat, destLong, 'green')}
-          {pin ("Current Location", driverLat, driverLong, 'blue')}
+          {pin ("Pickup Location", context.rideRequest.current_lat, context.rideRequest.current_long, 'red')}
+          {pin ("Dropoff Location", context.rideRequest.dest_lat, context.rideRequest.dest_long, 'green')}
+          {pin ("Current Location", context.driverLat, context.driverLong, 'blue')}
         </MapView>
       </View>
     );
@@ -137,14 +131,14 @@ const PickupPage = (props) => {
         isIOS ? 
           <TouchableOpacity 
             onPress={() => {
-              Linking.openURL(`maps://app?saddr=${driverLat}+${driverLong}&daddr=${originLat}+${originLong}`);
+              Linking.openURL(`maps://app?saddr=${context.driverLat}+${context.driverLong}&daddr=${context.rideRequest.current_lat}+${context.rideRequest.current_long}`);
             }}
             style={styles.button}>
             <Text> Open in Maps </Text>
           </TouchableOpacity> :
           <TouchableOpacity 
             onPress={() => {
-              Linking.openURL(`google.navigation:q=${originLat}+${originLong}`);
+              Linking.openURL(`google.navigation:q=${context.rideRequest.current_lat}+${context.rideRequest.current_long}`);
             }}
             style={styles.button}>
               <Text> Open in Maps </Text>
@@ -181,7 +175,7 @@ const PickupPage = (props) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-            <Text style={styles.sectionTitle}>Pick up {student} at {origin}</Text>
+            <Text style={styles.sectionTitle}>Pick up {context.student.first_name} {context.student.last_name} at {context.rideRequest.current_address}</Text>
             <View style={styles.buttonContainer}> 
               {openExternalMapButton()} 
               {mapView()}
@@ -191,7 +185,7 @@ const PickupPage = (props) => {
                   <Text> Confirm Pickup </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={call} style={styles.button}>
-                  <Text> Call {student} </Text>
+                  <Text> Call {context.student.first_name} {context.student.last_name} </Text>
               </TouchableOpacity>
               {/* <TouchableOpacity onPress={back} style={styles.button}>
                   <Text> back </Text>

@@ -51,16 +51,10 @@ class LoadingPage extends React.Component {
               self.componentDidMount();
             }, 4000);
           } else {
-            console.log("54", res.data);
             console.log(ride_id);
             self.context.setRideID(ride_id);
-            self.context.setLocations(
-              res.data["current_lat"],
-              res.data["current_long"],
-              res.data["dest_lat"],
-              res.data["dest_long"],
-              res.data["current_address"],
-              res.data["destination_address"]);
+            self.context.setRideRequest(res.data);
+            self.context.setStudent(res.data["student"]);
             self.acceptRide(phoneNumber, ride_id);
           }       
         })
