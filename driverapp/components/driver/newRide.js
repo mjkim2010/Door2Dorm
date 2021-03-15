@@ -25,7 +25,7 @@ class NewRidePage extends React.Component {
     }
 
     newRide(driver_phone_number, ride_id) {
-      this.props.history.push("/loading");
+      this.props.history.push("/pickup");
     }
 
     logout() {

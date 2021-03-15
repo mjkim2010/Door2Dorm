@@ -7,6 +7,7 @@ import {
     StatusBar,
     Image,
     TouchableOpacity,
+    Button
   } from 'react-native';
   
 import {
@@ -24,6 +25,11 @@ class LoadingPage extends React.Component {
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.acceptRide = this.acceptRide.bind(this);
+      this.back = this.back.bind(this);
+    }
+
+    back() {
+      this.props.history.push("/login")
     }
 
     componentDidMount() {
@@ -92,6 +98,11 @@ class LoadingPage extends React.Component {
               <Image
                 style={styles.image}
                 source={require('../../img/loading.jpg')}
+              />
+              <Button
+                  onPress={this.back}
+                  title="Back"
+                  color='black'
               />
             </View>
           </View>

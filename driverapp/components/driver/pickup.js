@@ -41,7 +41,7 @@ const PickupPage = (props) => {
     findRouteCoords();
   }, []);
 
-  const pickedUp = () => props.history.push("/dropoff");
+  // const pickedUp = () => props.history.push("/dropoff");
   const call = () => alert("Calling Student");
 
   // Temporary, for dev purpose only
@@ -96,11 +96,12 @@ const PickupPage = (props) => {
   }
 
   const pickedUp = () => {
-    var ride_id = this.context.ride_id;
-    this.sendPostRequest(ride_id);
+    console.log(context.ride_id);
+    var ride_id = context.ride_id;
+    sendPostRequest(ride_id);
   }
 
-  const sendPostRequest(ride_id) => {
+  const sendPostRequest = (ride_id) => {
   // JSON file that will be sent to the POST endpoint
     let payload = {
       "ride_id": ride_id,
@@ -130,12 +131,18 @@ const PickupPage = (props) => {
     return (
         isIOS ? 
           <TouchableOpacity 
-            onPress={() => Linking.openURL(`maps://app?saddr=${driverLat}+${driverLong}&daddr=${originLat}+${originLong}`)}
+            onPress={() => {
+              Linking.openURL(`maps://app?saddr=${driverLat}+${driverLong}&daddr=${originLat}+${originLong}`);
+              props.history.push("/dropoff");
+            }}
             style={styles.button}>
             <Text> Open in Maps </Text>
           </TouchableOpacity> :
           <TouchableOpacity 
-            onPress={() => Linking.openURL(`google.navigation:q=${originLat}+${originLong}`)}
+            onPress={() => {
+              Linking.openURL(`google.navigation:q=${originLat}+${originLong}`);
+              props.history.push("/dropoff");
+            }}
             style={styles.button}>
               <Text> Open in Maps </Text>
           </TouchableOpacity>
@@ -193,7 +200,7 @@ const PickupPage = (props) => {
   );
 }
 
-PickUpPage.contextType = DriverContext;
+// PickUpPage.contextType = DriverContext;
 
 const styles = StyleSheet.create({
   container: {
