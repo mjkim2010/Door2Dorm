@@ -105,7 +105,9 @@ const PickupPage = (props) => {
     let payload = {
       "ride_id": ride_id,
     }
-    const url = 'http://127.0.0.1:8000/drivers/placeholder/picked-up/';
+    // const url = 'http://127.0.0.1:8000/drivers/placeholder/picked-up/';
+    const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/picked-up/';
+    
     axios.post(url, payload)
       .then(function(res) {
         console.log('Response received\n');

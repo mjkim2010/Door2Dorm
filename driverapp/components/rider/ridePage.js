@@ -173,8 +173,9 @@ const RequestPage = (props) => {
   const requestButton = async (setLocations) => {
     verify(); 
     const sunet = await ReadItem("sunet");
-    const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
-
+    // const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
+    const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/rides/placeholder/cr-ride/';
+    
     let curLocation = getLocationAsync();
     if (!curLocation)
       {

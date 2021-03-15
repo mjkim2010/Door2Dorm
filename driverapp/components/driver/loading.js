@@ -40,7 +40,9 @@ class LoadingPage extends React.Component {
       let payload = {
         "driver_phone": phoneNumber,
       }
-      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      // const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/ask-assignment/';
+      
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
@@ -73,7 +75,8 @@ class LoadingPage extends React.Component {
         "driver_phone": driver_id,
         "ride_id": ride_id,
       }
-      const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      // const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/accept-assignment/';
       var self = this;
       axios.post(url, payload)
         .then(function(res) {
