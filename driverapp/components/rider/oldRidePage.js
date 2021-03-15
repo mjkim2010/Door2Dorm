@@ -71,8 +71,8 @@ class RequestPage extends React.Component {
 
     var numPassengers = /^\d{1}$/;
     var safetyNum = /^\d{1}$/;
-    let url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/'; // append slash to match Django expectations
-
+    // let url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/'; // append slash to match Django expectations
+    let url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/rides/placeholder/cr-ride/';
     if (this.state.currentLoc.length < 1) {
         alert("You must enter a current location")
     } else if (this.state.destination.length < 1) {

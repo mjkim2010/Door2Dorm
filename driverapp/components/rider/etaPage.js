@@ -26,6 +26,7 @@ const EtaPage = (props) => {
   const defaultDelta = 0.0122;
   const defaultDeltaMultiplier= 3;
 
+  const back = () => props.history.push("/loginRider")
   const leaveQueue = () => props.history.push("/rideRequest");
 
   const getDirections = async () => {
@@ -127,6 +128,11 @@ const EtaPage = (props) => {
       <TouchableOpacity onPress={leaveQueue} style={styles.button}>
             <Text style={{ alignSelf: 'center' }}> Leave queue </Text>
       </TouchableOpacity>
+
+      {/* This is to be removed. For development purpose only */}
+      {/* <TouchableOpacity onPress={back} style={styles.button}>
+            <Text style={{ alignSelf: 'center' }}> back </Text>
+      </TouchableOpacity> */}
     </View>
   );
 }

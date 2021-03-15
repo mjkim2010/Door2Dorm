@@ -16,7 +16,7 @@ class LoginPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        studentID: "",
+        email: "",
         password: "",
       };
       this.switchToRegister = this.switchToRegister.bind(this);
@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        this.props.history.push("/newRide");
+        this.props.history.push("/loading");
     }
 
     render() {
@@ -61,10 +61,10 @@ class LoginPage extends React.Component {
                   autoCorrect={false}
                   spellCheck={false}
                   style={styles.textInput}
-                  placeholder="Username"
+                  placeholder="Email"
                   placeholderTextColor="#a3aaad"
                   onChange={(e) => {
-                    this.setState({ studentID: e.nativeEvent.text });
+                    this.setState({ email: e.nativeEvent.text });
                   }}
                 />
               </View>

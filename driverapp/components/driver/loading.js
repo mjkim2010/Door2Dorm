@@ -7,6 +7,7 @@ import {
     StatusBar,
     Image,
     TouchableOpacity,
+    Button
   } from 'react-native';
   
 import {
@@ -24,6 +25,11 @@ class LoadingPage extends React.Component {
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.acceptRide = this.acceptRide.bind(this);
+      this.back = this.back.bind(this);
+    }
+
+    back() {
+      this.props.history.push("/login")
     }
 
     componentDidMount() {
@@ -34,7 +40,9 @@ class LoadingPage extends React.Component {
       let payload = {
         "driver_phone": phoneNumber,
       }
-      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      // const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/ask-assignment/';
+      
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
@@ -47,6 +55,8 @@ class LoadingPage extends React.Component {
           } else {
             console.log(ride_id);
             self.context.setRideID(ride_id);
+            self.context.setRideRequest(res.data);
+            self.context.setStudent(res.data["student"]);
             self.acceptRide(phoneNumber, ride_id);
           }       
         })
@@ -65,7 +75,8 @@ class LoadingPage extends React.Component {
         "driver_phone": driver_id,
         "ride_id": ride_id,
       }
-      const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      // const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/accept-assignment/';
       var self = this;
       axios.post(url, payload)
         .then(function(res) {
@@ -93,6 +104,11 @@ class LoadingPage extends React.Component {
                 style={styles.image}
                 source={require('../../img/loading.jpg')}
               />
+              {/* <Button
+                  onPress={this.back}
+                  title="Back"
+                  color='black'
+              /> */}
             </View>
           </View>
         </>
