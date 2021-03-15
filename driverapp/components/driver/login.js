@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        this.props.history.push("/newRide");
+        this.props.history.push("/loading");
     }
 
     render() {

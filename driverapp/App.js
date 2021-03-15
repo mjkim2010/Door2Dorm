@@ -56,8 +56,12 @@ class App extends React.Component {
     this.state = {
       originLat: "",
       originLong: "",
+      origin: "",
+
       destLat: "",
       destLong: "",
+      dest: "",
+      
       driverLat: "",
       driverLong: "",
       driverLoc: "",
@@ -111,6 +115,7 @@ class App extends React.Component {
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
+        <DriverContext.Provider value={this.state}>
           <LocationContext.Provider value={this.state}>
               <NativeRouter>
                 <Switch>
@@ -135,7 +140,7 @@ class App extends React.Component {
                        )}/>
                   <Route path="/dropoff" 
                          render={(props) => (
-                          <PickUpPage {...props} 
+                          <DropOffPage {...props} 
                             // Currently hardcoded
                             destLat={37.4242442}
                             destLong={-122.1779277}
@@ -165,6 +170,7 @@ class App extends React.Component {
                 </Switch>
               </NativeRouter>
             </LocationContext.Provider>
+          </DriverContext.Provider>
         </SafeAreaView>
       </>
     );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -21,7 +21,7 @@ const PickupPage = (props) => {
   let { originLat, originLong, destLat, destLong, origin, dest,
           phone, student, driverLat, driverLong, driverLoc } = props;
   const [coords, setCoords] = useState([]);
-  const context = DriverContext;
+  const context = useContext(DriverContext);
 
   const findRouteCoords = async () => {
     let allCoords = [];
@@ -40,6 +40,7 @@ const PickupPage = (props) => {
   }
 
   useEffect(()=> {
+    console.log("43", context.ride_id);
     findRouteCoords();
   }, []);
 
@@ -53,7 +54,7 @@ const PickupPage = (props) => {
   const defaultDeltaMultiplier= 3;
 
   const pin = (name, lat, long, color) => {
-    console.log("56", lat, long);
+    // console.log("56", lat, long);
     return (
       <MapView.Marker 
         draggable={false}

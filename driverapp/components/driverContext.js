@@ -1,8 +1,20 @@
 import React from 'react';
 
 export const DriverContext = React.createContext({
-    driver_phone_number: "",
-    setNumber: () => {},
     ride_id: "",
+    driver_phone_number: "",
+    originLat: "",
+    originLong: "",
+    destLat: "",
+    destLong: "",
+    origin: "",
+    dest: "",
+
+    setNumber: () => {},
     setRideID: () => {},
+    setLocations: () => {},
+
+    driverLat: "",
+    driverLong: "",
+    driverLoc: ""
 });

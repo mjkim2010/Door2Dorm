@@ -34,7 +34,6 @@ const DropOffPage = (props) => {
   }
 
   useEffect(()=> {
-    console.log("38", this.state.driverLat, this.state.driverLong, this.state.originLat, this.state.originLong, this.state.destLat, this.state.destLong);
     findRouteCoords();
   }, []);
 
@@ -56,7 +55,7 @@ const DropOffPage = (props) => {
   }
 
   const mapView = () => {
-    console.log("59", this.state.driverLat, this.state.driverLong, this.state.originLat, this.state.originLong, this.state.destLat, this.state.destLong);
+    // console.log("59", this.state.driverLat, this.state.driverLong, this.state.originLat, this.state.originLong, this.state.destLat, this.state.destLong);
     const edge = defaultDelta * defaultDeltaMultiplier;
     if (driverLat == "" || driverLong == "" || driverLoc == "") {
       return null;
