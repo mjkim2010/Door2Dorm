@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,13 +19,12 @@ import {
 
 
 const DropOffPage = (props) => {
-  let { destLat, destLong, dest, student, driverLat, driverLong, driverLoc } = props;
   const [coords, setCoords] = useState([]);
-  const context = DriverContext;
+  const context = useContext(DriverContext);
 
   const findRouteCoords = async () => {
     let allCoords = [];
-    getDirections(driverLat, driverLong, destLat, destLong)
+    getDirections(context.driverLat, context.driverLong, context.rideRequest.dest_lat, context.rideRequest.dest_long)
       .then(coordinates => {
         allCoords.push(...coordinates);
         setCoords(allCoords);
@@ -55,19 +54,15 @@ const DropOffPage = (props) => {
   }
 
   const mapView = () => {
-    // console.log("59", this.state.driverLat, this.state.driverLong, this.state.originLat, this.state.originLong, this.state.destLat, this.state.destLong);
     const edge = defaultDelta * defaultDeltaMultiplier;
-    if (driverLat == "" || driverLong == "" || driverLoc == "") {
-      return null;
-    }
     return (
       <View>
         <MapView
           region={{
-            latitude: (driverLat + destLat) / 2,
-            longitude: (driverLong + destLong) / 2,
-            latitudeDelta: Math.abs(driverLat - destLat) + edge,
-            longitudeDelta: Math.abs(driverLong - destLong) + edge,
+            latitude: (context.driverLat + context.rideRequest.dest_lat) / 2,
+            longitude: (context.driverLong + context.rideRequest.dest_long) / 2,
+            latitudeDelta: Math.abs(context.driverLat - context.rideRequest.dest_lat) + edge,
+            longitudeDelta: Math.abs(context.driverLong - context.rideRequest.dest_long) + edge,
           }}
           style = {styles.map}
           showsUserLocation = {true}
@@ -75,8 +70,8 @@ const DropOffPage = (props) => {
           zoomEnabled = {true}
         >
           {coords.length > 0 && <Polyline coordinates={coords} />}
-          {pin ("Dropoff Location", destLat, destLong, 'green')}
-          {pin ("Current Location", driverLat, driverLong, 'blue')}
+          {pin ("Dropoff Location", context.rideRequest.dest_lat, context.rideRequest.dest_long, 'green')}
+          {pin ("Current Location", context.driverLat, context.driverLong, 'blue')}
         </MapView>
       </View>
     );
@@ -87,8 +82,7 @@ const DropOffPage = (props) => {
   }
 
   const droppedOff = () => {
-    var ride_id = this.context.ride_id;
-    sendPostRequest(ride_id);
+    sendPostRequest(context.ride_id);
   }
 
   const sendPostRequest = (ride_id) => {
@@ -102,7 +96,7 @@ const DropOffPage = (props) => {
       .then(function(res) {
         console.log('Response received\n');
         console.log(res.data);
-        props.history.push("/newRide");
+        props.history.push("/loading");
       })
       .catch(function(err) {
         console.log("Error making the call");
@@ -123,7 +117,7 @@ const DropOffPage = (props) => {
         isIOS ? 
           <TouchableOpacity 
             onPress={() => {
-              Linking.openURL(`maps://app?saddr=${driverLat}+${driverLong}&daddr=${destLat}+${destLong}`);
+              Linking.openURL(`maps://app?saddr=${context.driverLat}+${context.driverLong}&daddr=${context.rideRequest.dest_lat}+${context.rideRequest.dest_long}`);
               props.history.push("/dropoff");
             }}
             style={styles.button}>
@@ -131,7 +125,7 @@ const DropOffPage = (props) => {
           </TouchableOpacity> :
           <TouchableOpacity 
             onPress={() => {
-              Linking.openURL(`google.navigation:q=${destLat}+${destLong}`);
+              Linking.openURL(`google.navigation:q=${context.rideRequest.dest_lat}+${context.rideRequest.dest_long}`);
               props.history.push("/dropoff");
             }}
             style={styles.button}>
@@ -167,7 +161,7 @@ const DropOffPage = (props) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-            <Text style={styles.sectionTitle}>Drop off {student} at {dest}</Text>
+            <Text style={styles.sectionTitle}>Drop off {context.student.first_name} {context.student.last_name} at {context.rideRequest.destination_address}</Text>
             <View style={styles.buttonContainer}>
               {openExternalMapButton()} 
               {mapView()}

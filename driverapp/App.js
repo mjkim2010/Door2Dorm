@@ -142,35 +142,8 @@ class App extends React.Component {
                   <Route exact path="/" component={HomePage} />
                   <Route path="/register" component={RegisterDriverPage} />
                   <Route path="/login" component={LoginDriverPage} />
-                  <Route path="/pickup" 
-                         render={(props) => (
-                          <PickUpPage {...props} 
-                            // Currently hardcoded
-                            originLat={37.4266347}
-                            originLong={-122.1668406}
-                            destLat={37.4242442}
-                            destLong={-122.1779277}
-                            driverLat={37.4254281}
-                            driverLong={-122.1628727}
-                            origin={"557 Escondido Mall, Stanford, CA 94305"}
-                            dest={"589 Governor's Ave, Stanford, CA 94305"}
-                            driverLoc={"655 Escondido Rd, Stanford, CA 94305"}
-                            student={"Shelly Deng"}
-                            phone={6503678867}/>
-                       )}/>
-                  <Route path="/dropoff" 
-                         render={(props) => (
-                          <DropOffPage {...props} 
-                            // Currently hardcoded
-                            destLat={37.4242442}
-                            destLong={-122.1779277}
-                            driverLat={37.4254281}
-                            driverLong={-122.1628727}
-                            dest={"589 Governor's Ave, Stanford, CA 94305"}
-                            driverLoc={"655 Escondido Rd, Stanford, CA 94305"}
-                            student={"Shelly Deng"}
-                            phone={6503678867}/>
-                       )}/>
+                  <Route path="/pickup" component={PickUpPage}/>
+                  <Route path="/dropoff" component={DropOffPage}/>
                   <Route path="/newRide" component={NewRidePage} />
                   <Route path="/loading" component={LoadingPage} />
                   <Route path="/registerRider" component={RegisterRiderPage} />
