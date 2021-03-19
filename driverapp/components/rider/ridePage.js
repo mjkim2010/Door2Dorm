@@ -16,6 +16,8 @@ import * as Location from 'expo-location';
 import MapView from 'react-native-maps';
 import { LocationContext } from '../locationContext.js';
 
+/* The RequestPage is rendered after the student registers or logs in, and this allows the
+   student to enter information for requesting a ride. */
 const RequestPage = (props) => {
   const [numRiders, setNumRiders] = useState("");
   const [safetyLevel, setSafetyLevel] = useState("");
@@ -25,14 +27,16 @@ const RequestPage = (props) => {
   const [originLong, setOriginLong] = useState("");
   const [destLat, setDestLat] = useState("");
   const [destLong, setDestLong] = useState("");
-  const [mapLat, setMapLat] = useState("");
-  const [mapLong, setMapLong] = useState("");
-  const [cnt, increment] = useState(0);
 
   useEffect (() => {
+    /* This calls 'getInitialLocation' once when the page is first rendered in order to set the 
+       student's current location. */
     getInitialLocation();
   }, []);
 
+  /* This function gets the current location (lat, long) of the student and then convert
+     this to an address via reverseGeocode. Then it set 'origin', 'originLat', and 'originLong' 
+     in the state accordingly. */
   const getInitialLocation = async () => {
     getPermission();
     const location = await getLocationAsync();
@@ -47,14 +51,15 @@ const RequestPage = (props) => {
       setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
       setOriginLat(location.coords.latitude);
       setOriginLong(location.coords.longitude);
-      setMapLat(location.coords.latitude);
-      setMapLong(location.coords.longitude);
     }
   }
 
   const defaultDelta = 0.0122;
   const defaultDeltaMultiplier= 3;
 
+  /* Create the map that two pins: 1)the pickup location and 2) the dropoff 
+     location if they are defined. This map will show the pickup location (zoomed in) 
+     when the dropoff lat/long are not yet defined. Otherwise, it shows both pins. */
   const mapView = () => {
     const edge = defaultDelta * defaultDeltaMultiplier;
     return (
@@ -84,11 +89,10 @@ const RequestPage = (props) => {
       
     );
   }
-
-  const forceUpdate = () => {
-    increment (cnt + 1);
-  }
   
+  /* Given the NAME of the map marker and the LAT and LONG of where this map marker should location,
+     create and return the draggable MapView.Marker component. Note that the destination will have a red
+     pin while the origin will have a green pin. */
   const pin = (name, lat, long, onDragEndHandler) => {
     return (
       <MapView.Marker 
@@ -104,6 +108,7 @@ const RequestPage = (props) => {
     );
   }
 
+  /* Get the permission from the user to get his/her/their current location. */
   const getPermission = async() => {
     let perm;
     while (!perm || perm.status !== 'granted')
@@ -112,12 +117,16 @@ const RequestPage = (props) => {
       }
   }
 
+  /* Logs out the user by navigating the user to the RiderLoginPage. */
   const logoutButton = () => props.history.push('/loginRider');
   
+  /* Gets the current location of the student. */
   const getLocationAsync = async () => {
     return await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
   }
 
+  /* Given the name (either 'pickup' or 'dropoff'), converts an address into lat/long
+     and set those values accordingly in the state given the setLatFunc() and setLongFunc(). */
   const convertToLatLong = async (name, setLatFunc, setLongFunc) => {
     getPermission();
     const whichLocation = name == 'pickup' ? origin : dest;
@@ -128,33 +137,34 @@ const RequestPage = (props) => {
       const location = locations[0];
       setLatFunc(location.latitude);
       setLongFunc(location.longitude);
-      setMapLat(location.latitude);
-      setMapLong(location.longitude);
     }
   }
 
+  /* This function is called when the user drags the destination pin. This function set the new 'destLat'
+     and 'destLong' in the state. It also turns the (lat, long) into a human readable address and set 'dest' accordingly. */
   const onDragEndDest = async (e) => {
     const coord = e.nativeEvent.coordinate;
     const addrs = await Location.reverseGeocodeAsync(coord);
     setDestLat(coord.latitude);
     setDestLong(coord.longitude);
-    setMapLat(coord.latitude);
-    setMapLong(coord.longitude);
     const addr = addrs[0];
     setDest(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
 
+  /* This function is called when the user drags the origin pin. This function set the new 'originLat'
+     and 'originLong' in the state. It also turns the (lat, long) into a human readable address and set 'origin' accordingly. */
   const onDragEndOrigin = async (e) => {
     const coord = e.nativeEvent.coordinate;
     const addrs = await Location.reverseGeocodeAsync(coord);
     setOriginLat(coord.latitude);
     setOriginLong(coord.longitude);
-    setMapLat(coord.latitude);
-    setMapLong(coord.longitude);
     const addr = addrs[0];
     setOrigin(addr.name + ", " + addr.city + ", " + addr.region + " " + addr.postalCode);
   }
 
+  /* Verifies the input that both pickup and dropoff are filled out. Also verifies that the
+     number of passengers is within the [1,4] range and that the safety level is between the [1,9] range.
+     TODO: Need to verify that they are actually valid addresses.  */
   const verify = () => {
     var numPassengers = /^\d{1}$/;
     var safetyNum = /^\d{1}$/;
@@ -163,18 +173,20 @@ const RequestPage = (props) => {
       alert("You must enter a current location")
     } else if (dest.length < 1) {
       alert("You must enter a destination")
-    } else if (!numRiders.match(numPassengers)) {
+    } else if (!numRiders.match(numPassengers) || num_riders < 1 || num_riders > 4) {
       alert("Double check your number of riders is a digit less than 5")
-    } else if (!safetyLevel.match(safetyNum)) {
+    } else if (!safetyLevel.match(safetyNum) || num_riders < 1 || num_riders > 9) {
       alert("Double check your safety level is a digit between 1 and 9")
     }
   }
 
+  /* Given the information about the ride request in the state, send a POST HTTP request 
+     to create a Ride request object in the database. */
   const requestButton = async (setLocations) => {
     verify(); 
     const sunet = await ReadItem("sunet");
-    //const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
-    const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/rides/placeholder/cr-ride/';
+    const url = 'http://127.0.0.1:8000/rides/placeholder/cr-ride/';
+    // const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/rides/placeholder/cr-ride/';
     
     let curLocation = getLocationAsync();
     if (!curLocation)
@@ -194,12 +206,15 @@ const RequestPage = (props) => {
       dest_long: destLong,
     };
 
+    /* Set the location for the rider app. */
     setLocations(body.origin_lat, body.origin_long, body.dest_lat, body.dest_long, body.origin, body.dest);
 
+    /* Send the POST request. */
     axios.post(url, body)
       .then(function(res) {
         console.log('Response received\n');
         console.log(res.data);
+        /* If successful, navigate the rider to the EtaPage. */
         props.history.push('/eta');
       })
       .catch(function(err) {
@@ -211,6 +226,7 @@ const RequestPage = (props) => {
       });
   }
 
+  /* Render the Ride Request page. */
   return (
     <SafeAreaView>
         <View style={styles.buttonContainer}>

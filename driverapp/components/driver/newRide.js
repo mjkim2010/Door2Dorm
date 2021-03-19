@@ -15,6 +15,7 @@ import {
 
 import { DriverContext } from '../driverContext.js';
 
+/* The Pickup Page renders when the Driver is assigned a ride. */
 class NewRidePage extends React.Component {
     constructor(props) {
       super(props);
@@ -24,10 +25,12 @@ class NewRidePage extends React.Component {
       this.logout = this.logout.bind(this);
     }
 
+    /* When the driver accepts a ride, he/she/they are navigated to the PickupPage*/
     newRide(driver_phone_number, ride_id) {
       this.props.history.push("/pickup");
     }
 
+    /* If they press "Log Out", we navigate them to the Driver LoginPage. */
     logout() {
       this.props.history.push("/login");
     }
