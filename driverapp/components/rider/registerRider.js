@@ -12,7 +12,8 @@ import {
 import axios from 'axios';
 import { SaveItem } from "./databaseHelper";
 
-
+/* This is the RegisterPage for the Rider and is rendered 
+   when the user "New User? Sign Up" from the Rider LoginPage. */
 const RegisterPage = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,6 +25,7 @@ const RegisterPage = (props) => {
     props.history.push("/loginRider")
   }
 
+  /* Verifies the input of the fields on the Student Registristration Page. */
   const verify = () => {
     var phoneno = /^\d{10}$/;
     
@@ -41,6 +43,8 @@ const RegisterPage = (props) => {
     SaveItem('sunet', sunet);
   }
 
+  /* Send a POST HTTP request to construct a new Student object and if the HTTP request is
+     successful, navigate the rider to the ride Request page. */
   const sendPostRequest = () => {
     // JSON file that will be sent to the POST endpoint
     let payload = {
@@ -50,12 +54,13 @@ const RegisterPage = (props) => {
       "password": password,
       "phone": phone,
     }
-    //const url = 'http://127.0.0.1:8000/students/placeholder/cr-student/';
-    const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/students/placeholder/cr-student/';
+    const url = 'http://127.0.0.1:8000/students/placeholder/cr-student/';
+    // const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/students/placeholder/cr-student/';
     axios.post(url, payload)
       .then(function(res) {
         console.log('Response received\n');
         console.log(res.data);
+        /* Navigate the Rider to the Request page where he/she/they can request a ride. */
         props.history.push("/rideRequest");
       })
       .catch(function(err) {
@@ -67,6 +72,8 @@ const RegisterPage = (props) => {
       });
   }
 
+  /* Verify the input of the Rider signup fields. If success, call 'sendPostRequest()' to create a new
+     Student object in the database and navigate the student to the ride request page. */
   const register = () => {
     verify();
     sendPostRequest();

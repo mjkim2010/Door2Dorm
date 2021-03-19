@@ -6,8 +6,6 @@ import {
     Text,
     StatusBar,
     Image,
-    TouchableOpacity,
-    Button
   } from 'react-native';
   
 import {
@@ -17,6 +15,7 @@ import {
 import { DriverContext } from '../driverContext.js';
 import axios from 'axios';
 
+/* The Loading Page renders when the Driver registers or logs in. */
 class LoadingPage extends React.Component {
     constructor(props) {
       super(props);
@@ -25,24 +24,23 @@ class LoadingPage extends React.Component {
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.acceptRide = this.acceptRide.bind(this);
-      this.back = this.back.bind(this);
     }
 
-    back() {
-      this.props.history.push("/login")
-    }
-
+    /* After mounting the LoadingPage component, every 4 seconds, send a POST
+       HTTP request to attempt to get a ride assignment from the server. */
     componentDidMount() {
-      console.log("here");
       var phoneNumber = this.context.driver_phone_number;
       this.context.setRideID(this.state.ride_id);
       var self = this;
       let payload = {
         "driver_phone": phoneNumber,
       }
-      //const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
-      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/ask-assignment/';
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/ask-assignment/';
+      // const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/ask-assignment/';
       
+      /* Every 4 seconds, send a POST HTTP request to attempt to get a ride assignment 
+         from the server. If success, set the ride_id, the Ride object, and the Student object 
+         in the Driver Context. Then calls acceptRide() to finish up the ride assignment process. */
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
@@ -69,20 +67,23 @@ class LoadingPage extends React.Component {
         });
     }
 
+    /* This function is called after the driver is assigned a ride. It sends a POST request to the server to notify that
+       the driver has accepted the ride. On success, this then navigates the driver to the Pickup Page. */
     acceptRide(driver_id, ride_id) {
     // JSON file that will be sent to the POST endpoint
       let payload = {
         "driver_phone": driver_id,
         "ride_id": ride_id,
       }
-      // const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
-      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/accept-assignment/';
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/accept-assignment/';
+      // const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/accept-assignment/';
       var self = this;
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
           console.log(res.data);
-          self.props.history.push("/pickup");
+          /* On success, this then navigates the driver to the Ride Acceptance Page. */
+          self.props.history.push("/newRide");
         })
         .catch(function(err) {
           console.log("Error making the call");
@@ -93,6 +94,7 @@ class LoadingPage extends React.Component {
         });
     }
 
+    /* This renders the LoadingPage. */
     render() {
       return (
         <>
@@ -104,11 +106,6 @@ class LoadingPage extends React.Component {
                 style={styles.image}
                 source={require('../../img/loading.jpg')}
               />
-              {/* <Button
-                  onPress={this.back}
-                  title="Back"
-                  color='black'
-              /> */}
             </View>
           </View>
         </>

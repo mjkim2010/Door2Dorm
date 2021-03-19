@@ -14,6 +14,8 @@ import {
 import axios from 'axios';
 import { DriverContext } from '../driverContext';
 
+/* This is the RegisterPage for the Driver and is rendered 
+   when the user "New User? Sign Up" from the Driver LoginPage. */
 class RegisterPage extends React.Component {
     constructor(props) {
       super(props);
@@ -31,6 +33,7 @@ class RegisterPage extends React.Component {
       this.switchToLogin = this.switchToLogin.bind(this);
     }
 
+    /* Send a POST HTTP request to construct a new Driver object. */
     sendPostRequest(setNumber) {
     // JSON file that will be sent to the POST endpoint
       let payload = {
@@ -41,14 +44,17 @@ class RegisterPage extends React.Component {
         "phone": this.state.phoneNumber,
         "license": this.state.driverLicense
       }
+      /* Saves the Driver phone number as it is used as an unique identifier. */
       setNumber(this.state.phoneNumber);
-      //const url = 'http://127.0.0.1:8000/drivers/placeholder/cr-driver/';
-      const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/cr-driver/';
+      const url = 'http://127.0.0.1:8000/drivers/placeholder/cr-driver/';
+      // const url = 'http://ec2-3-138-107-41.us-east-2.compute.amazonaws.com:8000/drivers/placeholder/cr-driver/';
       var self = this;
+      /* Send a POST request to make the Driver object in the database. */
       axios.post(url, payload)
         .then(function(res) {
           console.log('Response received\n');
           console.log(res.data);
+          /* Navigate the Driver to the LoadingPage to wait for Ride assignment. */
           self.props.history.push("/loading");
         })
         .catch(function(err) {
@@ -60,14 +66,18 @@ class RegisterPage extends React.Component {
         });
     }
 
+    /* Register a new Driver. */
     register(setNumber) {
         this.sendPostRequest(setNumber);
     }
 
+    /* Navigate back to the Driver LoginPage when the user hits
+       "Already Have an Account? Sign In". */
     switchToLogin() {
         this.props.history.push("/login")
     }
 
+    /* Render the Driver Register Page. */
     render() {
       return (
         <>

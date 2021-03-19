@@ -12,6 +12,8 @@ import {
     TouchableOpacity
   } from 'react-native';
 
+  /* This is the LoginPage for the driver and is rendered when the user selects the 
+     "Driver" option on the main page. */
 class LoginPage extends React.Component {
     constructor(props) {
       super(props);
@@ -36,6 +38,7 @@ class LoginPage extends React.Component {
         this.props.history.push("/loading");
     }
 
+    /* Render the Driver Login Page. */
     render() {
       return (
         <>

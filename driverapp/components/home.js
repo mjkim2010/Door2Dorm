@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
  } from 'react-native';
 
+ /* This is the home screen for the Door2Dorm Mobile App, where the user can 
+    choose to be a rider or a driver. */
 class HomePage extends React.Component {
     constructor(props) {
       super(props);
