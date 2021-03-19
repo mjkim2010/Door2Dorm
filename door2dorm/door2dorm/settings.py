@@ -29,15 +29,9 @@ ALLOWED_HOSTS = ['*.us-east-2.compute.amazonaws.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
+# Currently the server allows HTTP requests from all. 
+# TODO: We might want to restrict this in the future.
 CORS_ORIGIN_ALLOW_ALL = True
-
-# TODO: documentation:
-# https://pypi.org/project/django-cors-headers/
-# update .yml file
-
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:8000',
-# )
 
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -60,7 +54,6 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-# CommentTag: MAKE_POST
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
    'rest_framework.permissions.AllowAny',

@@ -10,5 +10,6 @@ router.register('rides', views.RideViewSet)
 
 urlpatterns = [
     path('', views.dispatcher, name='dispatcher'),
+    # This adds the HTTP request endpoints defined in views.py
     re_path('^', include(router.urls)),
 ]

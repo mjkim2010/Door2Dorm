@@ -7,10 +7,10 @@ import {
   TouchableOpacity
 } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { LocationContext } from '../locationContext.js';
 import { decode } from "@mapbox/polyline";
 
+/* The EtaPage renders after the Rider presses the "Request" button to request a ride. */
 const EtaPage = (props) => {
   const { originLat, originLong, destLat, destLong, origin, dest } = props;
   const [queuePosition, setQueuePosition] = useState(4);
@@ -18,6 +18,8 @@ const EtaPage = (props) => {
   const [coords, setCoords] = useState([]);
 
   useEffect (() => {
+    /* This calls 'getDirections' once when the page is first rendered, in order to get the 
+       direction from the pickup location to the dropoff location (as a list of coordinates) . */
     getDirections()
       .then(coordinates => setCoords (coordinates))
       .catch(err => console.log ("Something went wrong."));
@@ -26,9 +28,14 @@ const EtaPage = (props) => {
   const defaultDelta = 0.0122;
   const defaultDeltaMultiplier= 3;
 
-  const back = () => props.history.push("/loginRider")
+  /* This navigate the rider to the Request page. 
+     TODO: This requests a POST request to the server to remove this Ride request object from
+     the database and cancel any assignment. */
   const leaveQueue = () => props.history.push("/rideRequest");
 
+  /* This sends a request to the Google Maps API to get the direction 
+  from the origin to the destination. Upon success, this returns a list of coordinates that 
+  represents the route. */
   const getDirections = async () => {
     const startLoc = getLatLongString (originLat, originLong);
     const destinationLoc = getLatLongString (destLat, destLong);
@@ -51,10 +58,14 @@ const EtaPage = (props) => {
     }
   };
 
+  /* Combine the LAT and LONG into a string value delim-ed by a comma. */
   const getLatLongString = (lat, long) => {
     return lat + "," + long;
   }
 
+  /* Given the NAME of the map marker, the LAT and LONG of where this map marker should location, 
+     create and return the MapView.Marker component. Note that destination marker is red whereas the 
+     marker for the origin is green. */
   const pin = (name, lat, long) => {
     return (
       <MapView.Marker 
@@ -69,11 +80,11 @@ const EtaPage = (props) => {
     );
   }
 
+  /* Create the map that shows two pins: 1) the pickup location and 2) the dropoff 
+     location) and a route from the pickup location to the dropoff location */
   const getMap = (originLat, originLong, destLat, destLong) => {
     let originLatNum = Number(originLat)
     let originLongNum = Number(originLong)
-    let destLatNum = Number(destLat)
-    let destLongNum = Number(destLong)
 
     const edge = defaultDelta * defaultDeltaMultiplier;
     return (
@@ -103,6 +114,8 @@ const EtaPage = (props) => {
     );
   }
 
+  /* Renders the EtaPage displaying relevant information about the Ride Request (route, queue status, driver information)
+     and a button allowing the student to leave the queue. */
   return (
     <View style={styles.body}>
       <LocationContext.Consumer>
@@ -128,11 +141,6 @@ const EtaPage = (props) => {
       <TouchableOpacity onPress={leaveQueue} style={styles.button}>
             <Text style={{ alignSelf: 'center' }}> Leave queue </Text>
       </TouchableOpacity>
-
-      {/* This is to be removed. For development purpose only */}
-      {/* <TouchableOpacity onPress={back} style={styles.button}>
-            <Text style={{ alignSelf: 'center' }}> back </Text>
-      </TouchableOpacity> */}
     </View>
   );
 }

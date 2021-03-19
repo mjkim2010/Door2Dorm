@@ -12,6 +12,8 @@ import {
     TouchableOpacity,
   } from 'react-native';
 
+/* This is the LoginPage for the rider and is rendered when the user selects the 
+  "Rider" option on the main page. */
 class LoginRiderPage extends React.Component {
     constructor(props) {
       super(props);
