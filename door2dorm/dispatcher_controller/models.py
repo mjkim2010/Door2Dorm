@@ -47,7 +47,7 @@ class Driver(models.Model):
 
 class Ride(models.Model):
     student = models.ForeignKey(Student, on_delete = models.DO_NOTHING)
-    driver = models.ForeignKey(Driver, on_delete=models.DO_NOTHING, null=True) # will be null if not assigned
+    driver = models.ForeignKey(Driver, on_delete=models.DO_NOTHING, null=True, blank=True) # will be null if not assigned
     current_address= models.CharField(max_length=150)
     destination_address = models.CharField(max_length=150)
     current_lat = models.FloatField(default = 38.2393)
@@ -59,8 +59,8 @@ class Ride(models.Model):
     priority = models.FloatField(default = 50) # TODO: Add validator to restrict range [0, 100]
     time_requested = models.DateTimeField('time requested', default = timezone.now)
     # null by default, not active until we pick someone up
-    picked_up = models.DateTimeField(null = True, default = None) 
-    dropped_off = models.DateTimeField(null = True, default = None)
+    picked_up = models.DateTimeField(null = True, blank=True) 
+    dropped_off = models.DateTimeField(null=True, blank=True)
     assigned = models.BooleanField(default = False) # use this to serve as a "lock" on ride
 
     def __str__(self):

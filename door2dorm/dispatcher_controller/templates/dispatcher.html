@@ -8,7 +8,7 @@
     <title>Door2Dorm Dispatcher</title> 
     <meta http-equiv="refresh" content="10"> 
 </head> 
-<h2>Rides In Progress</h2>
+<h2>Ride History</h2>
 <table class="styled-table">
     <thead>
         <tr class="ride-in-progress">
@@ -23,7 +23,7 @@
     </thead>
     <tbody>
         {% for ride in rides %}
-            {% if ride.assigned == 1 %}
+            {% if ride.driver != null %}
             <tr class="rip-bottom-border">
                 <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td>
                 <td> {{ ride.student.sunet }} </td>
@@ -55,7 +55,7 @@
     </thead>
     <tbody>
         {% for ride in rides %}
-            {% if ride.assigned == -1 %}
+            {% if ride.driver == null %}
             <tr class="q-bottom-border">
                 <td> {{ ride.student.first_name }} {{ ride.student.last_name }}</td>
                 <td> {{ ride.student.sunet }} </td>
