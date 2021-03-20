@@ -173,9 +173,9 @@ const RequestPage = (props) => {
       alert("You must enter a current location")
     } else if (dest.length < 1) {
       alert("You must enter a destination")
-    } else if (!numRiders.match(numPassengers) || num_riders < 1 || num_riders > 4) {
+    } else if (!numRiders.match(numPassengers) || numRiders < 1 || numRiders > 4) {
       alert("Double check your number of riders is a digit less than 5")
-    } else if (!safetyLevel.match(safetyNum) || num_riders < 1 || num_riders > 9) {
+    } else if (!safetyLevel.match(safetyNum) || safetyLevel < 1 || safetyLevel > 9) {
       alert("Double check your safety level is a digit between 1 and 9")
     }
   }
