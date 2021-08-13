@@ -28,7 +28,7 @@ Jacob Wagner | UI/UX Design, ML, Fullstack | Straight-forward and organized, but
 Shelly Deng | AI/ML, Web dev, Fullstack, Algorithms | Organized, Big Picture Thinker, Assertive | Project management, Giving Pitches | Sometimes impatient and neglect small details
 Peter Boennighausen | Stats/ML, Algorithms/Data Structures | Organized, efficient, analytical | Ideating projects | Managing and working in teams
 ### Documentation
-For documentation, please view our [wiki](https://github.com/StanfordCS194/Team12/wiki)
+For documentation, please view our [wiki](https://github.com/mjkim2010/Door2Dorm/wiki)
 
 
 ### Contact Us
